@@ -192,7 +192,7 @@ var hexcase=0;var b64pad="";function hex_md5(s){return rstr2hex(rstr_md5(str2rst
         var msg = JSON.parse(response.responseText);
         if(msg.error_code === "0"){
             UW.LzlPostor._appendNew();
-            return $(".lzl_simple_wrapper .tb-editor-editarea").empty();
+            return $("#j_editor_for_container").empty();
         }
         errorMsg(msg.error_msg);
     }
