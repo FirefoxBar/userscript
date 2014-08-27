@@ -8,7 +8,7 @@
 // @require http://libs.baidu.com/jquery/2.0.0/jquery.min.js
 // @grant GM_xmlhttpRequest
 // @author 网络中二行客
-// @version 0.9.2
+// @version 0.9.3
 // ==/UserScript==
 
 //MD5函数
@@ -55,10 +55,10 @@ var hexcase=0;var b64pad="";function hex_md5(s){return rstr2hex(rstr_md5(str2rst
         
         $("#tb_rich_poster .poster_submit:first")
         .before("<select id='os_slt'></select>\
-			<a id='client_btn' class='ui_btn ui_btn_m j_submit poster_submit'>\
-			<span class='poster_submit'><em>客户端</em></span></a>\
-			<a id='hug_btn' class='ui_btn ui_btn_m j_submit poster_submit'>\
-			<span class='poster_submit'><em>抱抱</em></span></a>");
+			<a id='client_btn' class='ui_btn ui_btn_m'>\
+			<span><em>客户端</em></span></a>\
+			<a id='hug_btn' class='ui_btn ui_btn_m'>\
+			<span><em>抱抱</em></span></a>");
                 
         OS.map(function(os,i){
             osSelect += "<option value='"+i+"'>"+os+"</option>";
@@ -676,8 +676,8 @@ var hexcase=0;var b64pad="";function hex_md5(s){return rstr2hex(rstr_md5(str2rst
     }
     
     var cssText = '#os_slt{float:left;height:27.5px;width:110px;font-size:17px;}\
-		#client_btn{margin:0 10px;}\
-		#hug_btn{margin:0 10px 0 0}\
+		#client_btn{margin:0 10px;float:left;}\
+		#hug_btn{margin:0 10px 0 0;float:left;}\
 		#tc_change_wrap{z-index:50002;position:fixed;bottom:0;left:0;background:rgba(0, 0, 0, 0.5)}\
 		#tc_change_wrap li{float:left;text-align:center;padding-top:5px;}\
 		#tc_change_wrap li .cut{position:absolute;width:100%;display:none;\
