@@ -5,13 +5,16 @@
 // @include     http://tieba.baidu.com/f?ct*
 // @updateURL   https://github.com/FirefoxBar/userscript/raw/master/Tieba_Lzl_Dialogue/Tieba_Lzl_Dialogue.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Tieba_Lzl_Dialogue/Tieba_Lzl_Dialogue.user.js
-// @version     0.4
+// @version     0.5
 // @grant       none
 // ==/UserScript==
 
-;(function($,PageData) {
+;(function(uw) {
 
-	var cssText ='#dialogJbody .lzl_single_post{\
+	var
+		$ = uw.jQuery,
+		PageData = uw.PageData,
+		cssText ='#dialogJbody .lzl_single_post{\
 		border-bottom: 1px dotted #d7d7d7;\
 		list-style: outside none none;\
 		margin-top: 6px;\
@@ -33,10 +36,10 @@
 	#user_visit_card{\
 		z-index: 50010 !important;\
 	}';
-	$("head").append("<style>"+cssText+"</style>");
+	$(document.head).append("<style>"+cssText+"</style>");
 	
 	function getUserName(s) {
-		try {return String.trim(s.match(/回复 .*? /)[0].substring(2));}
+		try {return s.match(/回复 .*? /)[0].substring(2).trim();}
 		catch(err) {}
 	}
 
@@ -145,7 +148,7 @@
 			}
 			else{
 				var sv = $(this).find(".lzl_content_main");
-				var s = String.trim(sv.text());
+				var s = sv.text().trim();
 				var name = getUserName(s);
 				if (-1 === a.indexOf(name)){
 					uc.parent(".lzl_single_post").remove();
@@ -155,10 +158,10 @@
 	}
 	
 	$("#j_p_postlist").on("mouseover",".core_reply_content",function(e) {
-		$(e.target).find(".lzl_single_post")
+		$(this).find(".lzl_single_post")
 		.each(function() {
 			if (!$(this).find(".dialogue").length){
-				var s = String.trim($(this).find(".lzl_content_main").text());
+				var s = $(this).find(".lzl_content_main").text().trim();
 				var name = getUserName(s);
 				if (name){
 					var u = $(this).find(".j_user_card").attr("username");
@@ -177,4 +180,14 @@
 		getTalk(t.data("s"),t.parents(".core_reply_content"));
 	});
 	
-})(unsafeWindow.jQuery,unsafeWindow.PageData);
+})((function(){
+	return "undefined" === typeof unsafeWindow
+	? {
+		jQuery:window.jQuery,
+		PageData:window.PageData
+	}
+	: {
+		jQuery:unsafeWindow.jQuery,
+		PageData:unsafeWindow.PageData
+	};
+})());

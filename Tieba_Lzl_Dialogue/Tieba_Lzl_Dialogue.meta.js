@@ -5,7 +5,7 @@
 // @include     http://tieba.baidu.com/f?ct*
 // @updateURL   https://github.com/FirefoxBar/userscript/raw/master/Tieba_Lzl_Dialogue/Tieba_Lzl_Dialogue.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Tieba_Lzl_Dialogue/Tieba_Lzl_Dialogue.user.js
-// @version     0.4
+// @version     0.5
 // @grant       none
 // ==/UserScript==
 
