@@ -33,7 +33,7 @@
         #kuso-cate-bd li a:hover img {box-shadow: 2px 2px 2px #999999;}\
         .dialogJshadow a{cursor:pointer;}',
         html = '<div class="uiDialogWrapper"><div class="dialogJcontent">\
-        <div id="dialogJbody" class="dialogJbody" style="height: 524px;">\
+        <div id="dialogJbody" class="dialogJbody" style="height: 510px;">\
         <div class="post_setting_wrap"><a title="关闭本窗口" class="dialogJclose">&nbsp;</a>\
         <div class="post_setting_title clearfix j_post_setting_title">\
         <a class="post_setting_tab j_post_setting_tab post_setting_tab_select j_post_setting_tab_select" attr-type="bubble">请点击选择要使用的效果</a></div>\
@@ -470,7 +470,7 @@
             "http://imgsrc.baidu.com/forum/pic/item/a2bc45fc1e178a827f2edaf0f503738da877e8ef.jpg",
             "http://imgsrc.baidu.com/forum/pic/item/f4a50d94a4c27d1e44349e9418d5ad6edcc438ee.jpg",
             "http://imgsrc.baidu.com/forum/pic/item/23a1d1b5c9ea15ce2a944559b5003af33b87b286.jpg",
-            "http://imgsrc.baidu.com/forum/pic/item/2c6ebbadcbef76090d1d2ece2ddda3cc7dd99ee3.jpg"
+            "http://imgsrc.baidu.com/forum/pic/item/2860db3d269759ee3ef9d19ab1fb43166c22df54.jpg"
         ],
         compound : []
     },
