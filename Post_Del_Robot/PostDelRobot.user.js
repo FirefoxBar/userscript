@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Post Del Robot
 // @namespace    http://blog.sylingd.com
-// @version      3
+// @version      4
 // @description  删帖机器人
 // @author       ShuangYa
 // @match        http://tieba.baidu.com/f?*
@@ -105,7 +105,7 @@
 			"onload": function(response) {
 				//匹配出搜索结果的所有贴子
 				var result = response.responseText;
-				if (addToList(result) && page < 20) { //防止因为数量过大造成的卡顿
+				if (addToList(result) && page < 5) { //防止因为数量过大造成的卡顿
 					delByKeyword(keyword, page + 1); //自调用，继续获取
 				} else { //获取完毕，开始删帖
 					logResult('获取贴子列表完成！');
@@ -146,14 +146,22 @@
 				result = eval('(' + response + ')');
 				if (result.err_code == 0) {
 					logResult('删除贴子成功！主题ID：' + me.tid);
+					if (num != leng) { //调用自身
+						delByList(num + 1);
+					}
 				} else {
 					console.log(postdata);
 					console.log(result);
 					logResult('删除贴子失败！主题ID：' + me.tid);
+					if (result.err_code == '224011') {
+						logResult('触发验证码，停止删帖（解决办法：手动输入一次验证码）');
+					} else {
+						if (num != leng) { //调用自身
+							delByList(num + 1);
+						}
+					}
 				}
-				if (num != leng) { //调用自身
-					delByList(num + 1);
-				}
+				
 			}
 		});
 	},
@@ -185,7 +193,7 @@
 				$('body').append(ele);
 			}
 			if (type == 1) delByUser(input, 1);
-			else if (type == 2) delByUser(input, 1);
+			else if (type == 2) delByKeyword(input, 1);
 			else return;
 		}
 	},
