@@ -3,6 +3,7 @@
 **删帖机器人**
 
 ## 安装
+
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js)
 
 ## 功能
@@ -11,10 +12,8 @@
 
 * 注意：一次性删除有最大数量限制，可分多次使用
 
-
-
 ## 脚本信息
 
 * 作者: 泷涯
 
-* 版本: 1
+* 版本: 2

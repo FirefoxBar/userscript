@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name         Post Del Robot
 // @namespace    http://blog.sylingd.com
-// @version      1
+// @version      2
 // @description  删帖机器人
 // @author       ShuangYa
-// @match        http://tieba.baidu.com/f?kw=*
+// @match        http://tieba.baidu.com/f?*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_registerMenuCommand
 // @grant        GM_addStyle
+// @updateURL 	 https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.meta.js
+// @downloadURL  https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js
 // ==/UserScript==
 (function() {
 	//贴子列表
@@ -17,14 +19,13 @@
 	 * @return boolean
 	*/
 	checkMe = function() {
-		var me = window.location.href;
 		//检查是否在贴子列表页
-		if (me.indexOf('f?kw=') < 0 || typeof(PageData) === 'undefined') {
-			alert('请在贴子列表页使用');
+		if (typeof(PageData) === 'undefined') {
+			alert('PageData未定义，脚本无法运行');
 			return false;
 		}
-		//检查是否为吧务
-		if (!PageData.is_manager) {
+		//检查是否为吧务，通过右侧“进入吧务后台”的按钮检查
+		if ($('.tbAdminManage').length) {
 			alert('您不是本吧吧务');
 			return false;
 		}
@@ -129,7 +130,6 @@
 			"tbs": PageData.tbs
 		}
 		if (me.type == 1) { //回贴
-			//postdata.is_vipdel='1';
 			postdata.pid = me.pid;
 		} else if (me.type == 2) { //主题
 		} else if (me.type == 3) { //楼中楼
@@ -176,10 +176,12 @@
 		else return;
 		if (input) {
 			//霸屏
-			var ele = document.createElement('div');
-			ele.id = "sy_del_full";
-			GM_addStyle('#sy_del_full{position:fixed;background:black;font-size:15px;width:100%;height:100%;top:0;left:0;color:white;overflow:scroll;z-index:99999;white-space:pre;}');
-			document.getElementsByTagName('body')[0].appendChild(ele);
+			if ($('#sy_del_full').length === 0) {
+				var ele = document.createElement('div');
+				ele.id = "sy_del_full";
+				GM_addStyle('#sy_del_full{position:fixed;background:black;font-size:15px;width:100%;height:100%;top:0;left:0;color:white;overflow:scroll;z-index:99999;white-space:pre;}');
+				$('body').append(ele);
+			}
 			if (type == 1) delByUser(input, 1);
 			else if (type == 2) delByUser(input, 1);
 			else return;
@@ -191,10 +193,9 @@
 	Start_keyword = function() {
 		Start(2);
 	};
-	if (BDUSS == '' && document.cookie.match(/BDUSS=(.{192})/)) {
-		BDUSS = document.cookie.match(/BDUSS=(.{192})/)[1];
-	}
 	//注册菜单
-	GM_registerMenuCommand('批量删帖（按用户ID）', Start_user);
-	GM_registerMenuCommand('批量删帖（按关键词）', Start_keyword);
+	if (window.location.href.match(/f\?(.*?)kw=/) !== null) { //确认是在贴子列表页
+		GM_registerMenuCommand('批量删帖（按用户ID）', Start_user);
+		GM_registerMenuCommand('批量删帖（按关键词）', Start_keyword);
+	}
 })();
