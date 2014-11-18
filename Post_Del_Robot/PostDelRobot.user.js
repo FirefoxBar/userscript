@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name         Post Del Robot
 // @namespace    http://blog.sylingd.com
-// @version      2
+// @version      3
 // @description  删帖机器人
 // @author       ShuangYa
 // @match        http://tieba.baidu.com/f?*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_registerMenuCommand
 // @grant        GM_addStyle
+// @run-at		 document-end
+// @require		 http://libs.baidu.com/jquery/1.11.1/jquery.min.js
 // @updateURL 	 https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.meta.js
 // @downloadURL  https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js
 // ==/UserScript==
@@ -20,12 +22,12 @@
 	*/
 	checkMe = function() {
 		//检查是否在贴子列表页
-		if (typeof(PageData) === 'undefined') {
+		if (typeof(unsafeWindow.PageData) === 'undefined') {
 			alert('PageData未定义，脚本无法运行');
 			return false;
 		}
 		//检查是否为吧务，通过右侧“进入吧务后台”的按钮检查
-		if ($('.tbAdminManage').length) {
+		if ($('.tbAdminManage').length<=0) {
 			alert('您不是本吧吧务');
 			return false;
 		}
@@ -77,7 +79,7 @@
 		logResult('正在获取贴子列表（第' + page + '页）');
 		GM_xmlhttpRequest({
 			"method": 'GET',
-			"url": 'http://tieba.baidu.com/f/search/ures?kw=' + PageData.forum.name_url + '&qw=&rn=10&un=' + encodeURIComponent(user) + '&sm=1&pn=' + page,
+			"url": 'http://tieba.baidu.com/f/search/ures?kw=' + unsafeWindow.PageData.forum.name_url + '&qw=&rn=10&un=' + encodeURIComponent(user) + '&sm=1&pn=' + page,
 			"onload": function(response) {
 				//匹配出搜索结果的所有贴子
 				var result = response.responseText;
@@ -99,7 +101,7 @@
 		logResult('正在获取贴子列表（第' + page + '页）');
 		GM_xmlhttpRequest({
 			"method": 'GET',
-			"url": 'http://tieba.baidu.com/f/search/ures?kw=' + PageData.forum.name_url + '&qw=' + encodeURIComponent(keyword) + '&rn=10&un=&sm=1&pn=' + page,
+			"url": 'http://tieba.baidu.com/f/search/ures?kw=' + unsafeWindow.PageData.forum.name_url + '&qw=' + encodeURIComponent(keyword) + '&rn=10&un=&sm=1&pn=' + page,
 			"onload": function(response) {
 				//匹配出搜索结果的所有贴子
 				var result = response.responseText;
@@ -117,8 +119,8 @@
 	 * @param int num 对应列表中的Key
 	*/
 	delByList = function(num) {
-		var fid = PageData.forum.forum_id,
-		kw = PageData.forum.name,
+		var fid = unsafeWindow.PageData.forum.forum_id,
+		kw = unsafeWindow.PageData.forum.name,
 		leng = tielist.length - 1,
 		me = tielist[num],
 		postdata = {
@@ -127,7 +129,7 @@
 			"kw": kw,
 			"fid": fid,
 			"tid": me.tid,
-			"tbs": PageData.tbs
+			"tbs": unsafeWindow.PageData.tbs
 		}
 		if (me.type == 1) { //回贴
 			postdata.pid = me.pid;
@@ -171,8 +173,8 @@
 		var input;
 		if (!checkMe()) return;
 		//显示输入框
-		if (type == 1) input = prompt('请输入用户ID');
-		else if (type == 2) input = prompt('请输入关键词（不支持通配符、正则表达式）');
+		if (type == 1) input = window.prompt('请输入用户ID');
+		else if (type == 2) input = window.prompt('请输入关键词（不支持通配符、正则表达式）');
 		else return;
 		if (input) {
 			//霸屏
