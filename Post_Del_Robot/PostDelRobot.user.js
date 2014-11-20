@@ -2,7 +2,7 @@
 // @name         Post Del Robot
 // @namespace    http://blog.sylingd.com
 // @version      5
-// @description  É¾Ìû»úÆ÷ÈË
+// @description  åˆ å¸–æœºå™¨äºº
 // @author       ShuangYa
 // @match        http://tieba.baidu.com/f?*
 // @grant        GM_xmlhttpRequest
@@ -15,37 +15,37 @@
 // @downloadURL  https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js
 // ==/UserScript==
 (function() {
-	//Ìù×ÓÁĞ±í
+	//è´´å­åˆ—è¡¨
 	var tielist = [],
 	meinput = '',
 	/*
-	 * ¼ì²éÒ»Ğ©ÔËĞĞ½Å±¾µÄ±ØÒªÌõ¼ş
+	 * æ£€æŸ¥ä¸€äº›è¿è¡Œè„šæœ¬çš„å¿…è¦æ¡ä»¶
 	 * @return boolean
 	*/
 	checkMe = function() {
-		//¼ì²éÊÇ·ñÔÚÌù×ÓÁĞ±íÒ³
+		//æ£€æŸ¥æ˜¯å¦åœ¨è´´å­åˆ—è¡¨é¡µ
 		if (typeof(unsafeWindow.PageData) === 'undefined') {
-			alert('PageDataÎ´¶¨Òå£¬½Å±¾ÎŞ·¨ÔËĞĞ');
+			alert('PageDataæœªå®šä¹‰ï¼Œè„šæœ¬æ— æ³•è¿è¡Œ');
 			return false;
 		}
-		//¼ì²éÊÇ·ñÎª°ÉÎñ£¬Í¨¹ıÓÒ²à¡°½øÈë°ÉÎñºóÌ¨¡±µÄ°´Å¥¼ì²é
+		//æ£€æŸ¥æ˜¯å¦ä¸ºå§åŠ¡ï¼Œé€šè¿‡å³ä¾§â€œè¿›å…¥å§åŠ¡åå°â€çš„æŒ‰é’®æ£€æŸ¥
 		if ($('.tbAdminManage').length <= 0) {
-			alert('Äú²»ÊÇ±¾°É°ÉÎñ');
+			alert('æ‚¨ä¸æ˜¯æœ¬å§å§åŠ¡');
 			return false;
 		}
 		return true;
 	},
 	/*
-	 * Ìí¼Óµ½É¾ÌûÁĞ±í
-	 * @param string text ËÑË÷½á¹ûÒ³µÄHTML
+	 * æ·»åŠ åˆ°åˆ å¸–åˆ—è¡¨
+	 * @param string text æœç´¢ç»“æœé¡µçš„HTML
 	 * @return boolean
 	*/
 	addToList = function(text) {
-		//Â¥ÖĞÂ¥²¿·Ö
-		//»ØÌù²¿·Ö
+		//æ¥¼ä¸­æ¥¼éƒ¨åˆ†
+		//å›è´´éƒ¨åˆ†
 		var reply = text.match(/\/p\/(\d+)\?pid=(\d+)/gi);
 		if (reply === null) reply = [];
-		//Ìæ»»ÒÑÆ¥ÅäÄÚÈİ£¬±ÜÃâÖØ¸´Æ¥Åä
+		//æ›¿æ¢å·²åŒ¹é…å†…å®¹ï¼Œé¿å…é‡å¤åŒ¹é…
 		text = text.replace(/\/p\/(\d+)\?pid=(\d+)/gi, '');
 		var leng = reply.length - 1,
 		i, one;
@@ -57,7 +57,7 @@
 				"pid": one[2]
 			});
 		}
-		//Ö÷Ìâ²¿·Ö
+		//ä¸»é¢˜éƒ¨åˆ†
 		var post = text.match(/\/p\/(\d+)/gi);
 		if (post === null) post = [];
 		leng = post.length - 1;
@@ -68,30 +68,30 @@
 				"tid": one[1]
 			});
 		}
-		//·µ»ØÊÇ·ñ¼ÌĞø×¥È¡ÏÂÒ»Ò³
+		//è¿”å›æ˜¯å¦ç»§ç»­æŠ“å–ä¸‹ä¸€é¡µ
 		return (reply.length > 0 || post.length > 0);
 	},
 	/*
-	 * Í¨¹ıÓÃ»§ID½øĞĞÉ¾Ìû
-	 * @param string user ÓÃ»§ID
-	 * @param int page Ò³Âë
+	 * é€šè¿‡ç”¨æˆ·IDè¿›è¡Œåˆ å¸–
+	 * @param string user ç”¨æˆ·ID
+	 * @param int page é¡µç 
 	*/
 	delByUser = function(user, page) {
-		logResult('ÕıÔÚ»ñÈ¡Ìù×ÓÁĞ±í£¨µÚ' + page + 'Ò³£©');
+		logResult('æ­£åœ¨è·å–è´´å­åˆ—è¡¨ï¼ˆç¬¬' + page + 'é¡µï¼‰');
 		GM_xmlhttpRequest({
 			"method": 'GET',
 			"url": 'http://tieba.baidu.com/f/search/ures?kw=' + unsafeWindow.PageData.forum.name_url + '&qw=&rn=10&un=' + encodeURIComponent(user) + '&sm=1&pn=' + page,
 			"onload": function(response) {
-				//Æ¥Åä³öËÑË÷½á¹ûµÄËùÓĞÌù×Ó
+				//åŒ¹é…å‡ºæœç´¢ç»“æœçš„æ‰€æœ‰è´´å­
 				var result = response.responseText;
-				if (addToList(result) && page < 5) { //·ÀÖ¹ÒòÎªÊıÁ¿¹ı´óÔì³ÉµÄ¿¨¶Ù
-					delByUser(user, page + 1); //×Ôµ÷ÓÃ£¬¼ÌĞø»ñÈ¡
-				} else { //»ñÈ¡Íê±Ï£¬¿ªÊ¼É¾Ìû
-					logResult('»ñÈ¡Ìù×ÓÁĞ±íÍê³É£¡');
+				if (addToList(result) && page < 5) { //é˜²æ­¢å› ä¸ºæ•°é‡è¿‡å¤§é€ æˆçš„å¡é¡¿
+					delByUser(user, page + 1); //è‡ªè°ƒç”¨ï¼Œç»§ç»­è·å–
+				} else { //è·å–å®Œæ¯•ï¼Œå¼€å§‹åˆ å¸–
+					logResult('è·å–è´´å­åˆ—è¡¨å®Œæˆï¼');
 					if (tielist.length > 0) {
 						delByList(0);
 					} else {
-						logResult('Ã»ÓĞÈÎºÎÌù×Ó£¡');
+						logResult('æ²¡æœ‰ä»»ä½•è´´å­ï¼');
 						Stop();
 					}
 				}
@@ -99,26 +99,26 @@
 		});
 	},
 	/*
-	 * Í¨¹ı¹Ø¼ü×Ö½øĞĞÉ¾Ìû
-	 * @param string keyword ¹Ø¼ü×Ö
-	 * @param int page Ò³Âë
+	 * é€šè¿‡å…³é”®å­—è¿›è¡Œåˆ å¸–
+	 * @param string keyword å…³é”®å­—
+	 * @param int page é¡µç 
 	*/
 	delByKeyword = function(keyword, page) {
-		logResult('ÕıÔÚ»ñÈ¡Ìù×ÓÁĞ±í£¨µÚ' + page + 'Ò³£©');
+		logResult('æ­£åœ¨è·å–è´´å­åˆ—è¡¨ï¼ˆç¬¬' + page + 'é¡µï¼‰');
 		GM_xmlhttpRequest({
 			"method": 'GET',
 			"url": 'http://tieba.baidu.com/f/search/res?kw=' + unsafeWindow.PageData.forum.name_url + '&qw=' + encodeURIComponent(keyword) + '&rn=10&un=&sm=1&pn=' + page,
 			"onload": function(response) {
-				//Æ¥Åä³öËÑË÷½á¹ûµÄËùÓĞÌù×Ó
+				//åŒ¹é…å‡ºæœç´¢ç»“æœçš„æ‰€æœ‰è´´å­
 				var result = response.responseText;
-				if (addToList(result) && page < 5) { //·ÀÖ¹ÒòÎªÊıÁ¿¹ı´óÔì³ÉµÄ¿¨¶Ù
-					delByKeyword(keyword, page + 1); //×Ôµ÷ÓÃ£¬¼ÌĞø»ñÈ¡
-				} else { //»ñÈ¡Íê±Ï£¬¿ªÊ¼É¾Ìû
-					logResult('»ñÈ¡Ìù×ÓÁĞ±íÍê³É£¡');
+				if (addToList(result) && page < 5) { //é˜²æ­¢å› ä¸ºæ•°é‡è¿‡å¤§é€ æˆçš„å¡é¡¿
+					delByKeyword(keyword, page + 1); //è‡ªè°ƒç”¨ï¼Œç»§ç»­è·å–
+				} else { //è·å–å®Œæ¯•ï¼Œå¼€å§‹åˆ å¸–
+					logResult('è·å–è´´å­åˆ—è¡¨å®Œæˆï¼');
 					if (tielist.length > 0) {
 						delByList(0);
 					} else {
-						logResult('Ã»ÓĞÈÎºÎÌù×Ó£¡');
+						logResult('æ²¡æœ‰ä»»ä½•è´´å­ï¼');
 						Stop();
 					}
 				}
@@ -126,8 +126,8 @@
 		});
 	},
 	/*
-	 * °´ÒÑ½¨Á¢µÄÁĞ±íÉ¾Ìû
-	 * @param int num ¶ÔÓ¦ÁĞ±íÖĞµÄKey
+	 * æŒ‰å·²å»ºç«‹çš„åˆ—è¡¨åˆ å¸–
+	 * @param int num å¯¹åº”åˆ—è¡¨ä¸­çš„Key
 	*/
 	delByList = function(num) {
 		var fid = unsafeWindow.PageData.forum.forum_id,
@@ -142,36 +142,36 @@
 			"tid": me.tid,
 			"tbs": unsafeWindow.PageData.tbs
 		}
-		if (me.type == 1) { //»ØÌù
+		if (me.type == 1) { //å›è´´
 			postdata.pid = me.pid;
-		} else if (me.type == 2) { //Ö÷Ìâ
-		} else if (me.type == 3) { //Â¥ÖĞÂ¥
+		} else if (me.type == 2) { //ä¸»é¢˜
+		} else if (me.type == 3) { //æ¥¼ä¸­æ¥¼
 		}
-		//GMµÄajax²»ÖªµÀÎªÊ²Ã´²»ÄÜÓÃ£¬¾ÍÓÃjQueryµÄ°É
+		//GMçš„ajaxä¸çŸ¥é“ä¸ºä»€ä¹ˆä¸èƒ½ç”¨ï¼Œå°±ç”¨jQueryçš„å§
 		$.ajax({
 			"type": 'POST',
 			"data": postdata,
 			"url": '/f/commit/post/delete',
 			"success": function(response) {
-				// È·ÈÏÉ¾Ìû½á¹û
+				// ç¡®è®¤åˆ å¸–ç»“æœ
 				result = eval('(' + response + ')');
 				if (result.err_code == 0) {
-					logResult('É¾³ıÌù×Ó³É¹¦£¡Ö÷ÌâID£º' + me.tid);
-					if (num != leng) { //µ÷ÓÃ×ÔÉí
+					logResult('åˆ é™¤è´´å­æˆåŠŸï¼ä¸»é¢˜IDï¼š' + me.tid);
+					if (num != leng) { //è°ƒç”¨è‡ªèº«
 						delByList(num + 1);
 					}
 				} else {
 					console.log(postdata);
 					console.log(result);
-					logResult('É¾³ıÌù×ÓÊ§°Ü£¡Ö÷ÌâID£º' + me.tid);
+					logResult('åˆ é™¤è´´å­å¤±è´¥ï¼ä¸»é¢˜IDï¼š' + me.tid);
 					if (result.err_code == '224011') {
-						logResult('´¥·¢ÑéÖ¤Âë£¬Í£Ö¹É¾Ìû£¨½â¾ö°ì·¨£ºË¢ĞÂµ±Ç°ÍøÒ³£©');
+						logResult('è§¦å‘éªŒè¯ç ï¼Œåœæ­¢åˆ å¸–ï¼ˆè§£å†³åŠæ³•ï¼šåˆ·æ–°å½“å‰ç½‘é¡µï¼‰');
 						GM_setClipboard(meinput);
-						logResult('ÌáÊ¾£º±¾´ÎÓÃ»§ID/¹Ø¼ü´ÊÒÑ¾­¸´ÖÆµ½¼ôÌù°å');
+						logResult('æç¤ºï¼šæœ¬æ¬¡ç”¨æˆ·ID/å…³é”®è¯å·²ç»å¤åˆ¶åˆ°å‰ªè´´æ¿');
 						Stop();
 						$('#sy_del_reload').show();
 					} else {
-						if (num != leng) { //µ÷ÓÃ×ÔÉí
+						if (num != leng) { //è°ƒç”¨è‡ªèº«
 							delByList(num + 1);
 						} else {
 							Stop();
@@ -183,15 +183,15 @@
 		});
 	},
 	/*
-	 * ¼ÇÂ¼½á¹û
-	 * @param string info ĞÅÏ¢
+	 * è®°å½•ç»“æœ
+	 * @param string info ä¿¡æ¯
 	*/
 	logResult = function(info) {
 		var e = $('#sy_del_info');
 		e.append('<p>' + info + '</p>');
 	},
 	/*
-	 * ½áÊøº¯Êı
+	 * ç»“æŸå‡½æ•°
 	*/
 	Stop = function() {
 		var btn = $('#sy_del_close');
@@ -200,25 +200,25 @@
 			$('#sy_del_dialog').hide();
 			$('#sy_del_full').hide();
 		});
-		btn.find('em').html('¹Ø±Õ');
+		btn.find('em').html('å…³é—­');
 		tielist = [];
-		logResult('ÒÑ½áÊøÔËĞĞ');
+		logResult('å·²ç»“æŸè¿è¡Œ');
 	},
 	/*
-	 * ³õÊ¼º¯Êı
-	 * @param int type ÀàĞÍ£¬1Îª°´ÓÃ»§ID
+	 * åˆå§‹å‡½æ•°
+	 * @param int type ç±»å‹ï¼Œ1ä¸ºæŒ‰ç”¨æˆ·ID
 	*/
 	Start = function(type) {
 		var input;
 		if (!checkMe()) return;
-		//ÏÔÊ¾ÊäÈë¿ò
-		if (type == 1) input = window.prompt('ÇëÊäÈëÓÃ»§ID');
-		else if (type == 2) input = window.prompt('ÇëÊäÈë¹Ø¼ü´Ê£¨²»Ö§³ÖÍ¨Åä·û¡¢ÕıÔò±í´ïÊ½£©');
+		//æ˜¾ç¤ºè¾“å…¥æ¡†
+		if (type == 1) input = window.prompt('è¯·è¾“å…¥ç”¨æˆ·ID');
+		else if (type == 2) input = window.prompt('è¯·è¾“å…¥å…³é”®è¯ï¼ˆä¸æ”¯æŒé€šé…ç¬¦ã€æ­£åˆ™è¡¨è¾¾å¼ï¼‰');
 		else return;
 		if (input) {
-			//°ÔÆÁ
+			//éœ¸å±
 			$('#sy_del_close').unbind('click');
-			$('#sy_del_close').find('em').html('ÇëÉÔºò');
+			$('#sy_del_close').find('em').html('è¯·ç¨å€™');
 			$('#sy_del_reload').hide();
 			$('#sy_del_dialog').show();
 			$('#sy_del_full').show();
@@ -234,13 +234,13 @@
 	Start_keyword = function() {
 		Start(2);
 	};
-	//×¢²á²Ëµ¥
-	if (window.location.href.match(/f\?(.*?)kw=/) !== null) { //È·ÈÏÊÇÔÚÌù×ÓÁĞ±íÒ³
+	//æ³¨å†Œèœå•
+	if (window.location.href.match(/f\?(.*?)kw=/) !== null) { //ç¡®è®¤æ˜¯åœ¨è´´å­åˆ—è¡¨é¡µ
 		GM_addStyle('#sy_del_full{position:fixed;background:rgba(0,0,0,0.6);width:100%;height:100%;top:0;left:0;color:white;z-index:99998;}#sy_del_dialog{position:fixed;z-index:99999;width:460px;height:400px;top:10px;left:50%;margin-left:-200px;}#sy_del_info{height:295px;padding:10px;}');
-		$('body').append('<div id="sy_del_full"></div><div id="sy_del_dialog" class="dialogJ dialogJfix dialogJshadow ui-draggable m_dialog"><div class="uiDialogWrapper"><div style="-moz-user-select: none;" class="dialogJtitle"><span class="dialogJtxt">É¾Ìû»úÆ÷ÈË</span></div><div class="dialogJcontent"><div class="dialogJbody"><div id="sy_del_info"></div><div class="m_dialog_container j_m_dialog_container"><div class="m_button_panel clearfix"><a id="sy_del_close" class="ui_btn ui_btn_sub_m j_m_btn_cancel m_btn_cancel"><span><em>¹Ø±Õ</em></span></a><a id="sy_del_reload" class="ui_btn ui_btn_m j_m_btn_insert m_btn_insert" onclick="window.location.reload();"><span><em>Á¢¼´Ë¢ĞÂ</em></span></a></div></div></div></div></div></div>');
+		$('body').append('<div id="sy_del_full"></div><div id="sy_del_dialog" class="dialogJ dialogJfix dialogJshadow ui-draggable m_dialog"><div class="uiDialogWrapper"><div style="-moz-user-select: none;" class="dialogJtitle"><span class="dialogJtxt">åˆ å¸–æœºå™¨äºº</span></div><div class="dialogJcontent"><div class="dialogJbody"><div id="sy_del_info"></div><div class="m_dialog_container j_m_dialog_container"><div class="m_button_panel clearfix"><a id="sy_del_close" class="ui_btn ui_btn_sub_m j_m_btn_cancel m_btn_cancel"><span><em>å…³é—­</em></span></a><a id="sy_del_reload" class="ui_btn ui_btn_m j_m_btn_insert m_btn_insert" onclick="window.location.reload();"><span><em>ç«‹å³åˆ·æ–°</em></span></a></div></div></div></div></div></div>');
 		$('#sy_del_dialog').hide();
 		$('#sy_del_full').hide();
-		GM_registerMenuCommand('ÅúÁ¿É¾Ìû£¨°´ÓÃ»§ID£©', Start_user);
-		GM_registerMenuCommand('ÅúÁ¿É¾Ìû£¨°´¹Ø¼ü´Ê£©', Start_keyword);
+		GM_registerMenuCommand('æ‰¹é‡åˆ å¸–ï¼ˆæŒ‰ç”¨æˆ·IDï¼‰', Start_user);
+		GM_registerMenuCommand('æ‰¹é‡åˆ å¸–ï¼ˆæŒ‰å…³é”®è¯ï¼‰', Start_keyword);
 	}
 })();
