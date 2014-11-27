@@ -7,5 +7,5 @@
 // @run-at      document-start
 // @author      Palatoo Simple
 // @grant       none
-// @version     1
+// @version     2
 // ==/UserScript==

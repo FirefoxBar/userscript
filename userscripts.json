@@ -50,7 +50,7 @@
 	},
 	{
 		"name": "163 Music HTML5 Player",
-		"version": "1",
+		"version": "2",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player/163_Music_HTML5_Player.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player",
 		"description": "网易云音乐 HTML5 播放器"
