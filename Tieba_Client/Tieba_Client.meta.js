@@ -8,6 +8,6 @@
 // @require http://libs.baidu.com/jquery/2.0.0/jquery.min.js
 // @grant GM_xmlhttpRequest
 // @author 网络中二行客
-// @version 0.9.3
+// @version 0.9.4
 // ==/UserScript==
 
