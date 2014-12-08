@@ -11,3 +11,5 @@
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js) [Post Del Robot](https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot)
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player/163_Music_HTML5_Player.user.js) [163 Music HTML5 Player](https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player)
+
+* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor/Cache_Manager_for_Tieba_Ueditor.user.js) [Cache Manager for Tieba Ueditor](https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor)
