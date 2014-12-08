@@ -54,5 +54,12 @@
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player/163_Music_HTML5_Player.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player",
 		"description": "网易云音乐 HTML5 播放器"
+	},
+	{
+		"name": "Cache Manager for Tieba Ueditor",
+		"version": "0.7",
+		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor/Cache_Manager_for_Tieba_Ueditor.user.js",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor",
+		"description": "基於贴吧内建之文字备份系统的管理器"
 	}
 ]
