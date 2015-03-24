@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Post Del Robot
 // @namespace http://blog.sylingd.com
-// @version 6
+// @version 7
 // @description 删帖机器人
 // @author ShuangYa
 // @include http://tieba.baidu.com/f?*
@@ -29,7 +29,7 @@
 			return false;
 		}
 		//检查是否为吧务，通过右侧“进入吧务后台”的按钮检查
-		if ($('.tbAdminManage').length <= 0) {
+		if ($('.tbAdminManage').length <= 0 && $('.manager_btn').length <= 0) {
 			alert('您不是本吧吧务');
 			return false;
 		}

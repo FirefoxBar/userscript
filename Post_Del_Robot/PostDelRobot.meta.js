@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Post Del Robot
 // @namespace http://blog.sylingd.com
-// @version 6
+// @version 7
 // @description 删帖机器人
 // @author ShuangYa
 // @include http://tieba.baidu.com/f?*
