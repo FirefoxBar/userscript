@@ -61,5 +61,12 @@
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor/Cache_Manager_for_Tieba_Ueditor.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor",
 		"description": "基於贴吧内建之文字备份系统的管理器"
+	},
+	{
+		"name": "Straight Baidu",
+		"version": "1",
+		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Straight_Baidu/Straight_Baidu.user.js",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Straight_Baidu",
+		"description": "去掉百度搜索结果重定向"
 	}
 ]
