@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      2.2
+// @version      2.3
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -36,7 +36,7 @@ var getTrackURL = function getTrackURL (dfsId) {
     // 使用 p1 cdn 解决境外用户无法播放的问题
     var url = 'http://p1.music.126.net/' + results + '/' + byte2 + '.mp3';
     return url;
-}
+};
 
 var modifyURL = function modifyURL(data, parentKey) {
     console.log('API 返回了 ' + data.length + ' 首曲目');
@@ -47,7 +47,7 @@ var modifyURL = function modifyURL(data, parentKey) {
         else elem[parentKey].mp3Url = getTrackURL(elem[parentKey].hMusic ? elem.hMusic[parentKey].dfsId : elem[parentKey].mMusic ? elem.mMusic[parentKey].dfsId : elem.lMusic[parentKey].dfsId);
     });
     return data;
-}
+};
 
 
 // 重新编写脚本，改用 hook xhr 的形式替换 URL 链接
@@ -120,8 +120,8 @@ var fakeXMLHttpRequest = function(){
             //console.log(_this.responseText);
             //console.log('Request URL: ' + __this__.requestURL);
             try {
-                if (__this__.requestURL.indexOf('/weapi/') < 0) return _this.responseText;
-                var action = __this__.requestURL.split('/weapi/')[1].split('?')[0].split('/');
+                if (__this__.requestURL.indexOf('/weapi/') < 0 && __this__.requestURL.indexOf('/api/') < 0) return _this.responseText;
+                var action = __this__.requestURL.split(/\/(?:we)?api\//)[1].split('?')[0].split('/');
                 switch (action[0]) {
                     case 'album':
                         var res = JSON.parse(_this.responseText);
@@ -156,6 +156,14 @@ var fakeXMLHttpRequest = function(){
                         else if (action[2] === 'detail') {
                             var res = JSON.parse(_this.responseText);
                             res.program = modifyURL([res.program], 'mainSong')[0];
+                            return JSON.stringify(res);
+                        }
+                        else return _this.responseText;
+                        break;
+                    case 'radio':
+                        if (action[1] === 'get') {
+                            var res = JSON.parse(_this.responseText);
+                            modifyURL(res.data);
                             return JSON.stringify(res);
                         }
                         else return _this.responseText;
