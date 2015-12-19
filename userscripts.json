@@ -68,5 +68,12 @@
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Straight_Baidu/Straight_Baidu.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Straight_Baidu",
 		"description": "去掉百度搜索结果重定向"
+	},
+	{
+		"name": "163 Music High Quality Support",
+		"version": "2.2",
+		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_High_Quality_Support/163.Music.HQ.user.js",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_High_Quality_Support",
+		"description": "去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本"
 	}
 ]
