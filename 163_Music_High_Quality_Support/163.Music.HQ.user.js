@@ -33,8 +33,10 @@ var getTrackURL = function getTrackURL (dfsId) {
     results = CryptoJS.MD5(byte3).toString(CryptoJS.enc.Base64);
     results = results.replace(/\//g, '_').replace(/\+/g, '-');
 
-    // 使用 p1 cdn 解决境外用户无法播放的问题
-    var url = 'http://p1.music.126.net/' + results + '/' + byte2 + '.mp3';
+    // 如果需要修改使用的 cdn，请修改下面的地址
+    // 可用的服务器有 ['m1', 'm2', 'p1', 'p2']
+    // 使用 p1 或 p2 的 cdn 可解决境外用户无法播放的问题
+    var url = 'http://m1.music.126.net/' + results + '/' + byte2 + '.mp3';
     return url;
 };
 
@@ -49,6 +51,7 @@ var modifyURL = function modifyURL(data, parentKey) {
     return data;
 };
 
+var cachedURL = {};
 
 // 重新编写脚本，改用 hook xhr 的形式替换 URL 链接
 var originalXMLHttpRequest = window.XMLHttpRequest;
@@ -95,7 +98,10 @@ var fakeXMLHttpRequest = function(){
                 __this__[elem] = function(){
                     //console.log(elem, arguments);
                     //console.log(__this__.ping);
-                    if (__this__.requestURL.indexOf('/enhance/player/') >= 0 && __this__.ping) __this__.ping.send(arguments[0]);
+                    if (__this__.requestURL.indexOf('/enhance/player/') >= 0 && __this__.ping) {
+                        //__this__.ping.send(arguments[0]);
+                        __this__.ping.sendData = arguments[0];
+                    }
                     _this[elem].apply(_this, arguments);
                 };
             }
@@ -132,9 +138,12 @@ var fakeXMLHttpRequest = function(){
                         if (action[1] !== 'detail') {
                             if (action[1] !== 'enhance' && action[2] !== 'player' && action[3] !== 'url') return _this.responseText;
                             var res = JSON.parse(_this.responseText);
-                            /*window.ping = __this__.ping;
-                            console.log(__this__.ping);*/
-                            if (__this__.ping) res.data[0].url = JSON.parse(__this__.ping.responseText).songs[0].mp3Url; // 替换旧版 api 的 url
+                            //if (__this__.ping) res.data[0].url = JSON.parse(__this__.ping.responseText).songs[0].mp3Url; // 替换旧版 api 的 url
+                            if (!cachedURL[res.data[0].id]) { // 若未缓存再请求原始 api
+                                __this__.ping.send(__this__.ping.sendData);
+                                cachedURL[res.data[0].id] = JSON.parse(__this__.ping.responseText).songs[0].mp3Url;
+                            }
+                            res.data[0].url = cachedURL[res.data[0].id];
                             return JSON.stringify(res);
                         }
                         var res = JSON.parse(_this.responseText);
