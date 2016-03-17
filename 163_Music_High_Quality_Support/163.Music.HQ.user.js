@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      2.3
+// @version      2.4
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -52,6 +52,7 @@ var modifyURL = function modifyURL(data, parentKey) {
 };
 
 var cachedURL = {};
+var qualityNode = null;
 
 // 重新编写脚本，改用 hook xhr 的形式替换 URL 链接
 var originalXMLHttpRequest = window.XMLHttpRequest;
@@ -148,6 +149,9 @@ var fakeXMLHttpRequest = function(){
                         }
                         var res = JSON.parse(_this.responseText);
                         modifyURL(res.songs);
+                        if (qualityNode) {
+                            qualityNode.textContent = (res.songs[0].hMusic ? res.songs[0].hMusic.bitrate : res.songs[0].mMusic ? res.songs[0].mMusic.bitrate : res.songs[0].lMusic.bitrate) / 1000 + 'K';
+                        }
                         return JSON.stringify(res);
                         break;
                     case 'playlist':
@@ -243,3 +247,16 @@ var fakeXMLHttpRequest = function(){
     this.originalXMLHttpRequest = _this;
 };
 window.XMLHttpRequest = fakeXMLHttpRequest;
+
+var quailtyInsertHandler = function() {
+    var target = document.querySelector('.m-pbar');
+    if (target) {
+        qualityNode = document.createElement('span');
+        qualityNode.style.cssText = 'color: #797979; position: absolute; top: 0px; right: 31px; text-shadow: 0 1px 0 #171717; line-height: 28px;';
+        target.parentElement.insertBefore(qualityNode, target);
+    }
+
+    document.removeEventListener('DOMContentLoaded', quailtyInsertHandler, false);
+};
+
+document.addEventListener('DOMContentLoaded', quailtyInsertHandler, false);
