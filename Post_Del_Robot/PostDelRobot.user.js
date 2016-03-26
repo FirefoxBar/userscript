@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Post Del Robot
 // @namespace http://blog.sylingd.com
-// @version 7
+// @version 8
 // @description 删帖机器人
 // @author ShuangYa
 // @include http://tieba.baidu.com/f?*
@@ -11,8 +11,8 @@
 // @grant GM_setClipboard
 // @run-at document-end
 // @require http://libs.baidu.com/jquery/1.11.1/jquery.min.js
-// @updateURL 	 https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.meta.js
-// @downloadURL  https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js
+// @updateURL https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.meta.js
+// @downloadURL	https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js
 // ==/UserScript==
 (function() {
 	//贴子列表
@@ -29,7 +29,7 @@
 			return false;
 		}
 		//检查是否为吧务，通过右侧“进入吧务后台”的按钮检查
-		if ($('.tbAdminManage').length <= 0 && $('.manager_btn').length <= 0) {
+		if ($('.tbAdminManage').length <= 0 && $('.manager_btn') <= 0) {
 			alert('您不是本吧吧务');
 			return false;
 		}
@@ -80,7 +80,7 @@
 		logResult('正在获取贴子列表（第' + page + '页）');
 		GM_xmlhttpRequest({
 			"method": 'GET',
-			"url": 'http://tieba.baidu.com/f/search/ures?kw=' + unsafeWindow.PageData.forum.name_url + '&qw=&rn=10&un=' + encodeURIComponent(user) + '&sm=1&pn=' + page,
+			"url": 'http://tieba.baidu.com/f/search/ures?ie=utf-8&kw=' + encodeURIComponent(unsafeWindow.PageData.forum.name) + '&qw=&rn=10&un=' + encodeURIComponent(user) + '&sm=1&pn=' + page,
 			"onload": function(response) {
 				//匹配出搜索结果的所有贴子
 				var result = response.responseText;
@@ -107,7 +107,7 @@
 		logResult('正在获取贴子列表（第' + page + '页）');
 		GM_xmlhttpRequest({
 			"method": 'GET',
-			"url": 'http://tieba.baidu.com/f/search/res?kw=' + unsafeWindow.PageData.forum.name_url + '&qw=' + encodeURIComponent(keyword) + '&rn=10&un=&sm=1&pn=' + page,
+			"url": 'http://tieba.baidu.com/f/search/res?kw=' + encodeURIComponent(unsafeWindow.PageData.forum.name) + '&qw=' + encodeURIComponent(keyword) + '&rn=10&un=&sm=1&pn=' + page,
 			"onload": function(response) {
 				//匹配出搜索结果的所有贴子
 				var result = response.responseText;
@@ -130,7 +130,7 @@
 	 * @param int num 对应列表中的Key
 	*/
 	delByList = function(num) {
-		var fid = unsafeWindow.PageData.forum.forum_id,
+		var fid = unsafeWindow.PageData.forum.id,
 		kw = unsafeWindow.PageData.forum.name,
 		leng = tielist.length - 1,
 		me = tielist[num],
@@ -185,7 +185,7 @@
 						}
 					}
 				}
-
+ 
 			}
 		});
 	},

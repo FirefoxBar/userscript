@@ -14,9 +14,7 @@
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor/Cache_Manager_for_Tieba_Ueditor.user.js) [Cache Manager for Tieba Ueditor](https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor)
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Straight_Baidu/Straight_Baidu.user.js) [Straight Baidu](https://github.com/FirefoxBar/userscript/raw/master/Straight_Baidu)
-<<<<<<< HEAD
+
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Akina/Akina.js) [Akina](https://github.com/FirefoxBar/userscript/raw/master/Akina)
-=======
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/163_Music_High_Quality_Support/163.Music.HQ.user.js) [163 Music High Quality Support](https://github.com/FirefoxBar/userscript/raw/master/163_Music_High_Quality_Support)
->>>>>>> origin/master
