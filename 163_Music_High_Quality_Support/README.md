@@ -1,5 +1,7 @@
 # 网易云音乐高音质支持
 
+**\* WARNING: 这是一个不会正式公开发布的版本，若您获得了该分支下的源码，请不要广泛传播**
+
 ## 安装
 - [Install From GitHub](https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player/163_Music_HTML5_Player.user.js)
 - [Install From GreasyFork](https://greasyfork.org/zh-CN/scripts/10582/)
