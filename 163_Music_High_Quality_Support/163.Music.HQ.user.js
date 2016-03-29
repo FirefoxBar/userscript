@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      2.4
+// @version      2.4@unrelease
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -84,7 +84,7 @@ var fakeXMLHttpRequest = function(){
                     if (arguments[1].indexOf('/enhance/player/') >= 0) {
                         // 对新版 api 请求旧的 api 接口
                         __this__.ping = new fakeXMLHttpRequest();
-                        __this__.ping.open(arguments[0], arguments[1].replace('/enhance/player/url', '/detail'), false); // 不使用异步 xhr 以阻断原 xhr 请求
+                        __this__.ping.open('POST', 'http://music.163.com/api/v2/song/detail', false); // 不使用异步 xhr 以阻断原 xhr 请求
                         __this__.ping.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     }
                     _this[elem].apply(_this, arguments);
@@ -141,7 +141,7 @@ var fakeXMLHttpRequest = function(){
                             var res = JSON.parse(_this.responseText);
                             //if (__this__.ping) res.data[0].url = JSON.parse(__this__.ping.responseText).songs[0].mp3Url; // 替换旧版 api 的 url
                             if (!cachedURL[res.data[0].id]) { // 若未缓存再请求原始 api
-                                __this__.ping.send(__this__.ping.sendData);
+                                __this__.ping.send('c=[{"id":"' + res.data[0].id + '","v":0}]');
                                 cachedURL[res.data[0].id] = JSON.parse(__this__.ping.responseText).songs[0].mp3Url;
                             }
                             res.data[0].url = cachedURL[res.data[0].id];
@@ -227,6 +227,65 @@ var fakeXMLHttpRequest = function(){
                                     elem.dl = q;
                                     elem.fl = q;
                                 });
+                                return JSON.stringify(res);
+                                break;
+                            default:
+                                return _this.responseText;
+                        }
+                        break;
+                    case 'v2':
+                        switch (action[1]){
+                            // http://music.163.com/api/v2/song/detail
+                            // PC 端 API，破解版权，备用
+                            case 'song':
+                                if (action[2] !== 'detail') return _this.responseText;
+                                var res = JSON.parse(_this.responseText);
+
+                                console.log(res);
+
+                                res.songs.forEach(function(elem){
+                                    if (elem.h) {
+                                        elem.hMusic = {
+                                            bitrate: elem.h.br,
+                                            dfsId: elem.h.fid,
+                                            size: elem.h.size
+                                        }
+                                    }
+                                    if (elem.m) {
+                                        elem.mMusic = {
+                                            bitrate: elem.m.br,
+                                            dfsId: elem.m.fid,
+                                            size: elem.m.size
+                                        }
+                                    }
+                                    if (elem.l) {
+                                        elem.lMusic = {
+                                            bitrate: elem.l.br,
+                                            dfsId: elem.l.fid,
+                                            size: elem.l.size
+                                        }
+                                    }
+                                    if (elem.a) {
+                                        elem.audition = {
+                                            bitrate: elem.a.br,
+                                            dfsId: elem.a.fid,
+                                            size: elem.a.size
+                                        }
+                                    }
+                                });
+                                modifyURL(res.songs);
+
+                                if (qualityNode) {
+                                    qualityNode.textContent = (res.songs[0].hMusic ? res.songs[0].hMusic.bitrate : res.songs[0].mMusic ? res.songs[0].mMusic.bitrate : res.songs[0].lMusic.bitrate) / 1000 + 'K';
+                                }
+                                // res.songs.forEach(function(elem){
+                                //     delete elem.hMusic;
+                                //     delete elem.mMusic;
+                                //     delete elem.lMusic;
+                                //     delete elem.audition;
+                                //     delete elem.mp3URL;
+                                // });
+
                                 return JSON.stringify(res);
                                 break;
                             default:
