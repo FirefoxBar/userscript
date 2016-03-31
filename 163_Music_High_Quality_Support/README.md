@@ -14,6 +14,8 @@
 
 \* 自 2.0 起不再需要对播放列表作出更改即可切换至高音质版本
 
+\* 由于旧版 API 大部分曲目失效，自 3.0 起使用新版 API 返回高音质版本（注意：新版 API 曲目重复播放时可能会重复缓冲）
+
 \* 此脚本使用了 Chrome 扩展程序 网易云音乐增强器(Netease Music Enhancement) by Tom Wan 的源码
 
 ![Preview](https://i.minus.com/iGjRe2lrYTQWl.png)
