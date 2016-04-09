@@ -8,7 +8,7 @@
 // @require http://libs.baidu.com/jquery/2.0.0/jquery.min.js
 // @grant GM_xmlhttpRequest
 // @author 网络中二行客
-// @version 1.0.0
+// @version 1.0.1
 // ==/UserScript==
 
 ;(function($,UW){
@@ -16,8 +16,8 @@
         BDUSS = "",
         SIGN_KEY = "tiebaclient!!!",
         pd = UW.PageData;
-        kw = pd.forum.name,
-        fid = pd.forum.id,
+        kw = pd.forum.name || pd.forum.forum_name,
+        fid = pd.forum.id || pd.forum.forum_id,
         tbs = pd.tbs,
         tid = pd.hasOwnProperty("thread") ? pd.thread.thread_id : "",
         fontFamily = ["微软雅黑","黑体","宋体","楷体","仿宋"],
