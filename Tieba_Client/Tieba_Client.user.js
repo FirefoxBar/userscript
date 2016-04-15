@@ -8,7 +8,7 @@
 // @require http://libs.baidu.com/jquery/2.0.0/jquery.min.js
 // @grant GM_xmlhttpRequest
 // @author 网络中二行客
-// @version 1.0.1
+// @version 1.0.2
 // ==/UserScript==
 
 ;(function($,UW){
@@ -77,6 +77,10 @@
                     var lzlWrapper = $(this).parents('.core_reply.j_lzl_wrapper').find(".j_lzl_container.core_reply_wrapper");
                     lzlWrapper.find(".core_reply_border_bottom").before('<span id="lzl_cliend" class="lzl_panel_submit j_lzl_p_sb">客户端</span>');
                     var field = lzlWrapper.data("field");
+                    if(typeof field === "string"){
+                        field = field.replace(/'/g,'"');
+                        field = JSON.parse(field);
+                    }                    
                     var floor_num = field.floor_num;
                     var quote_id = field.pid;
                     $("#lzl_cliend").on("click",function(){
