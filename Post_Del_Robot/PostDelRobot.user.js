@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Post Del Robot
 // @namespace http://blog.sylingd.com
-// @version 8
+// @version 9
 // @description 删帖机器人
 // @author ShuangYa
 // @include http://tieba.baidu.com/f?*
@@ -47,9 +47,8 @@
 		if (reply === null) reply = [];
 		//替换已匹配内容，避免重复匹配
 		text = text.replace(/\/p\/(\d+)\?pid=(\d+)/gi, '');
-		var leng = reply.length - 1,
-		i, one;
-		for (i = 0; i <= leng; i++) {
+		var i, one;
+		for (i = 0; i < reply.length; i++) {
 			one = reply[i].match(/\/p\/(\d+)\?pid=(\d+)/i);
 			tielist.push({
 				"type": 1,
@@ -60,8 +59,7 @@
 		//主题部分
 		var post = text.match(/\/p\/(\d+)/gi);
 		if (post === null) post = [];
-		leng = post.length - 1;
-		for (i = 0; i <= leng; i++) {
+		for (i = 0; i < post.length; i++) {
 			one = post[i].match(/\/p\/(\d+)/i);
 			tielist.push({
 				"type": 2,
@@ -80,12 +78,15 @@
 		logResult('正在获取贴子列表（第' + page + '页）');
 		GM_xmlhttpRequest({
 			"method": 'GET',
-			"url": 'http://tieba.baidu.com/f/search/ures?ie=utf-8&kw=' + encodeURIComponent(unsafeWindow.PageData.forum.name) + '&qw=&rn=10&un=' + encodeURIComponent(user) + '&sm=1&pn=' + page,
+			"url": 'http://tieba.baidu.com/f/search/ures?ie=utf-8&kw=' + encodeURIComponent(unsafeWindow.PageData.forum.name) + '&qw=&rn=10&un=' + encodeURIComponent(user) + '&only_thread=&sm=1&sd=&ed=&pn=' + page,
 			"onload": function(response) {
 				//匹配出搜索结果的所有贴子
 				var result = response.responseText;
 				if (addToList(result) && page < 5) { //防止因为数量过大造成的卡顿
-					delByUser(user, page + 1); //自调用，继续获取
+					//奇葩百度
+					setTimeout(function() {
+						delByUser(user, page + 1); //自调用，继续获取
+					}, 2500);
 				} else { //获取完毕，开始删帖
 					logResult('获取贴子列表完成！');
 					if (tielist.length > 0) {
@@ -112,7 +113,10 @@
 				//匹配出搜索结果的所有贴子
 				var result = response.responseText;
 				if (addToList(result) && page < 5) { //防止因为数量过大造成的卡顿
-					delByKeyword(keyword, page + 1); //自调用，继续获取
+					//奇葩百度
+					setTimeout(function() {
+						delByKeyword(keyword, page + 1); //自调用，继续获取
+					}, 2500);
 				} else { //获取完毕，开始删帖
 					logResult('获取贴子列表完成！');
 					if (tielist.length > 0) {
@@ -244,7 +248,7 @@
 	//注册菜单
 	if (window.location.href.match(/f\?(.*?)kw=/) !== null) { //确认是在贴子列表页
 		GM_addStyle('#sy_del_full{position:fixed;background:rgba(0,0,0,0.6);width:100%;height:100%;top:0;left:0;color:white;z-index:99998;}#sy_del_dialog{position:fixed;z-index:99999;width:460px;height:400px;top:10px;left:50%;margin-left:-200px;}#sy_del_info{height:295px;padding:10px;overflow-y:scroll;}');
-		$('body').append('<div id="sy_del_full"></div><div id="sy_del_dialog" class="dialogJ dialogJfix dialogJshadow ui-draggable m_dialog"><div class="uiDialogWrapper"><div style="-moz-user-select: none;" class="dialogJtitle"><span class="dialogJtxt">删帖机器人</span></div><div class="dialogJcontent"><div class="dialogJbody"><div id="sy_del_info"></div><div class="m_dialog_container j_m_dialog_container"><div class="m_button_panel clearfix"><a id="sy_del_close" class="ui_btn ui_btn_sub_m j_m_btn_cancel m_btn_cancel"><span><em>关闭</em></span></a><a id="sy_del_reload" class="ui_btn ui_btn_m j_m_btn_insert m_btn_insert" onclick="window.location.reload();"><span><em>立即刷新</em></span></a></div></div></div></div></div></div>');
+		$('body').append('<div id="sy_del_full"></div><div id="sy_del_dialog" class="dialogJ dialogJfix dialogJshadow ui-draggable m_dialog"><div class="uiDialogWrapper"><div style="-moz-user-select: none;" class="dialogJtitle"><span class="dialogJtxt">删帖机器人</span></div><div class="dialogJcontent"><div class="dialogJbody"><div id="sy_del_info"></div><div class="m_dialog_container j_m_dialog_container"><div class="m_button_panel clearfix"><a id="sy_del_close" class="btn_sub btn_middle"><span><em>关闭</em></span></a><a id="sy_del_reload" class="btn_default btn_middle" onclick="window.location.reload();"><span><em>立即刷新</em></span></a></div></div></div></div></div></div>');
 		$('#sy_del_dialog').hide();
 		$('#sy_del_full').hide();
 		GM_registerMenuCommand('批量删帖（按用户ID）', Start_user);
