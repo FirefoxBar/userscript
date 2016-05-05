@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      2.4
+// @version      3.0
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -139,6 +139,16 @@ var fakeXMLHttpRequest = function(){
                         if (action[1] !== 'detail') {
                             if (action[1] !== 'enhance' && action[2] !== 'player' && action[3] !== 'url') return _this.responseText;
                             var res = JSON.parse(_this.responseText);
+
+                            // 因为新版 API 已经返回的是高音质版本，所以不需要再请求旧的 API
+                            // 如果返回地址为 null 再尝试获取旧版 API
+                            if (res.data[0].url) {
+                                cachedURL[res.data[0].id] = res.data[0].url;
+                                delete __this__.ping;
+                                qualityNode.textContent = (res.data[0].br) / 1000 + 'K';
+                                return _this.responseText;
+                            }
+
                             //if (__this__.ping) res.data[0].url = JSON.parse(__this__.ping.responseText).songs[0].mp3Url; // 替换旧版 api 的 url
                             if (!cachedURL[res.data[0].id]) { // 若未缓存再请求原始 api
                                 __this__.ping.send(__this__.ping.sendData);
@@ -248,7 +258,37 @@ var fakeXMLHttpRequest = function(){
 };
 window.XMLHttpRequest = fakeXMLHttpRequest;
 
+// 旧版 API 大部分曲目失效，故 hook 加密函数以获取新版 API 的高音质版本
+var original_asrsea;
+var fake_asrsea = function(){
+    //console.log(arguments)
+    var data = JSON.parse(arguments[0]);
+    if (data.br && data.br === 128000) {
+        data.br = 320000;
+        arguments[0] = JSON.stringify(data);
+    }
+    //console.log(arguments);
+    return original_asrsea.apply(window, arguments);
+};
+if (window.asrsea) {
+    original_asrsea = window.asrsea;
+    window.asrsea = fake_asrsea;
+}
+else {
+    Object.defineProperty(window, 'asrsea', {
+        get: function(){
+            return fake_asrsea;
+        },
+        set: function(val) {
+            //console.log(val);
+            original_asrsea = val;
+        }
+    });
+}
+
+
 var quailtyInsertHandler = function() {
+
     var target = document.querySelector('.m-pbar');
     if (target) {
         qualityNode = document.createElement('span');

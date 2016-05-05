@@ -1,7 +1,7 @@
 [
 	{
 		"name": "Tieba Client",
-		"version": "0.9.4",
+		"version": "1.0.2",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Client/Tieba_Client.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Tieba_Client",
 		"description": "模拟贴吧客户端发帖。"
