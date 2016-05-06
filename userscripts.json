@@ -31,56 +31,63 @@
 		"name": "Tieba Lzl Dialogue",
 		"version": "0.5",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Lzl_Dialogue/Tieba_Lzl_Dialogue.user.js",
-		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Lzl_Dialogue",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Tieba_Lzl_Dialogue",
 		"description": "贴吧楼中楼弹出框查看回复。"
 	},
 	{
 		"name": "Tieba Kuso",
 		"version": "0.1",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Kuso/Tieba_Kuso.user.js",
-		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Kuso",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Tieba_Kuso",
 		"description": "贴吧头像恶搞。"
 	},
 	{
 		"name": "Post Del Robot",
 		"version": "9",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js",
-		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Post_Del_Robot",
 		"description": "删帖机器人。"
 	},
 	{
 		"name": "163 Music HTML5 Player",
 		"version": "2",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player/163_Music_HTML5_Player.user.js",
-		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/163_Music_HTML5_Player",
 		"description": "网易云音乐 HTML5 播放器"
 	},
 	{
 		"name": "Cache Manager for Tieba Ueditor",
 		"version": "0.7",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor/Cache_Manager_for_Tieba_Ueditor.user.js",
-		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Cache_Manager_for_Tieba_Ueditor",
 		"description": "基於贴吧内建之文字备份系统的管理器"
 	},
 	{
 		"name": "Straight Baidu",
 		"version": "1",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Straight_Baidu/Straight_Baidu.user.js",
-		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Straight_Baidu",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Straight_Baidu",
 		"description": "去掉百度搜索结果重定向"
 	},
 	{
 		"name": "163 Music High Quality Support",
 		"version": "2.4",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_High_Quality_Support/163.Music.HQ.user.js",
-		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_High_Quality_Support",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/163_Music_High_Quality_Support",
 		"description": "去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本"
 	},
 	{
 		"name": "Akina",
 		"version": "1",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Akina/Akina.user.js",
-		"homepageURL": "https://github.com/FirefoxBar/userscript/raw/master/Akina",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Akina",
 		"description": "访问指定用户的百度网盘和百度相册"
+	},
+	{
+		"name": "Putian Warning",
+		"version": "1",
+		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Putian_Warning/Putian_Warning.user.js",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Putian_Warning",
+		"description": "在访问莆田系医院的网站时提醒用户"
 	}
 ]
