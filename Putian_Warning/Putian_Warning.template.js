@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Putian Warning
 // @namespace http://blog.sylingd.com
-// @version 1
+// @version 2
 // @description 莆田系医院网站提醒
 // @author ShuangYa
 // @include http://*
@@ -9,11 +9,11 @@
 // @grant GM_addStyle
 // @run-at document-end
 // @updateURL https://github.com/FirefoxBar/userscript/raw/master/Putian_Warning/Putian_Warning.meta.js
-// @updateURL https://github.com/FirefoxBar/userscript/raw/master/Putian_Warning/Putian_Warning.user.js
+// @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Putian_Warning/Putian_Warning.user.js
 // ==/UserScript==
 (function() {
 	var list = 'Put list here';
-	var domain = unsafeWindow.document.domain;
+	var domain = unsafeWindow.location.hostname;
 	//不在列表中
 	if (typeof(list[domain]) === 'undefined') {
 		return;
@@ -69,6 +69,10 @@
 	}\
 	#' + randomId + '_i p {\
 		margin-bottom: 5px;\
+	}\
+	#' + randomId + '_i a {\
+		color: #337ab7;\
+		text-decoration: underline;\
 	}');
 	console.log('Create Style finished');
 	//顶部

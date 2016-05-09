@@ -76,5 +76,5 @@ foreach ($list as $k => $v) { //省=>列表
 		}
 	}
 }
-file_put_contents('Putian_Warning.user.js', str_replace("'Put list here'", json_encode($domain_list), file_get_contents('Putian_Warning.template.js')));
+file_put_contents('Putian_Warning.user.js', str_replace("'Put list here'", json_encode($domain_list, JSON_UNESCAPED_UNICODE), file_get_contents('Putian_Warning.template.js')));
 out('完成');
