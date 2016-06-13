@@ -15,7 +15,7 @@
 	},
 	{
 		"name": "Akina",
-		"version": "1",
+		"version": "2",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Akina/Akina.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Akina",
 		"description": "访问指定用户的百度网盘和百度相册"

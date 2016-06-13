@@ -5,7 +5,7 @@
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Akina/Akina.user.js
 // @include     http://tieba.baidu.com/p/*
 // @include     http://tieba.baidu.com/f?*
-// @version     1
+// @version     2
 // @grant       GM_xmlhttpRequest
 // @author      Paltoo Young
 // ==/UserScript==
@@ -26,7 +26,9 @@
     var pageData = {
         un: '',
         jump: 'http://yun.baidu.com/share/home?uk=',
-        apiUrl: 'http://pan.baidu.com/api/user/search?user_list=[%22$un%22]'
+        apiUrl: 'http://pan.baidu.com/api/user/search?user_list=[%22$un%22]',
+        oldDriver: {},
+        timeOut: 0
     }
     
     function depart(e,r){
@@ -39,15 +41,19 @@
             pageData.jump = 'http://xiangce.baidu.com/u/';
         }
         pageData.un = JSON.parse(parentNode.querySelector('.p_author_name').dataset.field).un;
-        var oldDriver = parentNode.querySelector('.p_author_face img');
+        pageData.oldDriver = parentNode.querySelector('.p_author_face img');
         
-        GM_xmlhttpRequest ( {
+        driving();    
+    }
+    
+    function driving(){
+        GM_xmlhttpRequest({
             method: 'GET',
             url: pageData.apiUrl.replace('$un',pageData.un),
             onload: function(res){
-                getUK(res,oldDriver);
+                getUK(res,pageData.oldDriver);
             }
-        } );         
+        });           
     }
     
     function dialog(callback){
@@ -68,10 +74,11 @@
 
     function getUK(res,oldDriver) {
         var res = JSON.parse(res.response);
+        console.dir(res);
         if( 0 === res.errno){
             return location.href = pageData.jump + res.records[0].uk;
         }
-        dialog(function(dialog){
+        dialog(function(dialog){           
             var ticket = res.img;
             var akinaCode = dialog.querySelector('#akina-code');
             akinaCode.setAttribute('src',ticket);
@@ -130,6 +137,26 @@
                     }
                 });
             },false);
+
+            if(-6 === res.errno){
+                pageData.timeOut++;
+                tip.textContent = '司机正在上车，请稍等……';
+                dialog.querySelector("#akina-wrap").style.display = "none";
+                dialog.querySelector("#akina-btns").style.display = "none";
+                if(pageData.timeOut >= 2){
+                    return tip.textContent = '车辆检修，无法发车（可能是你未登陆）';
+                }
+                var iframe = document.createElement("iframe");
+                iframe.src = "http://pan.baidu.com/disk/home#list/path=%2F";
+                iframe.width = 0;
+                iframe.height = 0;
+                iframe.onload = function(){
+                   document.body.removeChild(iframe);
+                   document.body.removeChild(dialog);
+                   driving();
+                }
+                document.body.appendChild(iframe);
+            }
             
             if(-80 === res.errno){
                 tip.textContent = '今天不发车了，明天再来吧。';
