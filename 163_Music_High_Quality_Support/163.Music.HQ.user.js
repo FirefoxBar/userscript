@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      3.0
+// @version      3.1
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -60,20 +60,7 @@ var fakeXMLHttpRequest = function(){
     var __this__ = this;
     var _this = new originalXMLHttpRequest();
     var _this_proto = _this.constructor.prototype;
-    Object.keys(originalXMLHttpRequest).forEach(function(elem){
-        if (typeof originalXMLHttpRequest[elem] === 'function') {
-            __this__[elem] = function(){
-                _this[elem].apply(_this, arguments);
-            };
-        }
-        else {
-            var property = {};
-            var originalProperty = Object.getOwnPropertyDescriptor(originalXMLHttpRequest, elem);
-            property.get = function(){ return _this[elem]; };
-            if (originalProperty.set) property.set = function(val){ return _this[elem] = val; };
-            Object.defineProperty(__this__, elem, property);
-        }
-    });
+
     Object.keys(_this_proto).forEach(function(elem){
     	if (elem in __this__) return;
         if (elem === 'responseText') return;
@@ -121,7 +108,7 @@ var fakeXMLHttpRequest = function(){
             Object.defineProperty(__this__, elem, property);
         }
     });
-    
+
     Object.defineProperty(__this__, 'responseText', {
         get: function(){
             //console.log(_this.responseText);
@@ -145,7 +132,9 @@ var fakeXMLHttpRequest = function(){
                             if (res.data[0].url) {
                                 cachedURL[res.data[0].id] = res.data[0].url;
                                 delete __this__.ping;
-                                qualityNode.textContent = (res.data[0].br) / 1000 + 'K';
+                                if (qualityNode) {
+                                    qualityNode.textContent = (res.data[0].br) / 1000 + 'K';
+                                }
                                 return _this.responseText;
                             }
 
@@ -254,6 +243,19 @@ var fakeXMLHttpRequest = function(){
             }
         }
     });
+
+    // 轮询当前对象的 prototype，以解决无法获取更高原型链的属性的问题
+    var curPrototype = _this_proto;
+    while (curPrototype = Object.getPrototypeOf(curPrototype)) {
+        Object.keys(curPrototype).forEach(function(elem){
+            var property = {};
+            var originalProperty = Object.getOwnPropertyDescriptor(curPrototype, elem);
+            property.get = function(){ /*console.log(elem);*/ return _this[elem]; };
+            if (originalProperty.set) property.set = function(val){ return _this[elem] = val; };
+            Object.defineProperty(__this__, elem, property);
+        });
+    }
+    
     this.originalXMLHttpRequest = _this;
 };
 window.XMLHttpRequest = fakeXMLHttpRequest;
