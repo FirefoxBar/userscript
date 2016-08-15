@@ -5,7 +5,7 @@
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Akina/Akina.user.js
 // @include     http://tieba.baidu.com/p/*
 // @include     http://tieba.baidu.com/f?*
-// @version     1
+// @version     2
 // @grant       GM_xmlhttpRequest
 // @author      Paltoo Young
 // ==/UserScript==

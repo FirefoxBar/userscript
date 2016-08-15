@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      3.0@unrelease
+// @version      3.1@unrelease
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -60,20 +60,7 @@ var fakeXMLHttpRequest = function(){
     var __this__ = this;
     var _this = new originalXMLHttpRequest();
     var _this_proto = _this.constructor.prototype;
-    Object.keys(originalXMLHttpRequest).forEach(function(elem){
-        if (typeof originalXMLHttpRequest[elem] === 'function') {
-            __this__[elem] = function(){
-                _this[elem].apply(_this, arguments);
-            };
-        }
-        else {
-            var property = {};
-            var originalProperty = Object.getOwnPropertyDescriptor(originalXMLHttpRequest, elem);
-            property.get = function(){ return _this[elem]; };
-            if (originalProperty.set) property.set = function(val){ return _this[elem] = val; };
-            Object.defineProperty(__this__, elem, property);
-        }
-    });
+
     Object.keys(_this_proto).forEach(function(elem){
     	if (elem in __this__) return;
         if (elem === 'responseText') return;
@@ -99,11 +86,18 @@ var fakeXMLHttpRequest = function(){
                 __this__[elem] = function(){
                     //console.log(elem, arguments);
                     //console.log(__this__.ping);
+
+                    // 在发起请求前使用客户端 Cookie 以破解版权验证
+                    setCookies('os=pc');
+
                     if (__this__.requestURL.indexOf('/enhance/player/') >= 0 && __this__.ping) {
                         //__this__.ping.send(arguments[0]);
                         __this__.ping.sendData = arguments[0];
                     }
                     _this[elem].apply(_this, arguments);
+
+                    // 在发起请求后移除客户端 Cookie 以修复部分页面显示异常的问题
+                    revokeCookies('os=pc');
                 };
             }
             else {
@@ -121,7 +115,7 @@ var fakeXMLHttpRequest = function(){
             Object.defineProperty(__this__, elem, property);
         }
     });
-    
+
     Object.defineProperty(__this__, 'responseText', {
         get: function(){
             //console.log(_this.responseText);
@@ -145,7 +139,9 @@ var fakeXMLHttpRequest = function(){
                             if (res.data[0].url) {
                                 cachedURL[res.data[0].id] = res.data[0].url;
                                 delete __this__.ping;
-                                qualityNode.textContent = (res.data[0].br) / 1000 + 'K';
+                                if (qualityNode) {
+                                    qualityNode.textContent = (res.data[0].br) / 1000 + 'K';
+                                }
                                 return _this.responseText;
                             }
 
@@ -313,6 +309,19 @@ var fakeXMLHttpRequest = function(){
             }
         }
     });
+
+    // 轮询当前对象的 prototype，以解决无法获取更高原型链的属性的问题
+    var curPrototype = _this_proto;
+    while (curPrototype = Object.getPrototypeOf(curPrototype)) {
+        Object.keys(curPrototype).forEach(function(elem){
+            var property = {};
+            var originalProperty = Object.getOwnPropertyDescriptor(curPrototype, elem);
+            property.get = function(){ /*console.log(elem);*/ return _this[elem]; };
+            if (originalProperty.set) property.set = function(val){ return _this[elem] = val; };
+            Object.defineProperty(__this__, elem, property);
+        });
+    }
+    
     this.originalXMLHttpRequest = _this;
 };
 window.XMLHttpRequest = fakeXMLHttpRequest;
@@ -359,3 +368,23 @@ var quailtyInsertHandler = function() {
 };
 
 document.addEventListener('DOMContentLoaded', quailtyInsertHandler, false);
+
+// 使用客户端 Cookie 破解版权限制
+
+var setCookies = function(cookies) {
+    var cookieList = cookies.split(/;\s*?/);
+    if (cookieList.length < 1) return;
+    for (var i = 0; i < cookieList.length; i++) {
+        document.cookie = cookieList[i];
+    }
+};
+
+var revokeCookies = function(cookies) {
+    var cookieList = cookies.split(/;\s*?/);
+    if (cookieList.length < 1) return;
+    for (var i = 0; i < cookieList.length; i++) {
+        document.cookie = cookieList[i] + '; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+    }
+};
+
+//setCookies('os=pc; osver=Microsoft-Windows-10-Professional-build-10586-64bit; appver=2.0.3.131777; channel=netease')
