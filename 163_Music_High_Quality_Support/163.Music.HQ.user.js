@@ -97,7 +97,9 @@ var fakeXMLHttpRequest = function(){
                     _this[elem].apply(_this, arguments);
 
                     // 在发起请求后移除客户端 Cookie 以修复部分页面显示异常的问题
-                    revokeCookies('os=pc');
+                    setTimeout(function(){
+                        revokeCookies('os=pc');
+                    }, 0);
                 };
             }
             else {
