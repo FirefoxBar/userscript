@@ -3,8 +3,8 @@
 **\* WARNING: 这是一个不会正式公开发布的版本，若您获得了该分支下的源码，请不要广泛传播**
 
 ## 安装
-- [Install From GitHub](https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player/163_Music_HTML5_Player.user.js)
-- [Install From GreasyFork](https://greasyfork.org/zh-CN/scripts/10582/)
+- [Install From GitHub](https://github.com/FirefoxBar/userscript/raw/163HQ%40unrelease/163_Music_High_Quality_Support/163.Music.HQ.user.js)
+- ~~[Install From GreasyFork](https://greasyfork.org/zh-CN/scripts/10582/)~~
 
 ## 功能
 去除网页版网易云音乐仅可播放低音质（96/128Kbps）的限制，强制播放高音质版本
