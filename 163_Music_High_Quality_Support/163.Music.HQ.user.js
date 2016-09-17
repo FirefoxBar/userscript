@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      3.1@unrelease
+// @version      3.1.1@unrelease
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -88,7 +88,9 @@ var fakeXMLHttpRequest = function(){
                     //console.log(__this__.ping);
 
                     // 在发起请求前使用客户端 Cookie 以破解版权验证
-                    setCookies('os=pc');
+                    if (/album|song|playlist/.test(__this__.requestURL)) {
+                        setCookies('os=pc');
+                    }
 
                     if (__this__.requestURL.indexOf('/enhance/player/') >= 0 && __this__.ping) {
                         //__this__.ping.send(arguments[0]);
