@@ -12,7 +12,7 @@
 // @run-at              document-end
 // @updateURL      https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version            4
+// @version           5
 // ==/UserScript==
 
 (function() {
@@ -22,9 +22,13 @@
 			GM_xmlhttpRequest({
 				"url": 'http://api.t.sina.com.cn/short_url/shorten.json?source=1681459862&url_long=' + encodeURIComponent(url),
 				"method": 'GET',
+				"timeout": 2000,
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
 					callback(rawParam, response[0].url_short);
+				},
+				"ontimeout": function() {
+					callback(rawParam, '');
 				}
 			});
 		},
@@ -36,9 +40,13 @@
   				"headers": {
   			  		"Content-Type": "application/x-www-form-urlencoded"
  				},
+				"timeout": 2000,
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
 					callback(rawParam, response.tinyurl);
+				},
+				"ontimeout": function() {
+					callback(rawParam, '');
 				}
 			});
 		},
@@ -49,9 +57,13 @@
   				"headers": {
   					"X-Requested-With": "XMLHttpRequest"
  				},
+				"timeout": 2000,
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
 					callback(rawParam, response.url);
+				},
+				"ontimeout": function() {
+					callback(rawParam, '');
 				}
 			});
 		},
@@ -63,9 +75,13 @@
   				"headers": {
   			  		"Content-Type": "application/x-www-form-urlencoded"
  				},
+				"timeout": 2000,
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
 					callback(rawParam, response.url);
+				},
+				"ontimeout": function() {
+					callback(rawParam, '');
 				}
 			});
 		},
@@ -73,9 +89,13 @@
 			GM_xmlhttpRequest({
 				"url": 'http://suo.im/api.php?format=json&url=' + encodeURIComponent(url),
 				"method": 'GET',
+				"timeout": 2000,
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
 					callback(rawParam, response.url);
+				},
+				"ontimeout": function() {
+					callback(rawParam, '');
 				}
 			});
 		},
@@ -83,9 +103,13 @@
 			GM_xmlhttpRequest({
 				"url": 'http://50r.cn/urls/add.json?url=' + encodeURIComponent(url),
 				"method": 'GET',
+				"timeout": 2000,
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
 					callback(rawParam, response.url);
+				},
+				"ontimeout": function() {
+					callback(rawParam, '');
 				}
 			});
 		},
@@ -93,8 +117,12 @@
 			GM_xmlhttpRequest({
 				"url": 'http://6du.in/?is_api=1&lurl=' + encodeURIComponent(url),
 				"method": 'GET',
+				"timeout": 2000,
 				"onload": function(response) {
 					callback(rawParam, response.responseText);
+				},
+				"ontimeout": function() {
+					callback(rawParam, '');
 				}
 			});
 		},
@@ -102,9 +130,13 @@
 			GM_xmlhttpRequest({
 				"url": 'http://980.so/api.php?format=json&url=' + encodeURIComponent(url),
 				"method": 'GET',
+				"timeout": 2000,
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
 					callback(rawParam, response.url);
+				},
+				"ontimeout": function() {
+					callback(rawParam, '');
 				}
 			});
 		}
@@ -237,7 +269,7 @@
 				}
 			});
 		}
-		var close = document.createElement('p');
+		var close = document.createElement('div');
 		close.innerHTML = '<button type="button" class="sy_btn sy_btn_block">关闭</button>';
 		close.querySelector('button').addEventListener('click', function() {
 			this.parentElement.parentElement.style.display = "none";
