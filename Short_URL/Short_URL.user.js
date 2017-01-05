@@ -12,7 +12,7 @@
 // @run-at              document-end
 // @updateURL      https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version     3
+// @version            4
 // ==/UserScript==
 
 (function() {
@@ -78,9 +78,38 @@
 					callback(rawParam, response.url);
 				}
 			});
+		},
+		"fiftyr": function(url, rawParam, callback) {
+			GM_xmlhttpRequest({
+				"url": 'http://50r.cn/urls/add.json?url=' + encodeURIComponent(url),
+				"method": 'GET',
+				"onload": function(response) {
+					response = JSON.parse(response.responseText);
+					callback(rawParam, response.url);
+				}
+			});
+		},
+		"sixdu": function(url, rawParam, callback) {
+			GM_xmlhttpRequest({
+				"url": 'http://6du.in/?is_api=1&lurl=' + encodeURIComponent(url),
+				"method": 'GET',
+				"onload": function(response) {
+					callback(rawParam, response.responseText);
+				}
+			});
+		},
+		"nezso": function(url, rawParam, callback) {
+			GM_xmlhttpRequest({
+				"url": 'http://980.so/api.php?format=json&url=' + encodeURIComponent(url),
+				"method": 'GET',
+				"onload": function(response) {
+					response = JSON.parse(response.responseText);
+					callback(rawParam, response.url);
+				}
+			});
 		}
 	};
-	var apiList = {'sina': '新浪', 'baidu': '百度', 'fourhn': '4HN', 'ni2': 'NI2', 'suoim': '缩我'};
+	var apiList = {'sina': '新浪', 'baidu': '百度', 'fourhn': '4HN', 'ni2': 'NI2', 'suoim': '缩我', 'fiftyr': '50r', 'sixdu': '六度', 'nezso': '980so'};
 	//界面
 	var css = '\
 	.sy_shorturl_main {\
@@ -90,9 +119,9 @@
 		background-color: #FFF;\
 		border: 1px solid #CCC;\
 		border-radius: 5px;\
-		height: 290px;\
-		width: 400px;\
-		margin: -145px -200px;\
+		height: 246px;\
+		width: 660px;\
+		margin: -123px -330px;\
 		box-shadow: 0 0 10px #CCC;\
 		padding: 15px;\
 		box-sizing: border-box;\
@@ -100,13 +129,15 @@
 		z-index: 9999;\
 		color: #000;\
 	}\
-	.sy_shorturl_main p {\
+	.sy_shorturl_main .sy_item {\
+		width: 314px;\
 		margin-bottom: 10px;\
 		font-size: 15px;\
+		display: inline-block;\
 	}\
 	.sy_shorturl_main .sy_name {\
 		display: inline-block;\
-		width: 38px;\
+		width: 40px;\
 	}\
 	.sy_shorturl_main .sy_btn {\
 		display:inline-block;\
@@ -150,7 +181,7 @@
 	}\
 	.sy_shorturl_main .input {\
 		display: inline-block;\
-		width: 260px;\
+		width: 200px;\
 		height:34px;\
 		padding:6px 12px;\
 		font-size:14px;\
@@ -187,8 +218,8 @@
 		mainDiv.innerHTML = '';
 		var el = {};
 		for (var i in apiList) {
-			el[i] = document.createElement('p');
-			el[i].setAttribute('class', 'sy_shorturl_p_' + i);
+			el[i] = document.createElement('div');
+			el[i].setAttribute('class', 'sy_item');
 			el[i].innerHTML = '<span class="sy_name">' + apiList[i] + '</span><input type="text" class="input" placeholder="请稍候"><button type="button" class="sy_btn" disabled>复制</button>';
 			mainDiv.appendChild(el[i]);
 			apis[i](window.location.href, el[i], function(rawParam, result) {
