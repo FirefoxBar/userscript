@@ -49,6 +49,13 @@
 		"description": "在访问莆田系医院的网站时提醒用户"
 	},
 	{
+		"name": "Short URL",
+		"version": "1",
+		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Short_URL",
+		"description": "短网址生成"
+	},
+	{
 		"name": "Straight Baidu",
 		"version": "1",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Straight_Baidu/Straight_Baidu.user.js",
