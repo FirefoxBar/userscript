@@ -73,6 +73,8 @@
 		padding: 15px;\
 		box-sizing: border-box;\
 		display: none;\
+		z-index: 9999;\
+		color: #000;\
 	}\
 	.sy_shorturl_main p {\
 		margin-bottom: 10px;\
