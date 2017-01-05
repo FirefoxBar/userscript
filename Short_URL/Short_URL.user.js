@@ -12,7 +12,7 @@
 // @run-at              document-end
 // @updateURL      https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version     1
+// @version     2
 // ==/UserScript==
 
 (function() {
@@ -33,8 +33,8 @@
 				"url": 'http://dwz.cn/create.php',
 				"method": 'POST',
 				"data": 'url=' + encodeURIComponent(url),
-  			"headers": {
-  			  "Content-Type": "application/x-www-form-urlencoded"
+  				"headers": {
+  			  		"Content-Type": "application/x-www-form-urlencoded"
  				},
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
@@ -54,9 +54,33 @@
 					callback(rawParam, response.url);
 				}
 			});
+		},
+		"ni2": function(url, rawParam, callback) {
+			GM_xmlhttpRequest({
+				"url": 'http://ni2.org/api/create.json',
+				"method": 'POST',
+				"data": 'url=' + encodeURIComponent(url),
+  				"headers": {
+  			  		"Content-Type": "application/x-www-form-urlencoded"
+ 				},
+				"onload": function(response) {
+					response = JSON.parse(response.responseText);
+					callback(rawParam, response.url);
+				}
+			});
+		},
+		"suoim": function(url, rawParam, callback) {
+			GM_xmlhttpRequest({
+				"url": 'http://suo.im/api.php?format=json&url=' + encodeURIComponent(url),
+				"method": 'GET',
+				"onload": function(response) {
+					response = JSON.parse(response.responseText);
+					callback(rawParam, response.url);
+				}
+			});
 		}
 	};
-	var apiList = {'sina': '新浪', 'baidu': '百度', 'fourhn': '4HN'};
+	var apiList = {'sina': '新浪', 'baidu': '百度', 'fourhn': '4HN', 'ni2': 'NI2', 'suoim': '缩我'};
 	//界面
 	var css = '\
 	.sy_shorturl_main {\
@@ -66,9 +90,9 @@
 		background-color: #FFF;\
 		border: 1px solid #CCC;\
 		border-radius: 5px;\
-		height: 200px;\
+		height: 290px;\
 		width: 400px;\
-		margin: -100px -200px;\
+		margin: -145px -200px;\
 		box-shadow: 0 0 10px #CCC;\
 		padding: 15px;\
 		box-sizing: border-box;\
@@ -79,6 +103,10 @@
 	.sy_shorturl_main p {\
 		margin-bottom: 10px;\
 		font-size: 15px;\
+	}\
+	.sy_shorturl_main .sy_name {\
+		display: inline-block;\
+		width: 38px;\
 	}\
 	.sy_shorturl_main .sy_btn {\
 		display:inline-block;\
@@ -159,7 +187,7 @@
 		for (var i in apiList) {
 			el[i] = document.createElement('p');
 			el[i].setAttribute('class', 'sy_shorturl_p_' + i);
-			el[i].innerHTML = apiList[i] + '<input type="text" class="input" placeholder="请稍候"><button type="button" class="sy_btn" disabled>复制</button>';
+			el[i].innerHTML = '<span class="sy_name">' + apiList[i] + '</span><input type="text" class="input" placeholder="请稍候"><button type="button" class="sy_btn" disabled>复制</button>';
 			mainDiv.appendChild(el[i]);
 			apis[i](window.location.href, el[i], function(rawParam, result) {
 				if (result === undefined || result === '') {

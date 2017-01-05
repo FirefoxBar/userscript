@@ -50,7 +50,7 @@
 	},
 	{
 		"name": "Short URL",
-		"version": "1",
+		"version": "2",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Short_URL",
 		"description": "短网址生成"
