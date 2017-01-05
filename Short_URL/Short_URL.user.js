@@ -12,7 +12,7 @@
 // @run-at              document-end
 // @updateURL      https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version           5
+// @version            6
 // ==/UserScript==
 
 (function() {
@@ -236,12 +236,13 @@
 		box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)\
 	}';
 	GM_addStyle(css);
+	var body = document.getElementsByTagName('body')[0];
 	var main = document.createElement('div');
 	main.setAttribute('id', 'sy_shorturl_main');
 	main.setAttribute('class', 'sy_shorturl_main');
-	document.getElementsByTagName('body')[0].appendChild(main);
+	body.appendChild(main);
 	//主要事件调用
-	GM_registerMenuCommand('生成短网址', function() {
+	var createUrl = function() {
 		var mainDiv = document.getElementById('sy_shorturl_main');
 		if (main.getAttribute('data-url') === window.location.href) {
 			mainDiv.style.display = "block";
@@ -277,5 +278,23 @@
 		mainDiv.appendChild(close);
 		mainDiv.setAttribute('data-url', window.location.href);
 		mainDiv.style.display = "block";
-	});
+	};
+	//绑定按钮啥的
+	GM_registerMenuCommand('生成短网址', createUrl), false;
+	//HTML5添加网页右键菜单
+	if (body.getAttribute('contextmenu') === null) {
+		body.setAttribute('contextmenu','popup-menu');
+		var rclickMenu = document.createElement('menu');
+		rclickMenu.setAttribute('type','context');
+		rclickMenu.setAttribute('id', 'popup-menu');
+		body.appendChild(rclickMenu);
+	} else {
+		var rclickMenu = document.getElementById(body.getAttribute('contextmenu'));
+	}
+	var imenu = document.createElement('menuitem');
+	imenu.setAttribute("id", 'sy_shorturl');	
+	imenu.setAttribute('label', '生成短网址');
+	imenu.innerHTML = '生成短网址';
+	rclickMenu.appendChild(imenu);
+	imenu.addEventListener("click", createUrl, false);
 })();
