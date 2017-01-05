@@ -12,7 +12,7 @@
 // @run-at              document-end
 // @updateURL      https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version     2
+// @version     3
 // ==/UserScript==
 
 (function() {
@@ -46,8 +46,8 @@
 			GM_xmlhttpRequest({
 				"url": 'http://4.hn/?url=' + encodeURIComponent(url),
 				"method": 'GET',
-  			"headers": {
-  			  "X-Requested-With": "XMLHttpRequest"
+  				"headers": {
+  					"X-Requested-With": "XMLHttpRequest"
  				},
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
@@ -122,6 +122,8 @@
 		background-color:#428bca;\
 		border-color:#357ebd;\
 		text-align: center;\
+		background-image: none;\
+		box-sizing: border-box;\
 	}\
 	.sy_shorturl_main .sy_btn:hover,\
 	.sy_shorturl_main .sy_btn:active {\
