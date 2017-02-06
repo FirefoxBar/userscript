@@ -92,7 +92,7 @@
 	},
 	{
 		"name": "Tieba Quick Reply",
-		"version": "0.3",
+		"version": "0.4",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Quick_Reply/Tieba_Quick_Reply.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Tieba_Quick_Reply",
 		"description": "贴吧列表页快速回复。"
