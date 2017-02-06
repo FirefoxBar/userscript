@@ -102,7 +102,7 @@
         .find(".tb_alert_message")
         .before("<a id='add_reply'>+</a><input id='reply_text' class='reply_text' placeholder='回复内容'>")
 		.next()
-		.prepend('<a id="reply_btn" class="ui_btn ui_btn_m j_btn"><span><em>发表</em></span></a>');
+		.prepend('<a id="reply_btn" class="btn_default btn_middle"><span><em>发表</em></span></a>');
     });
     
     $(document.body).on("click","#home_reply li a",function(e){
