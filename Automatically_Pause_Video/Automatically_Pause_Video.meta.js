@@ -13,7 +13,8 @@
 // @include     http://vod.kankan.com/*
 // @include     http://pan.baidu.com/play/*
 // @include     http://www.56.com/*
-// @version     0.1
+// @include     http://www.bilibili.com/*
+// @version     0.2
 // @grant       none
 // @author		网络中二行客
 // ==/UserScript==
