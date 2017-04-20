@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      3.1
+// @version      3.2
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -16,18 +16,18 @@
 // getTrackURL 源码来自 Chrome 扩展程序 网易云音乐增强器(Netease Music Enhancement) by wanmingtom@gmail.com
 // 菊苣这个加密算法你是怎么知道的 _(:3
 var getTrackURL = function getTrackURL (dfsId) {
-    var byte1 = '3' + 'g' + 'o' + '8' + '&' + '$' + '8' + '*' + '3' 
-        + '*' + '3' + 'h' + '0' + 'k' + '(' + '2' + ')' + '2';
+    var byte1 = '3' + 'g' + 'o' + '8' + '&' + '$' + '8' + '*' + '3' + 
+                '*' + '3' + 'h' + '0' + 'k' + '(' + '2' + ')' + '2';
     var byte1Length = byte1.length;
     var byte2 = dfsId + '';
     var byte2Length = byte2.length;
     var byte3 = [];
     for (var i = 0; i < byte2Length; i++) {
         byte3[i] = byte2.charCodeAt(i) ^ byte1.charCodeAt(i % byte1Length);
-    };
+    }
 
     byte3 = byte3.map(function(i) {
-        return String.fromCharCode(i)
+        return String.fromCharCode(i);
     }).join('');
 
     results = CryptoJS.MD5(byte3).toString(CryptoJS.enc.Base64);
@@ -58,134 +58,156 @@ var qualityNode = null;
 var originalXMLHttpRequest = window.XMLHttpRequest;
 var fakeXMLHttpRequest = function(){
     var __this__ = this;
-    var _this = new originalXMLHttpRequest();
-    var _this_proto = _this.constructor.prototype;
+    var xhr = new originalXMLHttpRequest();
+    var xhrProto = xhr.constructor.prototype;
 
-    Object.keys(_this_proto).forEach(function(elem){
+    Object.keys(xhrProto).forEach(function(elem){
     	if (elem in __this__) return;
         if (elem === 'responseText') return;
-        if (typeof _this[elem] === 'function') {
+
+        if (typeof xhr[elem] === 'function') {
             if (elem === 'open') { // add requestURL support
                 __this__[elem] = function(){
-                    //console.log(elem, arguments);
                     if (arguments[1].indexOf('/enhance/player/') >= 0) {
                         // 对新版 api 请求旧的 api 接口
                         __this__.ping = new fakeXMLHttpRequest();
                         __this__.ping.open(arguments[0], arguments[1].replace('/enhance/player/url', '/detail'), false); // 不使用异步 xhr 以阻断原 xhr 请求
                         __this__.ping.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     }
-                    _this[elem].apply(_this, arguments);
+                    xhr[elem].apply(xhr, arguments);
                     __this__.requestURL = arguments[1];
-                    /*
-                    if (arguments[1].indexOf('/enhance/player/')) {
-                        arguments[1] = arguments[1].replace('/enhance/player/url', '/detail');
-                    }*/
                 };
             }
             else if (elem === 'send') { // add requestURL support
                 __this__[elem] = function(){
-                    //console.log(elem, arguments);
-                    //console.log(__this__.ping);
                     if (__this__.requestURL.indexOf('/enhance/player/') >= 0 && __this__.ping) {
                         //__this__.ping.send(arguments[0]);
                         __this__.ping.sendData = arguments[0];
                     }
-                    _this[elem].apply(_this, arguments);
+                    xhr[elem].apply(xhr, arguments);
                 };
             }
             else {
                 __this__[elem] = function(){
-                    //console.log(elem, arguments);
-                    _this[elem].apply(_this, arguments);
+                    xhr[elem].apply(xhr, arguments);
                 };
             }
         }
         else {
             var property = {};
-            var originalProperty = Object.getOwnPropertyDescriptor(_this_proto, elem);
-            property.get = function(){ /*console.log(elem);*/ return _this[elem]; };
-            if (originalProperty.set) property.set = function(val){ return _this[elem] = val; };
+            var originalProperty = Object.getOwnPropertyDescriptor(xhrProto, elem);
+            property.get = function(){ /*console.log(elem);*/ return xhr[elem]; };
+            if (originalProperty.set) property.set = function(val){ return xhr[elem] = val; };
             Object.defineProperty(__this__, elem, property);
         }
     });
 
     Object.defineProperty(__this__, 'responseText', {
         get: function(){
-            //console.log(_this.responseText);
-            //console.log('Request URL: ' + __this__.requestURL);
             try {
-                if (__this__.requestURL.indexOf('/weapi/') < 0 && __this__.requestURL.indexOf('/api/') < 0) return _this.responseText;
+                if (__this__.requestURL.indexOf('/weapi/') < 0 && __this__.requestURL.indexOf('/api/') < 0) {
+                    return xhr.responseText;
+                }
                 var action = __this__.requestURL.split(/\/(?:we)?api\//)[1].split('?')[0].split('/');
+                var res = JSON.parse(xhr.responseText);
+
                 switch (action[0]) {
                     case 'album':
-                        var res = JSON.parse(_this.responseText);
                         modifyURL(res.album.songs);
                         return JSON.stringify(res);
-                        break;
+                        
                     case 'song':
                         if (action[1] !== 'detail') {
-                            if (action[1] !== 'enhance' && action[2] !== 'player' && action[3] !== 'url') return _this.responseText;
-                            var res = JSON.parse(_this.responseText);
+                            if (action[1] !== 'enhance' && action[2] !== 'player' && action[3] !== 'url') {
+                                return xhr.responseText;
+                            }
+
+                            // 给黄易节省带宽，优先调用缓存的 URL
+                            if (cachedURL[res.data[0].id] && new Date() < cachedURL[res.data[0].id].expires) {
+                                res.data[0].url = cachedURL[res.data[0].id].url;
+                                delete __this__.ping;
+                                if (qualityNode) {
+                                    qualityNode.textContent = cachedURL[res.data[0].id].quality / 1000 + 'K';
+                                }
+                                return JSON.stringify(res);
+                            }
+                            
+                            // 缓存超时了再用新的 URL
+                            // 其实实际 CDN 超时实践并不是那个 `expi`，而是 URL 的 path 的第一个字段
+                            // 不过不知道后期会不会改变，以及这个 path 的时间戳可能是基于 GMT+8
+                            // 为了减少复杂度，就用 `expi` 了，不过实际上真正的可用时间是远高于 `expi` 的
 
                             // 因为新版 API 已经返回的是高音质版本，所以不需要再请求旧的 API
                             // 如果返回地址为 null 再尝试获取旧版 API
                             if (res.data[0].url) {
-                                cachedURL[res.data[0].id] = res.data[0].url;
+                                cachedURL[res.data[0].id] = {
+                                    url: res.data[0].url,
+                                    quality: res.data[0].br,
+                                    expires: res.data[0].expi * 1000 + new Date().getTime()
+                                };
                                 delete __this__.ping;
                                 if (qualityNode) {
                                     qualityNode.textContent = (res.data[0].br) / 1000 + 'K';
                                 }
-                                return _this.responseText;
+                                return xhr.responseText;
                             }
 
-                            //if (__this__.ping) res.data[0].url = JSON.parse(__this__.ping.responseText).songs[0].mp3Url; // 替换旧版 api 的 url
-                            if (!cachedURL[res.data[0].id]) { // 若未缓存再请求原始 api
+                            if (!cachedURL[res.data[0].id]) { // 若未缓存，且新 API 没有音质再请求原始 api
                                 __this__.ping.send(__this__.ping.sendData);
-                                cachedURL[res.data[0].id] = JSON.parse(__this__.ping.responseText).songs[0].mp3Url;
+                                // 因为使用了同步 xhr 所以请求会被阻塞，下面的代码相当于回调
+                                // 其实获取到 pingRes 时已经是对本函数的一次执行了，qualityNode 不需要再更改
+                                var pingRes = JSON.parse(__this__.ping.responseText);
+                                cachedURL[res.data[0].id] = {
+                                    url: pingRes.songs[0].mp3Url,
+                                    quality: (res.songs[0].hMusic ? res.songs[0].hMusic.bitrate : res.songs[0].mMusic ? res.songs[0].mMusic.bitrate : res.songs[0].lMusic.bitrate),
+                                    expires: Infinity // 旧版 API URL 永不超时
+                                };
                             }
                             res.data[0].url = cachedURL[res.data[0].id];
                             return JSON.stringify(res);
                         }
-                        var res = JSON.parse(_this.responseText);
+                        
+                        // 这里是处理旧版 API 的部分
                         modifyURL(res.songs);
                         if (qualityNode) {
                             qualityNode.textContent = (res.songs[0].hMusic ? res.songs[0].hMusic.bitrate : res.songs[0].mMusic ? res.songs[0].mMusic.bitrate : res.songs[0].lMusic.bitrate) / 1000 + 'K';
                         }
                         return JSON.stringify(res);
-                        break;
+                        
                     case 'playlist':
-                        if (action[1] !== 'detail') return _this.responseText;
-                        var res = JSON.parse(_this.responseText);
+                        if (action[1] !== 'detail') {
+                            return xhr.responseText;
+                        }
+                        
                         modifyURL(res.result.tracks);
                         return JSON.stringify(res);
-                        break;
+                        
                     case 'dj':
                         if (action[2] === 'byradio') {
-                            var res = JSON.parse(_this.responseText);
                             modifyURL(res.programs, 'mainSong');
                             return JSON.stringify(res);
                         }
-                        else if (action[2] === 'detail') {
-                            var res = JSON.parse(_this.responseText);
+                        if (action[2] === 'detail') {
                             res.program = modifyURL([res.program], 'mainSong')[0];
                             return JSON.stringify(res);
                         }
-                        else return _this.responseText;
-                        break;
+                        return xhr.responseText;
+
                     case 'radio':
                         if (action[1] === 'get') {
-                            var res = JSON.parse(_this.responseText);
                             modifyURL(res.data);
                             return JSON.stringify(res);
                         }
-                        else return _this.responseText;
-                        break;
+                        return xhr.responseText;
+                        
                     case 'v3':
                         switch (action[1]){
                             // http://music.163.com/weapi/v3/playlist/detail
                             case 'playlist':
-                                if (action[2] !== 'detail') return _this.responseText;
-                                var res = JSON.parse(_this.responseText);
+                                if (action[2] !== 'detail') {
+                                    return xhr.responseText;
+                                }
+
                                 res.privileges.forEach(function(elem){
                                     var q = elem.pl || elem.dl || elem.fl || Math.min(elem.maxbr, 320000) || 320000;
                                     elem.st = 0;
@@ -213,12 +235,13 @@ var fakeXMLHttpRequest = function(){
                                         });
                                     }
                                 }
-                                //console.log(res);
                                 return JSON.stringify(res);
-                                break;
+                                
                             case 'song':
-                                if (action[2] !== 'detail') return _this.responseText;
-                                var res = JSON.parse(_this.responseText);
+                                if (action[2] !== 'detail') {
+                                    return xhr.responseText;
+                                }
+
                                 res.privileges.forEach(function(elem){
                                     var q = elem.pl || elem.dl || elem.fl || Math.min(elem.maxbr, 320000) || 320000;
                                     elem.st = 0;
@@ -227,36 +250,36 @@ var fakeXMLHttpRequest = function(){
                                     elem.fl = q;
                                 });
                                 return JSON.stringify(res);
-                                break;
+                                
                             default:
-                                return _this.responseText;
+                                return xhr.responseText;
                         }
                         break;
                     default:
-                        return _this.responseText;
+                        return xhr.responseText;
                 }
             }
             catch (error) {
                 // 以防 api 转换失败也能正常返回数据
                 console.error('转换出错！', error);
-                return _this.responseText;
+                return xhr.responseText;
             }
         }
     });
 
     // 轮询当前对象的 prototype，以解决无法获取更高原型链的属性的问题
-    var curPrototype = _this_proto;
+    var curPrototype = xhrProto;
     while (curPrototype = Object.getPrototypeOf(curPrototype)) {
         Object.keys(curPrototype).forEach(function(elem){
             var property = {};
             var originalProperty = Object.getOwnPropertyDescriptor(curPrototype, elem);
-            property.get = function(){ /*console.log(elem);*/ return _this[elem]; };
-            if (originalProperty.set) property.set = function(val){ return _this[elem] = val; };
+            property.get = function(){ /*console.log(elem);*/ return xhr[elem]; };
+            if (originalProperty.set) property.set = function(val){ return xhr[elem] = val; };
             Object.defineProperty(__this__, elem, property);
         });
     }
     
-    this.originalXMLHttpRequest = _this;
+    this.originalXMLHttpRequest = xhr;
 };
 window.XMLHttpRequest = fakeXMLHttpRequest;
 
@@ -282,7 +305,6 @@ else {
             return fake_asrsea;
         },
         set: function(val) {
-            //console.log(val);
             original_asrsea = val;
         }
     });
@@ -290,7 +312,6 @@ else {
 
 
 var quailtyInsertHandler = function() {
-
     var target = document.querySelector('.m-pbar');
     if (target) {
         qualityNode = document.createElement('span');
