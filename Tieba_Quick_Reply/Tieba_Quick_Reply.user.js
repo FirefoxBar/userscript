@@ -5,14 +5,14 @@
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Tieba_Quick_Reply/Tieba_Quick_Reply.user.js
 // @include     http://tieba.baidu.com/f?*
 // @grant       none
-// @version     0.3
+// @version     0.4
 // @author      网络中二行客
 // ==/UserScript==
 
 ;(function($,PageData){
     const
-        kw = PageData.forum.forum_name,
-        fid = PageData.forum.forum_id,
+        kw = PageData.forum.name,
+        fid = PageData.forum.id,
         url = "http://tieba.baidu.com/f/commit/post/add",
         tbs = PageData.tbs,
         replyContent = ["文科大法好！"],
@@ -102,7 +102,7 @@
         .find(".tb_alert_message")
         .before("<a id='add_reply'>+</a><input id='reply_text' class='reply_text' placeholder='回复内容'>")
 		.next()
-		.prepend('<a id="reply_btn" class="ui_btn ui_btn_m j_btn"><span><em>发表</em></span></a>');
+		.prepend('<a id="reply_btn" class="btn_default btn_middle"><span><em>发表</em></span></a>');
     });
     
     $(document.body).on("click","#home_reply li a",function(e){

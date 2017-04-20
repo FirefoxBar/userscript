@@ -3,4 +3,4 @@
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Tieba_Quick_Reply/Tieba_Quick_Reply.user.js)
 * 点击帖子列表左侧的回复数量，可弹出回复窗口。
 * author: 网络中二行客
-* version: 0.3
+* version: 0.4

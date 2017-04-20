@@ -15,7 +15,7 @@
 	},
 	{
 		"name": "Akina",
-		"version": "2",
+		"version": "2.0.3",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Akina/Akina.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Akina",
 		"description": "访问指定用户的百度网盘和百度相册"
@@ -47,6 +47,13 @@
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Putian_Warning/Putian_Warning.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Putian_Warning",
 		"description": "在访问莆田系医院的网站时提醒用户"
+	},
+	{
+		"name": "Short URL",
+		"version": "8",
+		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Short_URL",
+		"description": "短网址生成"
 	},
 	{
 		"name": "Straight Baidu",
@@ -85,7 +92,7 @@
 	},
 	{
 		"name": "Tieba Quick Reply",
-		"version": "0.3",
+		"version": "0.4",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Quick_Reply/Tieba_Quick_Reply.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Tieba_Quick_Reply",
 		"description": "贴吧列表页快速回复。"
