@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      3.2
+// @version      3.3
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -45,8 +45,8 @@ var modifyURL = function modifyURL(data, parentKey) {
     console.log('施放魔法！变变变！');
     data.forEach(function(elem){
         // 部分音乐没有高音质
-        if (!parentKey) elem.mp3Url = getTrackURL(elem.hMusic ? elem.hMusic.dfsId : elem.mMusic ? elem.mMusic.dfsId : elem.lMusic.dfsId);
-        else elem[parentKey].mp3Url = getTrackURL(elem[parentKey].hMusic ? elem.hMusic[parentKey].dfsId : elem[parentKey].mMusic ? elem.mMusic[parentKey].dfsId : elem.lMusic[parentKey].dfsId);
+        if (!parentKey) elem.mp3Url = getTrackURL((elem.hMusic || elem.mMusic || elem.lMusic).dfsId);
+        else elem[parentKey].mp3Url = getTrackURL((elem[parentKey].hMusic || elem[parentKey].mMusic || elem.lMusic[parentKey]).dfsId);
     });
     return data;
 };
@@ -153,24 +153,26 @@ var fakeXMLHttpRequest = function(){
                             }
 
                             if (!cachedURL[res.data[0].id]) { // 若未缓存，且新 API 没有音质再请求原始 api
+                                console.log('新版 API 未返回 URL，fallback 至旧版 API');
                                 __this__.ping.send(__this__.ping.sendData);
                                 // 因为使用了同步 xhr 所以请求会被阻塞，下面的代码相当于回调
                                 // 其实获取到 pingRes 时已经是对本函数的一次执行了，qualityNode 不需要再更改
                                 var pingRes = JSON.parse(__this__.ping.responseText);
+                                var pingResSong = pingRes.songs[0];
                                 cachedURL[res.data[0].id] = {
                                     url: pingRes.songs[0].mp3Url,
-                                    quality: (res.songs[0].hMusic ? res.songs[0].hMusic.bitrate : res.songs[0].mMusic ? res.songs[0].mMusic.bitrate : res.songs[0].lMusic.bitrate),
+                                    quality: (pingResSong.hMusic || pingResSong.h || pingResSong.mMusic || pingResSong.m || pingResSong.lMusic || pingResSong.l).bitrate,
                                     expires: Infinity // 旧版 API URL 永不超时
                                 };
                             }
-                            res.data[0].url = cachedURL[res.data[0].id];
+                            res.data[0].url = cachedURL[res.data[0].id].url;
                             return JSON.stringify(res);
                         }
                         
                         // 这里是处理旧版 API 的部分
                         modifyURL(res.songs);
                         if (qualityNode) {
-                            qualityNode.textContent = (res.songs[0].hMusic ? res.songs[0].hMusic.bitrate : res.songs[0].mMusic ? res.songs[0].mMusic.bitrate : res.songs[0].lMusic.bitrate) / 1000 + 'K';
+                            qualityNode.textContent = (res.songs[0].hMusic || res.songs[0].h || res.songs[0].mMusic || res.songs[0].m || res.songs[0].lMusic || res.songs[0].l).bitrate / 1000 + 'K';
                         }
                         return JSON.stringify(res);
                         
@@ -218,7 +220,7 @@ var fakeXMLHttpRequest = function(){
                                 if (res.privileges.length < res.playlist.trackIds.length && res.playlist.trackIds.length === res.playlist.tracks.length) {
                                     // 对超过 1000 的播放列表补充播放信息（需魔改 core.js）
                                     for (var i = res.privileges.length; i < res.playlist.trackIds.length; i++) {
-                                        var q = res.playlist.tracks.h ? res.playlist.tracks.h.br : res.playlist.tracks.m ? res.playlist.tracks.m.br : res.playlist.tracks.l ? res.playlist.tracks.l.br : res.playlist.tracks.a ? res.playlist.tracks.a.br : 320000;
+                                        var q = (res.playlist.tracks.h || res.playlist.tracks.m || res.playlist.tracks.l || res.playlist.tracks.a).br || 320000;
                                         res.privileges.push({
                                             cp: 1,
                                             cs: false,
