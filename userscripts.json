@@ -1,7 +1,7 @@
 [
 	{
 		"name": "163 Music High Quality Support",
-		"version": "2.4",
+		"version": "3.3",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/163_Music_High_Quality_Support/163.Music.HQ.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/163_Music_High_Quality_Support",
 		"description": "去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本"
@@ -15,10 +15,10 @@
 	},
 	{
 		"name": "Akina",
-		"version": "2.0.3",
+		"version": "2.0.4",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Akina/Akina.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Akina",
-		"description": "访问指定用户的百度网盘和百度相册"
+		"description": "访问指定用户的百度网盘"
 	},
 	{
 		"name": "Automatically Pause Video",

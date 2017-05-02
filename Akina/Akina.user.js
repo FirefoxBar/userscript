@@ -5,7 +5,7 @@
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Akina/Akina.user.js
 // @include     /https?:\/\/tieba\.baidu\.com\/p.*/
 // @include     /https?:\/\/tieba\.baidu\.com\/f.*/
-// @version     2.0.3
+// @version     2.0.4
 // @grant       GM_xmlhttpRequest
 // @author      Paltoo Young
 // ==/UserScript==
@@ -20,7 +20,6 @@
     postList.addEventListener('click',function(e){
         var target = e.target;
         'l_badge' === target.className && depart(e,'disk');
-        'p_badge' === target.className && depart(e,'album');
     });
     
     var pageData = {
@@ -35,10 +34,6 @@
         if(document.querySelector('#akina-pop')) return;
         if(r === 'disk'){
             var parentNode = e.target.parentNode;
-        }
-        if(r === 'album'){
-            var parentNode = e.target.parentNode.parentNode;
-            pageData.jump = 'http://xiangce.baidu.com/u/';
         }
         pageData.un = JSON.parse(parentNode.querySelector('.p_author_name').dataset.field).un;
         pageData.oldDriver = parentNode.querySelector('.p_author_face img');
@@ -166,22 +161,16 @@
         });
     }
     
-})('.l_badge::before,.p_badge::before {\
-    background: rgba(0, 0, 0, 0) url(\"http://pan.baidu.com/box-static/disk-system/images/favicon.ico") no-repeat scroll center 2px / 15px auto;\
-    color: #b0b0b0;\
+})('.l_badge::before {\
     content: "";\
+    background: url(\"http://pan.baidu.com/box-static/disk-system/images/favicon.ico");\
+    background-size:cover;\
     position: absolute;\
-    top: 35px;\
-    left: 20px;\
+    top: -56px;\
+    left: 24px;\
     cursor: pointer;\
-    display: inline-block;\
     height: 15px;\
-    padding-left: 5px;\
     width: 15px;\
-    }\
-    .p_badge::before {\
-        background: rgba(0, 0, 0, 0) url("http://tb2.bdstatic.com/xiangce/webroot/static/common/widget/global_user_nav/images/spr_ext_ico_533cd59.png") no-repeat scroll 0 0;\
-        left: 43px;\
     }\
     #akina-text{\
         width: 100px;\
