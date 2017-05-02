@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      3.2@unrelease
+// @version      3.2.1@unrelease
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -89,7 +89,7 @@ var fakeXMLHttpRequest = function(){
                         //__this__.ping.send(arguments[0]);
                         __this__.ping.sendData = arguments[0];
                     }
-                    _this[elem].apply(_this, arguments);
+                    xhr[elem].apply(xhr, arguments);
 
                     // 在发起请求后移除客户端 Cookie 以修复部分页面显示异常的问题
                     setTimeout(function(){
@@ -271,8 +271,8 @@ var fakeXMLHttpRequest = function(){
                             // http://music.163.com/api/v2/song/detail
                             // PC 端 API，破解版权，备用
                             case 'song':
-                                if (action[2] !== 'detail') return _this.responseText;
-                                var res = JSON.parse(_this.responseText);
+                                if (action[2] !== 'detail') return xhr.responseText;
+                                var res = JSON.parse(xhr.responseText);
 
                                 console.log(res);
 
@@ -321,7 +321,7 @@ var fakeXMLHttpRequest = function(){
 
                                 return JSON.stringify(res);
                             default:
-                                return _this.responseText;
+                                return xhr.responseText;
                         }
                         break;
                     default:
