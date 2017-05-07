@@ -13,7 +13,7 @@
 // @run-at              document-end
 // @updateURL      https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version            8
+// @version            9
 // ==/UserScript==
 
 (function() {
@@ -283,20 +283,22 @@
 	//绑定按钮啥的
 	GM_registerMenuCommand('生成短网址', createUrl);
 	//HTML5添加网页右键菜单
-	var rclickMenu;
-	if (body.getAttribute('contextmenu') === null) {
-		body.setAttribute('contextmenu','popup-menu');
-		rclickMenu = document.createElement('menu');
-		rclickMenu.setAttribute('type','context');
-		rclickMenu.setAttribute('id', 'popup-menu');
-		body.appendChild(rclickMenu);
-	} else {
-		rclickMenu = document.getElementById(body.getAttribute('contextmenu'));
+	if (window.top === window.self) {
+		var rclickMenu;
+		if (body.getAttribute('contextmenu') === null) {
+			body.setAttribute('contextmenu','popup-menu');
+			rclickMenu = document.createElement('menu');
+			rclickMenu.setAttribute('type','context');
+			rclickMenu.setAttribute('id', 'popup-menu');
+			body.appendChild(rclickMenu);
+		} else {
+			rclickMenu = document.getElementById(body.getAttribute('contextmenu'));
+		}
+		var imenu = document.createElement('menuitem');
+		imenu.setAttribute("id", 'sy_shorturl');
+		imenu.setAttribute('label', '生成短网址');
+		imenu.innerHTML = '生成短网址';
+		rclickMenu.appendChild(imenu);
+		imenu.addEventListener("click", createUrl, false);
 	}
-	var imenu = document.createElement('menuitem');
-	imenu.setAttribute("id", 'sy_shorturl');
-	imenu.setAttribute('label', '生成短网址');
-	imenu.innerHTML = '生成短网址';
-	rclickMenu.appendChild(imenu);
-	imenu.addEventListener("click", createUrl, false);
 })();
