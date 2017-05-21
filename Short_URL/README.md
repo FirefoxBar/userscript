@@ -2,7 +2,13 @@
 
 为网页快速生成多个短网址
 
-使用方式：Firefox在
+使用方式：
+
+* 所有浏览器都可以通过GM菜单生成当前页面的短网址
+
+* Firefox右键单击页面空白处可以生成当前页面的短网址
+
+* Firefox右键单击页面中的链接可以生成此链接的短网址（不支持动态添加的链接）
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js)
 
