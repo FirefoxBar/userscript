@@ -1,22 +1,28 @@
 // ==UserScript==
 // @name              Short URL
-// @namespace     blog.sylingd.com
-// @description     短网址生成器
-// @author             ShuangYa
-// @include            http://*
-// @include            https://*
-// @grant               GM_xmlhttpRequest
-// @grant               GM_addStyle
-// @grant               GM_setClipboard
-// @grant               GM_registerMenuCommand
+// @namespace         blog.sylingd.com
+// @description       短网址生成器
+// @author            ShuangYa
+// @include           http://*
+// @include           https://*
+// @grant             GM_xmlhttpRequest
+// @grant             GM_addStyle
+// @grant             GM_setClipboard
+// @grant             GM_registerMenuCommand
 // @connect           *
-// @run-at              document-end
-// @updateURL      https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
-// @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version            9
+// @run-at            document-end
+// @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
+// @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
+// @version           10
 // ==/UserScript==
 
 (function() {
+	//forEach兼容
+	if (!NodeList.prototype.forEach) {
+		NodeList.prototype.forEach = function(callback, thisArg) {
+			[].forEach.call(this, callback);
+		};
+	}
 	//API
 	var apis = {
 		"sina": function(url, rawParam, callback) {
@@ -45,23 +51,6 @@
 				"onload": function(response) {
 					response = JSON.parse(response.responseText);
 					callback(rawParam, response.tinyurl);
-				},
-				"ontimeout": function() {
-					callback(rawParam, '');
-				}
-			});
-		},
-		"fourhn": function(url, rawParam, callback) {
-			GM_xmlhttpRequest({
-				"url": 'http://4.hn/?url=' + encodeURIComponent(url),
-				"method": 'GET',
-  				"headers": {
-  					"X-Requested-With": "XMLHttpRequest"
- 				},
-				"timeout": 2000,
-				"onload": function(response) {
-					response = JSON.parse(response.responseText);
-					callback(rawParam, response.url);
 				},
 				"ontimeout": function() {
 					callback(rawParam, '');
@@ -126,23 +115,9 @@
 					callback(rawParam, '');
 				}
 			});
-		},
-		"nezso": function(url, rawParam, callback) {
-			GM_xmlhttpRequest({
-				"url": 'http://980.so/api.php?format=json&url=' + encodeURIComponent(url),
-				"method": 'GET',
-				"timeout": 2000,
-				"onload": function(response) {
-					response = JSON.parse(response.responseText);
-					callback(rawParam, response.url);
-				},
-				"ontimeout": function() {
-					callback(rawParam, '');
-				}
-			});
 		}
 	};
-	var apiList = {'sina': '新浪', 'baidu': '百度', 'fourhn': '4HN', 'ni2': 'NI2', 'suoim': '缩我', 'fiftyr': '50r', 'sixdu': '六度', 'nezso': '980so'};
+	var apiList = {'sina': '新浪', 'baidu': '百度', 'ni2': 'NI2', 'suoim': '缩我', 'fiftyr': '50r', 'sixdu': '六度'};
 	//界面
 	var css = '\
 	.sy_shorturl_main {\
@@ -152,9 +127,9 @@
 		background-color: #FFF;\
 		border: 1px solid #CCC;\
 		border-radius: 5px;\
-		height: 246px;\
+		height: 200px;\
 		width: 660px;\
-		margin: -123px -330px;\
+		margin: -100px -330px;\
 		box-shadow: 0 0 10px #CCC;\
 		padding: 15px;\
 		box-sizing: border-box;\
@@ -243,9 +218,12 @@
 	main.setAttribute('class', 'sy_shorturl_main');
 	body.appendChild(main);
 	//主要事件调用
-	var createUrl = function() {
+	var createUrl = function(url) {
+		if (typeof(url) !== 'string') {
+			url = window.location.href;
+		}
 		var mainDiv = document.getElementById('sy_shorturl_main');
-		if (main.getAttribute('data-url') === window.location.href) {
+		if (main.getAttribute('data-url') === url) {
 			mainDiv.style.display = "block";
 			return;
 		}
@@ -256,7 +234,7 @@
 			el[i].setAttribute('class', 'sy_item');
 			el[i].innerHTML = '<span class="sy_name">' + apiList[i] + '</span><input type="text" class="input" placeholder="请稍候"><button type="button" class="sy_btn" disabled>复制</button>';
 			mainDiv.appendChild(el[i]);
-			apis[i](window.location.href, el[i], function(rawParam, result) {
+			apis[i](url, el[i], function(rawParam, result) {
 				if (result === undefined || result === '') {
 					rawParam.querySelector('input').value = "生成失败";
 				} else {
@@ -277,13 +255,20 @@
 			this.parentElement.parentElement.style.display = "none";
 		});
 		mainDiv.appendChild(close);
-		mainDiv.setAttribute('data-url', window.location.href);
+		mainDiv.setAttribute('data-url', url);
 		mainDiv.style.display = "block";
 	};
 	//绑定按钮啥的
 	GM_registerMenuCommand('生成短网址', createUrl);
 	//HTML5添加网页右键菜单
-	if (window.top === window.self) {
+	//检查浏览器是否支持HTML5右键菜单，目前只有Firefox支持此属性
+	var support_rclick = function() {
+		if (!/Firefox\/(\d+)/.test(navigator.userAgent.match)) {
+			return false;
+		}
+		return parseInt(navigator.userAgent.match(/Firefox\/(\d+)/)[1]) > 9;
+	};
+	if (window.top === window.self && window.location.href !== '' && support_rclick()) {
 		var rclickMenu;
 		if (body.getAttribute('contextmenu') === null) {
 			body.setAttribute('contextmenu','popup-menu');
@@ -300,5 +285,40 @@
 		imenu.innerHTML = '生成短网址';
 		rclickMenu.appendChild(imenu);
 		imenu.addEventListener("click", createUrl, false);
+		//为a标签添加快速生成的功能
+		var aRclickMenu = document.createElement('menu');
+		aRclickMenu.setAttribute('type','context');
+		aRclickMenu.setAttribute('id', 'a-popup-menu');
+		body.appendChild(aRclickMenu);
+		var aImenu = document.createElement('menuitem');
+		aImenu.setAttribute("id", 'sy_shorturl_a');
+		aImenu.setAttribute('label', '为此链接生成短网址');
+		aImenu.innerHTML = '为此链接生成短网址';
+		aRclickMenu.appendChild(aImenu);
+		aImenu.addEventListener("click", function(){
+			var url = this.getAttribute('data-url');
+			if (/^(.*?):/.test(url)) {
+				//部分特殊链接（例如磁力链接、应用链接等）不进行生成
+				if (url.substr(0, 7) !== 'http://' && url.substr(0, 8) !== 'https://' && url.substr(0, 6) !== 'ftp://') {
+					return;
+				}
+			} else {
+				//对于相对路径，先拼接完整路径
+				if (url.indexOf('/') === 0) {
+					url = window.location.href.match(/(.*?):\/\/(.*?)\//)[0] + url.substr(1);
+				} else {
+					url = [window.location.protocol, '//', window.location.hostname, window.location.pathname.match(/(.*)\//)[0], url].join('');
+				}
+			}
+			createUrl(url);
+		}, false);
+		document.querySelectorAll('a').forEach(function(element) {
+			if (element.getAttribute('href').indexOf('#') !== 0) {
+				element.setAttribute('contextmenu','a-popup-menu');
+				element.addEventListener('contextmenu', function() {
+					aImenu.setAttribute('data-url', this.getAttribute('href'));
+				}, false);
+			}
+		});
 	}
 })();
