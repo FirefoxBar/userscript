@@ -60,7 +60,7 @@
 		"version": "1",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Steam_Prices/Steam_Prices.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Steam_Prices",
-		"description": "显示Steam的历史价格"
+		"description": "显示Steam的历史价格（暂不支持Firefox）"
 	},
 	{
 		"name": "Straight Baidu",
