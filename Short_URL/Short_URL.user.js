@@ -13,7 +13,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version           10
+// @version           11
 // ==/UserScript==
 
 (function() {
@@ -263,7 +263,7 @@
 	//HTML5添加网页右键菜单
 	//检查浏览器是否支持HTML5右键菜单，目前只有Firefox支持此属性
 	var support_rclick = function() {
-		if (!/Firefox\/(\d+)/.test(navigator.userAgent.match)) {
+		if (!/Firefox\/(\d+)/.test(navigator.userAgent)) {
 			return false;
 		}
 		return parseInt(navigator.userAgent.match(/Firefox\/(\d+)/)[1]) > 9;
