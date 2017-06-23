@@ -8,5 +8,5 @@
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Steam_Prices/Steam_Prices.user.js
 // @grant       GM_xmlhttpRequest
 // @connect     *
-// @version     2
+// @version     3
 // ==/UserScript==

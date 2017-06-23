@@ -8,7 +8,7 @@
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Steam_Prices/Steam_Prices.user.js
 // @grant       GM_xmlhttpRequest
 // @connect     *
-// @version     2
+// @version     3
 // ==/UserScript==
 
 var id = unsafeWindow.location.href.match(/app\/(\d+)/)[1];
@@ -32,7 +32,7 @@ var callback = function(result) {
 	var dataArr = [];
 	var index = 0;
 	var minPrice = result.data.final[0][1];
-	for (var now = result.data.final[0][0], end = new Date().getTime(); now < end; now += 86400000) {
+	for (var now = result.data.final[0][0], end = new Date().getTime(); now <= end; now += 86400000) {
 		dateArr.push(new Date(now).toLocaleString('zh-CN').replace(/^(\d+)\/(\d+)\/(\d+)(.*?)$/, '$1-$2-$3'));
 		if (result.data.final[index + 1] !== undefined && now > result.data.final[index + 1][0]) {
 			index++;
