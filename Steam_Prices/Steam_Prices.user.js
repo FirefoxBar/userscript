@@ -22,7 +22,6 @@ var callback = function(result) {
 		rsBox.innerHTML = '获取历史价格失败';
 		return;
 	}
-	rsBox.style.height = '240px';
 	//以一天为间隔，生成时间
 	var dateArr = [];
 	var dataArr = [];
@@ -34,6 +33,7 @@ var callback = function(result) {
 		}
 		dataArr.push(result.data.final[index][1]);
 	}
+	rsBox.style.height = '240px';
 	var myChart = echarts.init(rsBox);
 	var option = {
 		tooltip: {
