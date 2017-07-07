@@ -13,5 +13,5 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version           11
+// @version           12
 // ==/UserScript==

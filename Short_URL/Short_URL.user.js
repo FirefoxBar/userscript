@@ -13,7 +13,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js
-// @version           11
+// @version           12
 // ==/UserScript==
 
 (function() {
@@ -297,28 +297,29 @@
 		aRclickMenu.appendChild(aImenu);
 		aImenu.addEventListener("click", function(){
 			var url = this.getAttribute('data-url');
+			//对于相对路径，先拼接完整路径
+			if (url.indexOf('/') === 0) {
+				url = window.location.href.match(/(.*?):\/\/(.*?)\//)[0] + url.substr(1);
+			} else {
+				url = [window.location.protocol, '//', window.location.hostname, window.location.pathname.match(/(.*)\//)[0], url].join('');
+			}
+			createUrl(url);
+		}, false);
+		document.querySelectorAll('a').forEach(function(element) {
+			var url = element.getAttribute('href');
+			if (url === null) {
+				return;
+			}
 			if (/^(.*?):/.test(url)) {
 				//部分特殊链接（例如磁力链接、应用链接等）不进行生成
 				if (url.substr(0, 7) !== 'http://' && url.substr(0, 8) !== 'https://' && url.substr(0, 6) !== 'ftp://') {
 					return;
 				}
-			} else {
-				//对于相对路径，先拼接完整路径
-				if (url.indexOf('/') === 0) {
-					url = window.location.href.match(/(.*?):\/\/(.*?)\//)[0] + url.substr(1);
-				} else {
-					url = [window.location.protocol, '//', window.location.hostname, window.location.pathname.match(/(.*)\//)[0], url].join('');
-				}
 			}
-			createUrl(url);
-		}, false);
-		document.querySelectorAll('a').forEach(function(element) {
-			if (element.getAttribute('href').indexOf('#') !== 0) {
-				element.setAttribute('contextmenu','a-popup-menu');
-				element.addEventListener('contextmenu', function() {
-					aImenu.setAttribute('data-url', this.getAttribute('href'));
-				}, false);
-			}
+			element.setAttribute('contextmenu','a-popup-menu');
+			element.addEventListener('contextmenu', function() {
+				aImenu.setAttribute('data-url', this.getAttribute('href'));
+			}, false);
 		});
 	}
 })();
