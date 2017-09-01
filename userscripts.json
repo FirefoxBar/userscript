@@ -49,6 +49,13 @@
 		"description": "在访问莆田系医院的网站时提醒用户"
 	},
 	{
+		"name": "Reading Mode",
+		"version": "1",
+		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Reading_Mode",
+		"description": "阅读模式"
+	},
+	{
 		"name": "Short URL",
 		"version": "12",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js",

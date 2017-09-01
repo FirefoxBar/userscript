@@ -21,3 +21,5 @@
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/163_Music_High_Quality_Support/163.Music.HQ.user.js) [163 Music High Quality Support](https://github.com/FirefoxBar/userscript/raw/master/163_Music_High_Quality_Support)
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js) [Short URL](https://github.com/FirefoxBar/userscript/raw/master/Short_URL)
+
+* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js) [阅读模式](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode)
