@@ -17,7 +17,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           1
+// @version           2
 // ==/UserScript==
 
 (function() {
@@ -45,7 +45,9 @@
 			'content': ".article_content"
 		},
 		'www.cnblogs.com': {
-			'title': ".postTitle a",
+			'title': () => {
+				return (document.querySelector(".postTitle a") || document.getElementById('cb_post_title_url')).innerHTML;
+			},
 			'content': "#cnblogs_post_body"
 		},
 		'blog.sina.com.cn': {
@@ -91,7 +93,7 @@
 			position: fixed;\
 			bottom: 0;\
 			left: 50%;\
-			height: 40px;\
+			height: 36px;\
 			width: 180px;\
 			margin-left: -90px;\
 			z-index: 99999998;\

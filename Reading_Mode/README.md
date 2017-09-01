@@ -18,8 +18,12 @@
 
 * cnblogs
 
-* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js)
+[【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js)
 
-* author: 泷涯
+author: 泷涯
 
 ## changelog
+
+**2**
+
+修复部分cnblogs页面无法进入阅读模式
