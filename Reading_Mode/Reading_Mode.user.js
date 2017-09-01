@@ -12,12 +12,13 @@
 // @include      	  http://*.blog.sohu.com/*
 // @include      	  http://blog.tianya.cn/post-*
 // @include      	  http://blog.sciencenet.cn/blog-*
+// @include      	  http://blog.chinaunix.net/uid-*
 // @grant			  GM_setValue
 // @grant			  GM_getValue
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           2
+// @version           3
 // ==/UserScript==
 
 (function() {
@@ -69,6 +70,10 @@
 		'blog.sciencenet.cn': {
 			'title': ".vw h1",
 			'content': "#blog_article"
+		},
+		'blog.chinaunix.net': {
+			'title': ".Blog_tit4 a",
+			'content': ".Blog_wz1"
 		}
 	};
 
