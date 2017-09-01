@@ -18,7 +18,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           3
+// @version           4
 // ==/UserScript==
 
 (function() {
@@ -37,13 +37,21 @@
 		'blog.csdn.net': {
 			'title': () => {
 				let c = document.querySelector(".article_title h1");
-				if (c.querySelector('a')) {
-					return trimNewLines(c.querySelector('a').innerHTML);
+				if (c) {
+					if (c.querySelector('a')) {
+						return trimNewLines(c.querySelector('a').innerHTML);
+					} else {
+						return trimNewLines(c.children[0].innerHTML);
+					}
 				} else {
-					return trimNewLines(c.children[0].innerHTML);
+					 return trimNewLines(document.querySelector(".csdn_top").innerHTML);
 				}
 			},
-			'content': ".article_content"
+			'content': () => {
+				let c = (document.querySelector('.article_content') || document.querySelector('markdown_views')).cloneNode(true);
+				removeAllStyle(c);
+				return trimNewLines(c.innerHTML);
+			}
 		},
 		'www.cnblogs.com': {
 			'title': () => {
@@ -98,12 +106,13 @@
 			position: fixed;\
 			bottom: 0;\
 			left: 50%;\
-			height: 36px;\
-			width: 180px;\
+			height: 46px;\
+			width: 190px;\
 			margin-left: -90px;\
 			z-index: 99999998;\
 			background-color: #FFF;\
 			padding: 5px;\
+			box-sizing: border-box;\
 			box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);\
 		}\
 		#sy_rm_show button,\

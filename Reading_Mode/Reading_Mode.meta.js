@@ -18,5 +18,5 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           3
+// @version           4
 // ==/UserScript==

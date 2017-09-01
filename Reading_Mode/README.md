@@ -16,6 +16,8 @@
 
 * 科学网博客
 
+* ChinaUnix
+
 * cnblogs
 
 [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js)
@@ -23,6 +25,14 @@
 author: 泷涯
 
 ## changelog
+
+**4**
+
+修复部分cdsn页面无法进入阅读模式
+
+**3**
+
+添加ChinaUnix支持
 
 **2**
 
