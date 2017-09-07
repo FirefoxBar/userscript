@@ -18,7 +18,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           5
+// @version           6
 // ==/UserScript==
 
 (function() {
@@ -255,7 +255,7 @@
 		options.appendChild(box_line_less);
 		//文字粗细
 		let weight_select = document.createElement('select');
-		[['light', '细体'], ['normal', '常规'], ['bold', '粗体']].forEach(function(e) {
+		[['lighter', '细体'], ['normal', '常规'], ['bold', '粗体']].forEach(function(e) {
 			let a = document.createElement('option');
 			a.value = e[0];
 			a.innerHTML = e[1];
