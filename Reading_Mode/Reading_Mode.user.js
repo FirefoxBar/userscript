@@ -18,7 +18,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           4
+// @version           5
 // ==/UserScript==
 
 (function() {
@@ -30,6 +30,7 @@
 		[].forEach.call(el.children, (child) => {
 			removeAllStyle(child);
 		});
+		el.removeAttribute('color');
 		el.removeAttribute('class');
 		el.removeAttribute('style');
 	};
@@ -183,6 +184,7 @@
 			font-size: {READER_CONTENT_FONT_SIZE} !important;\
 			line-height: {READER_LINE_HEIGHT};\
 			color: {READER_TEXT_COLOR} !important;\
+			font-weight: {READER_TEXT_WEIGHT} !important;\
 		}\
 		';
 	let box_bg = GM_getValue('box_bg') || '#ffffff';
@@ -190,6 +192,7 @@
 	let content_font = GM_getValue('font_size') || 18;
 	let box_padding = GM_getValue('box_padding') || 30;
 	let box_line_height = GM_getValue('box_line_height') || 100;
+	let font_weight = GM_getValue('font_weight') || 'normal';
 
 	function openRM() {
 		if (document.getElementById('sy_rm_box')) {
@@ -250,6 +253,21 @@
 		});
 		box_line_less.innerHTML = '减小行距';
 		options.appendChild(box_line_less);
+		//文字粗细
+		let weight_select = document.createElement('select');
+		[['light', '细体'], ['normal', '常规'], ['bold', '粗体']].forEach(function(e) {
+			let a = document.createElement('option');
+			a.value = e[0];
+			a.innerHTML = e[1];
+			weight_select.appendChild(a);
+		});
+		weight_select.querySelector('option[value="' + font_weight + '"]').selected = true;
+		weight_select.addEventListener('change', () => {
+			font_weight = weight_select.querySelector('option:checked').value;
+			GM_setValue('font_weight', font_weight);
+			applySetting();
+		});
+		options.appendChild(weight_select);
 		//背景色
 		let change_bg = document.createElement('label');
 		change_bg.appendChild(document.createTextNode('背景颜色'));
@@ -313,6 +331,7 @@
 		.replace('{READER_TITLE_FONT_SIZE}', (content_font * 1.6).toString() + 'px')
 		.replace('{READER_CONTENT_FONT_SIZE}', content_font.toString() + 'px')
 		.replace('{READER_TEXT_COLOR}', text_color)
+		.replace('{READER_TEXT_WEIGHT}', font_weight)
 		.replace('{READER_LINE_HEIGHT}', box_line_height.toString() + '%');
 	}
 	applySetting();
