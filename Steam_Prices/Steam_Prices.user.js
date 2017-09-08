@@ -3,12 +3,13 @@
 // @namespace   blog.sylingd.com
 // @author      ShuangYa
 // @include     http://store.steampowered.com/app/*
+// @include     https://store.steampowered.com/app/*
 // @require     https://cdn.bootcss.com/echarts/3.6.2/echarts.common.min.js
 // @updateURL   https://github.com/FirefoxBar/userscript/raw/master/Steam_Prices/Steam_Prices.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Steam_Prices/Steam_Prices.user.js
 // @grant       GM_xmlhttpRequest
 // @connect     *
-// @version     5
+// @version     6
 // ==/UserScript==
 
 var id = unsafeWindow.location.href.match(/app\/(\d+)/)[1];
@@ -58,10 +59,11 @@ var callback = function(result) {
 		cartBtnArea = cartBtnAreas[i];
 		i++;
 	} while (!(cartBtnArea.querySelector('.game_purchase_price')) && !(cartBtnArea.querySelector('.discount_final_price')));
+	var nowPrice = 0;
 	if (cartBtnArea.querySelector('.discount_final_price')) {
-		var nowPrice = parseInt(cartBtnArea.querySelector('.discount_final_price').innerHTML.match(/(\d+)/)[0]);
+		nowPrice = parseInt(cartBtnArea.querySelector('.discount_final_price').innerHTML.match(/(\d+)/)[0]);
 	} else {
-		var nowPrice = parseInt(cartBtnArea.querySelector('.game_purchase_price').innerHTML.match(/(\d+)/)[0]);
+		nowPrice = parseInt(cartBtnArea.querySelector('.game_purchase_price').innerHTML.match(/(\d+)/)[0]);
 	}
 	//附加“历史最低”标记
 	var titleArea = cartBtnArea.parentElement.parentElement.querySelector('h1');
