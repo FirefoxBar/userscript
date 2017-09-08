@@ -8,7 +8,7 @@
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Steam_Prices/Steam_Prices.user.js
 // @grant       GM_xmlhttpRequest
 // @connect     *
-// @version     4
+// @version     5
 // ==/UserScript==
 
 var id = unsafeWindow.location.href.match(/app\/(\d+)/)[1];
@@ -51,7 +51,13 @@ var callback = function(result) {
 		dataArr.push(result.data.final[index][1]);
 	}
 	//获取当前价格并与历史价格对比
-	var cartBtnArea = document.querySelector('.game_purchase_action_bg');
+	var cartBtnAreas = document.querySelectorAll('.game_purchase_action_bg');
+	var cartBtnArea = null;
+	var i = 0;
+	do {
+		cartBtnArea = cartBtnAreas[i];
+		i++;
+	} while (!(cartBtnArea.querySelector('.game_purchase_price')) && !(cartBtnArea.querySelector('.discount_final_price')));
 	if (cartBtnArea.querySelector('.discount_final_price')) {
 		var nowPrice = parseInt(cartBtnArea.querySelector('.discount_final_price').innerHTML.match(/(\d+)/)[0]);
 	} else {
