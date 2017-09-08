@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Post Del Robot
 // @namespace http://blog.sylingd.com
-// @version 9
+// @version 10
 // @description 删帖机器人
 // @author ShuangYa
 // @include http://tieba.baidu.com/f?*
@@ -145,7 +145,7 @@
 			"fid": fid,
 			"tid": me.tid,
 			"tbs": unsafeWindow.PageData.tbs
-		}
+		};
 		if (me.type == 1) { //回贴
 			postdata.pid = me.pid;
 		} else if (me.type == 2) { //主题
@@ -157,7 +157,7 @@
 			"url": '/f/commit/post/delete',
 			"success": function(response) {
 				// 确认删帖结果
-				result = eval('(' + response + ')');
+				result = JSON.parse(response);
 				if (result.err_code == 0) {
 					if (me.type == 1) { //回贴
 						logResult('删除贴子成功！主题ID：' + me.tid + '，贴子ID：' + me.pid);
@@ -189,7 +189,6 @@
 						}
 					}
 				}
- 
 			}
 		});
 	},

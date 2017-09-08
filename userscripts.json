@@ -36,7 +36,7 @@
 	},
 	{
 		"name": "Post Del Robot",
-		"version": "9",
+		"version": "10",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Post_Del_Robot",
 		"description": "删帖机器人。"
