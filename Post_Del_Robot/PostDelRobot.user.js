@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name Post Del Robot
 // @namespace http://blog.sylingd.com
-// @version 10
+// @version 11
 // @description 删帖机器人
 // @author ShuangYa
 // @include http://tieba.baidu.com/f?*
+// @include https://tieba.baidu.com/f?*
 // @grant GM_xmlhttpRequest
 // @grant GM_registerMenuCommand
 // @grant GM_addStyle
@@ -155,9 +156,11 @@
 			"type": 'POST',
 			"data": postdata,
 			"url": '/f/commit/post/delete',
-			"success": function(response) {
+			"success": function(result) {
 				// 确认删帖结果
-				result = JSON.parse(response);
+				if (typeof(result) === 'string') {
+					result = JSON.parse(result);
+				}
 				if (result.err_code == 0) {
 					if (me.type == 1) { //回贴
 						logResult('删除贴子成功！主题ID：' + me.tid + '，贴子ID：' + me.pid);
@@ -168,8 +171,6 @@
 						delByList(num + 1);
 					}
 				} else {
-					console.log(postdata);
-					console.log(result);
 					if (me.type == 1) { //回贴
 						logResult('删除贴子失败！<a href="http://tieba.baidu.com/p/' + me.tid + '?pid=' + me.pid + '&cid=1#1" target="_blank">查看</a>');
 					} else if (me.type == 2) { //主题
