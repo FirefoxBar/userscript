@@ -9,7 +9,7 @@
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Steam_Prices/Steam_Prices.user.js
 // @grant       GM_xmlhttpRequest
 // @connect     *
-// @version     6
+// @version     7
 // ==/UserScript==
 
 var id = unsafeWindow.location.href.match(/app\/(\d+)/)[1];
@@ -77,7 +77,7 @@ var callback = function(result) {
 	if (hasZero) {
 		var has_zero = document.createElement('span');
 		has_zero.setAttribute('style', 'background-color:rgb(117,150,0);color:#fff;font-size:12px;padding:5px;border-radius:3px;margin-left:6px;vertical-align:middle');
-		has_zero.setAttribute('title', '曾免费试玩');
+		has_zero.setAttribute('title', '曾免费领取');
 		has_zero.innerHTML = '零';
 		titleArea.appendChild(has_zero);
 	}

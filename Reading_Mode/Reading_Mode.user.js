@@ -261,7 +261,9 @@
 			a.innerHTML = e[1];
 			weight_select.appendChild(a);
 		});
-		weight_select.querySelector('option[value="' + font_weight + '"]').selected = true;
+		if (weight_select.querySelector('option[value="' + font_weight + '"]')) {
+			weight_select.querySelector('option[value="' + font_weight + '"]').selected = true;
+		}
 		weight_select.addEventListener('change', () => {
 			font_weight = weight_select.querySelector('option:checked').value;
 			GM_setValue('font_weight', font_weight);
