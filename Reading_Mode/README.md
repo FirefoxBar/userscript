@@ -26,6 +26,10 @@ author: 泷涯
 
 ## changelog
 
+**7**
+
+修复对cnblogs的HTTPS支持
+
 **6**
 
 修复细字体无效

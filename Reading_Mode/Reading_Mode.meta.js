@@ -7,6 +7,9 @@
 // @include      	  http://*.cnblogs.com/*/p/*
 // @include     	  http://*.cnblogs.com/*/archive/*
 // @include      	  http://*.cnblogs.com/*/articles/*
+// @include      	  https://*.cnblogs.com/*/p/*
+// @include     	  https://*.cnblogs.com/*/archive/*
+// @include      	  https://*.cnblogs.com/*/articles/*
 // @include      	  http://blog.sina.com.cn/s/blog_*.html
 // @include      	  http://*.blog.163.com/blog/static/*
 // @include      	  http://*.blog.sohu.com/*
@@ -18,5 +21,5 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           6
+// @version           7
 // ==/UserScript==
