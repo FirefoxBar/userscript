@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Putian Warning
 // @namespace http://blog.sylingd.com
-// @version 2
+// @version 3
 // @description 莆田系医院网站提醒
 // @author ShuangYa
 // @include http://*

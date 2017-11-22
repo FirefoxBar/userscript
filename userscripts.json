@@ -43,7 +43,7 @@
 	},
 	{
 		"name": "Putian Warning",
-		"version": "2",
+		"version": "3",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Putian_Warning/Putian_Warning.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Putian_Warning",
 		"description": "在访问莆田系医院的网站时提醒用户"

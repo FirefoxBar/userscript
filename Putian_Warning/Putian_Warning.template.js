@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Putian Warning
 // @namespace http://blog.sylingd.com
-// @version 2
+// @version 3
 // @description 莆田系医院网站提醒
 // @author ShuangYa
 // @include http://*
@@ -14,11 +14,13 @@
 (function() {
 	var list = 'Put list here';
 	var domain = unsafeWindow.location.hostname;
+	if (unsafeWindow.location.href === '') {
+		return;
+	}
 	//不在列表中
 	if (typeof(list[domain]) === 'undefined') {
 		return;
 	}
-	console.log('Yes');
 	//生成随机ID
 	var randStr = function (len) {
 	　	var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz';

@@ -47,21 +47,13 @@ function curl_get ($url, $data = []) {
 	@curl_close($ch);
 	return $result;
 }
-function out($text) {
-	if (stripos(PHP_OS, 'win') !== FALSE) {
-		echo iconv('UTF-8', 'GBK', $text);
-	} else {
-		echo $text;
-	}
-	echo "\n";
-}
 /****************************/
 /*         实际逻辑         */
 /****************************/
-out('抓取最新列表');
+echo "Fetching lists\n";
 $list = json_decode(curl_get(URL), 1);
 if (!is_array($list)) {
-	out('抓取失败');
+	echo "Fetch fail\n";
 	exit;
 }
 $domain_list = [];
@@ -77,4 +69,4 @@ foreach ($list as $k => $v) { //省=>列表
 	}
 }
 file_put_contents('Putian_Warning.user.js', str_replace("'Put list here'", json_encode($domain_list, JSON_UNESCAPED_UNICODE), file_get_contents('Putian_Warning.template.js')));
-out('完成');
+echo "OK\n";
