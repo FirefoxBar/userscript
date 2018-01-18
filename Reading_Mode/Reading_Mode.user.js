@@ -21,7 +21,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           8
+// @version           9
 // ==/UserScript==
 
 (function() {
@@ -34,7 +34,7 @@
 			removeAllStyle(child);
 		});
 		//部分网站有防抓取的代码
-		if (el.style.display === 'none') {
+		if (el.style.display === 'none' || el.style.fontSize === '0px' || el.style.visibility === 'hidden') {
 			el.remove();
 		} else {
 			el.removeAttribute('color');
