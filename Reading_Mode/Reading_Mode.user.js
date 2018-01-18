@@ -21,7 +21,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           7
+// @version           8
 // ==/UserScript==
 
 (function() {
@@ -33,9 +33,14 @@
 		[].forEach.call(el.children, (child) => {
 			removeAllStyle(child);
 		});
-		el.removeAttribute('color');
-		el.removeAttribute('class');
-		el.removeAttribute('style');
+		//部分网站有防抓取的代码
+		if (el.style.display === 'none') {
+			el.remove();
+		} else {
+			el.removeAttribute('color');
+			el.removeAttribute('class');
+			el.removeAttribute('style');
+		}
 	};
 	let rules = {
 		'blog.csdn.net': {
