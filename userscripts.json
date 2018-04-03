@@ -50,7 +50,7 @@
 	},
 	{
 		"name": "Reading Mode",
-		"version": "9",
+		"version": "10",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Reading_Mode",
 		"description": "阅读模式"
