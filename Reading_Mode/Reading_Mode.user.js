@@ -23,7 +23,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           11
+// @version           12
 // ==/UserScript==
 
 (function() {
@@ -131,7 +131,7 @@
 			background: 0 0;\
 			border: none;\
 			border-radius: 2px;\
-			color: rgb(0, 0, 0);\
+			color: #000;\
 			position: relative;\
 			height: 36px;\
 			margin: 0;\
@@ -147,6 +147,9 @@
 			text-align: center;\
 			line-height: 36px;\
 			transition: background-color .2s cubic-bezier(.4,0,.2,1);\
+		}\
+		#sy_rm_box .option button {\
+			color: {READER_TEXT_COLOR};\
 		}\
 		#sy_rm_show button:hover,\
 		#sy_rm_box .option button:hover {\
@@ -176,6 +179,7 @@
 		#sy_rm_box .option * {\
 			vertical-align: middle;\
 			margin-right: 10px;\
+			color: {READER_TEXT_COLOR};\
 		}\
 		#sy_rm_box .option input[type="color"] {\
 			padding: 0;\
@@ -186,9 +190,9 @@
 		#sy_rm_box .title {\
 			font-size: {READER_TITLE_FONT_SIZE} !important;\
 			padding-bottom: 20px;\
-			border-bottom: 1px solid #000;\
+			border-bottom: 1px solid {READER_TEXT_COLOR};\
 			margin-bottom: 20px;\
-			color: #000 !important;\
+			color: {READER_TEXT_COLOR} !important;\
 		}\
 		#sy_rm_box .content {\
 			font-size: {READER_CONTENT_FONT_SIZE} !important;\
@@ -347,7 +351,7 @@
 	function applySetting() {
 		let content = cssContent.replace(/\{READER_BG\}/g, box_bg)
 		.replace(/\{READER_PADDING\}/g, box_padding.toString() + 'px')
-		.replace(/\{READER_TITLE_FONT_SIZE\}/g, (content_font * 1.6).toString() + 'px')
+		.replace(/\{READER_TITLE_FONT_SIZE\}/g, Math.ceil(content_font * 1.6).toString() + 'px')
 		.replace(/\{READER_CONTENT_FONT_SIZE\}/g, content_font.toString() + 'px')
 		.replace(/\{READER_TEXT_COLOR\}/g, text_color)
 		.replace(/\{READER_TEXT_WEIGHT\}/g, font_weight)
