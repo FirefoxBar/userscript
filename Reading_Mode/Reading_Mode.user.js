@@ -23,7 +23,7 @@
 // @run-at            document-end
 // @updateURL         https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.meta.js
 // @downloadURL       https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js
-// @version           10
+// @version           11
 // ==/UserScript==
 
 (function() {
@@ -55,7 +55,7 @@
 						return trimNewLines(c.children[0].innerHTML);
 					}
 				} else {
-					 return trimNewLines(document.querySelector(".csdn_top").innerHTML);
+					 return trimNewLines((document.querySelector(".csdn_top") || document.querySelector(".title-article")).innerHTML);
 				}
 			},
 			'content': () => {
@@ -196,7 +196,14 @@
 			color: {READER_TEXT_COLOR} !important;\
 			font-weight: {READER_TEXT_WEIGHT} !important;\
 		}\
-		';
+		#sy_rm_box h1,\
+		#sy_rm_box h2,\
+		#sy_rm_box h3,\
+		#sy_rm_box h4,\
+		#sy_rm_box h5,\
+		#sy_rm_box h6 {\
+			font-weight: {READER_TEXT_WEIGHT} !important;\
+		}';
 	let box_bg = GM_getValue('box_bg') || '#ffffff';
 	let text_color = GM_getValue('text_color') || '#000000';
 	let content_font = GM_getValue('font_size') || 18;
@@ -338,13 +345,18 @@
 		document.body.appendChild(rm);
 	}
 	function applySetting() {
-		css.innerHTML = cssContent.replace('{READER_BG}', box_bg)
-		.replace('{READER_PADDING}', box_padding.toString() + 'px')
-		.replace('{READER_TITLE_FONT_SIZE}', (content_font * 1.6).toString() + 'px')
-		.replace('{READER_CONTENT_FONT_SIZE}', content_font.toString() + 'px')
-		.replace('{READER_TEXT_COLOR}', text_color)
-		.replace('{READER_TEXT_WEIGHT}', font_weight)
-		.replace('{READER_LINE_HEIGHT}', box_line_height.toString() + '%');
+		let content = cssContent.replace(/\{READER_BG\}/g, box_bg)
+		.replace(/\{READER_PADDING\}/g, box_padding.toString() + 'px')
+		.replace(/\{READER_TITLE_FONT_SIZE\}/g, (content_font * 1.6).toString() + 'px')
+		.replace(/\{READER_CONTENT_FONT_SIZE\}/g, content_font.toString() + 'px')
+		.replace(/\{READER_TEXT_COLOR\}/g, text_color)
+		.replace(/\{READER_TEXT_WEIGHT\}/g, font_weight)
+		.replace(/\{READER_LINE_HEIGHT\}/g, box_line_height.toString() + '%');
+		//添加h1-h6的字号
+		for (let i = 6; i >= 1; i--) {
+			content += "#sy_rm_box h" + i + " { font-size: " + (content_font + (7 - i) * 2) + "px; }";
+		}
+		css.innerHTML = content;
 	}
 	applySetting();
 	let rmTips = document.createElement('div');
