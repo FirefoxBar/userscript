@@ -23,3 +23,5 @@
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js) [Short URL](https://github.com/FirefoxBar/userscript/raw/master/Short_URL)
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js) [阅读模式](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode)
+
+* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Fxxk_CSDN.user.js) [Fxxk CSDN](https://github.com/FirefoxBar/userscript/raw/master/Fxxk_CSDN)
