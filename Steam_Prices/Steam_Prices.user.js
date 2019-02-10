@@ -26,8 +26,8 @@ rsArea.insertBefore(rsBox, rsArea.childNodes[0]);
 GM_addStyle("#sy_price { width: 100%; padding-bottom: 10px; }");
 let retry = 0;
 
-function request() {
-	if (retry > 3) {
+function request(e) {
+	if (retry > 3 && (e === null || e === undefined)) {
 		rsBox.innerHTML = '<p style="text-align:center">获取历史价格失败，<a id="sy_price_retry" href="#">重试</a></p>';
 		document.getElementById('sy_price_retry').addEventListener('click', request);
 		return;
