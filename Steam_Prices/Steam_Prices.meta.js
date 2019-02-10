@@ -8,6 +8,7 @@
 // @updateURL   https://github.com/FirefoxBar/userscript/raw/master/Steam_Prices/Steam_Prices.meta.js
 // @downloadURL https://github.com/FirefoxBar/userscript/raw/master/Steam_Prices/Steam_Prices.user.js
 // @grant       GM_xmlhttpRequest
+// @grant       GM_addStyle
 // @connect     *
-// @version     7
+// @version     8
 // ==/UserScript==
