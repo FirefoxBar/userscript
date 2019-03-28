@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         网易云音乐高音质支持
-// @version      3.3@unrelease
+// @version      3.4@unrelease
 // @description  去除网页版网易云音乐仅可播放低音质（96Kbps）的限制，强制播放高音质版本
 // @match        *://music.163.com/*
 // @include      *://music.163.com/*
@@ -132,12 +132,20 @@ var fakeXMLHttpRequest = function(){
                                 return xhr.responseText;
                             }
 
+                            var type = res.data[0].encodeType || res.data[0].type;
+                            // 跟踪了下调用栈，云音乐前端的代码只处理了 mp3 和 m4a 两种情况，并没有考虑 flac，
+                            // 而其实各大浏览器都是支持 flac 的，但是没处理也很正常，毕竟……正常情况下不可能会有 flac 的
+                            // 把 API 返回的文件类型改为 m4a 绕过前端验证
+                            if (res.data[0].type === 'flac') {
+                                res.data[0].type = 'm4a';
+                            }
+
                             // 给黄易节省带宽，优先调用缓存的 URL
                             if (cachedURL[res.data[0].id] && new Date() < cachedURL[res.data[0].id].expires) {
                                 res.data[0].url = cachedURL[res.data[0].id].url;
                                 delete __this__.ping;
                                 if (qualityNode) {
-                                    qualityNode.textContent = cachedURL[res.data[0].id].quality / 1000 + 'K';
+                                    qualityNode.textContent = Math.round(cachedURL[res.data[0].id].quality / 1000) + 'K ' + (type || '').toUpperCase();
                                 }
                                 return JSON.stringify(res);
                             }
@@ -157,9 +165,9 @@ var fakeXMLHttpRequest = function(){
                                 };
                                 delete __this__.ping;
                                 if (qualityNode) {
-                                    qualityNode.textContent = (res.data[0].br) / 1000 + 'K';
+                                    qualityNode.textContent = Math.round((res.data[0].br) / 1000) + 'K ' + (type || '').toUpperCase();
                                 }
-                                return xhr.responseText;
+                                return JSON.stringify(res);
                             }
 
                             if (!cachedURL[res.data[0].id]) { // 若未缓存，且新 API 没有音质再请求原始 api
@@ -182,7 +190,7 @@ var fakeXMLHttpRequest = function(){
                         // 这里是处理旧版 API 的部分
                         modifyURL(res.songs);
                         if (qualityNode) {
-                            qualityNode.textContent = (res.songs[0].hMusic || res.songs[0].h || res.songs[0].mMusic || res.songs[0].m || res.songs[0].lMusic || res.songs[0].l).bitrate / 1000 + 'K';
+                            qualityNode.textContent = (res.songs[0].hMusic || res.songs[0].h || res.songs[0].mMusic || res.songs[0].m || res.songs[0].lMusic || res.songs[0].l).bitrate / 1000 + 'K MP3';
                         }
                         return JSON.stringify(res);
                         
@@ -311,7 +319,7 @@ var fakeXMLHttpRequest = function(){
                                 modifyURL(res.songs);
 
                                 if (qualityNode) {
-                                    qualityNode.textContent = (res.songs[0].hMusic || res.songs[0].mMusic || res.songs[0].lMusic).bitrate / 1000 + 'K';
+                                    qualityNode.textContent = (res.songs[0].hMusic || res.songs[0].mMusic || res.songs[0].lMusic).bitrate / 1000 + 'K MP3';
                                 }
                                 // res.songs.forEach(function(elem){
                                 //     delete elem.hMusic;
@@ -361,6 +369,10 @@ var fake_asrsea = function(){
     var data = JSON.parse(arguments[0]);
     if (data.br && data.br === 128000) {
         data.br = 320000;
+        arguments[0] = JSON.stringify(data);
+    }
+    if (data.level === 'standard') {
+        data.level = 'exhigh'; // 'lossless';
         arguments[0] = JSON.stringify(data);
     }
     //console.log(arguments);
