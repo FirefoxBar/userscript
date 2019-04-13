@@ -11,6 +11,7 @@
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Tieba_Kuso/Tieba_Kuso.user.js) [Tieba Kuso](https://github.com/FirefoxBar/userscript/raw/master/Tieba_Kuso)
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js) [Post Del Robot](https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot)
+
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player/163_Music_HTML5_Player.user.js) [163 Music HTML5 Player](https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player)
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor/Cache_Manager_for_Tieba_Ueditor.user.js) [Cache Manager for Tieba Ueditor](https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor)
@@ -24,4 +25,6 @@
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js) [阅读模式](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode)
 
-* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Fxxk_CSDN.user.js) [Fxxk CSDN](https://github.com/FirefoxBar/userscript/raw/master/Fxxk_CSDN)
+* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Fxxk_CSDN/Fxxk_CSDN.user.js) [Fxxk CSDN](https://github.com/FirefoxBar/userscript/raw/master/Fxxk_CSDN)
+
+* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Copy_all_links/Copy_all_links.user.js) [Fxxk CSDN](https://github.com/FirefoxBar/userscript/raw/master/Copy_all_links)

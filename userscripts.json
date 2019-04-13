@@ -35,6 +35,13 @@
 		"description": "基於贴吧内建之文字备份系统的管理器"
 	},
 	{
+		"name": "Copy all links",
+		"version": "1",
+		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Copy_all_links/Copy_all_links.user.js",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Copy_all_links",
+		"description": "复制所有链接"
+	},
+	{
 		"name": "Fxxk CSDN",
 		"version": "1",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Fxxk_CSDN/Fxxk_CSDN.user.js",
