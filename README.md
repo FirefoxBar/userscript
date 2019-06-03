@@ -28,3 +28,5 @@
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Fxxk_CSDN/Fxxk_CSDN.user.js) [Fxxk CSDN](https://github.com/FirefoxBar/userscript/raw/master/Fxxk_CSDN)
 
 * [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Copy_all_links/Copy_all_links.user.js) [Copy all links](https://github.com/FirefoxBar/userscript/raw/master/Copy_all_links)
+
+* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Tieba_Blocked_Detect/Tieba_Blocked_Detect.user.js) [Tieba Blocked Detect](https://github.com/FirefoxBar/userscript/tree/master/Tieba_Blocked_Detect)

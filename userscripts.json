@@ -91,6 +91,13 @@
 		"description": "去掉百度搜索结果重定向"
 	},
 	{
+		"name": "Tieba Blocked Detect",
+		"version": "1.0",
+		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Blocked_Detect/Tieba_Blocked_Detect.user.js",
+		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Tieba_Blocked_Detect",
+		"description": "贴吧贴子屏蔽检测"
+	},
+	{
 		"name": "Tieba Client",
 		"version": "1.0.2",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Client/Tieba_Client.user.js",
