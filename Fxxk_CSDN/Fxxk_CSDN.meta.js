@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Fxxk CSDN
 // @namespace http://blog.sylingd.com
-// @version 1
+// @version 2
 // @description CSDN自动展开
 // @author ShuangYa
 // @include https://blog.csdn.net/*

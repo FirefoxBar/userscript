@@ -43,7 +43,7 @@
 	},
 	{
 		"name": "Fxxk CSDN",
-		"version": "1",
+		"version": "2",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Fxxk_CSDN/Fxxk_CSDN.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Fxxk_CSDN",
 		"description": "CSDN自动展开"

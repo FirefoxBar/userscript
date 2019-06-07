@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Fxxk CSDN
 // @namespace http://blog.sylingd.com
-// @version 1
+// @version 2
 // @description CSDN自动展开
 // @author ShuangYa
 // @include https://blog.csdn.net/*
@@ -13,5 +13,5 @@
 if (!document.querySelector('.hide-article-box')) {
 	return;
 }
-document.getElementById('article_content').style.height = "auto";
+document.querySelectorAll('.article_content').forEach(it => it.style.height = "auto");
 document.querySelector('.hide-article-box').remove();
