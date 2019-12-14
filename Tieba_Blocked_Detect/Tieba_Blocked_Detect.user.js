@@ -16,8 +16,8 @@
 
 'use strict';
 
-const threadCache = {};
-const replyCache = {};
+let threadCache = {};
+let replyCache = {};
 
 /**
  * 精简封装 fetch 请求，自带请求 + 通用配置 + 自动 .text()
@@ -49,7 +49,7 @@ const getIsLogin = () => window.PageData.user.is_login;
  *
  * @returns {string} 用户名
  */
-const getUsername = () => window.PageData.user.name || PageData.user.user_name;
+const getUsername = () => window.PageData.user.name || window.PageData.user.user_name;
 
 /**
  * 获取 \u 形式的 unicode 字符串
@@ -247,7 +247,9 @@ const detectBlocked = (event) => {
 						document.querySelector('.core_title').classList.add('__tieba_blocked__');
 					}
 				}
-				catch (err) { }
+				catch (err) {
+					// pass through
+				}
 
 				return result;
 			});
@@ -324,15 +326,19 @@ const loadCache = () => {
 		try {
 			threadCache = JSON.parse(thread);
 		}
-		catch (error) { }
+		catch (error) {
+			// pass through
+		}
 	}
 	if (reply) {
 		try {
 			replyCache = JSON.parse(reply);
 		}
-		catch (error) { }
+		catch (error) {
+			// pass through
+		}
 	}
-}
+};
 
 /**
  * 保存并没有什么卵用的缓存
@@ -346,7 +352,7 @@ const saveCache = (key) => {
 	else if (key === 'reply') {
 		sessionStorage.setItem('tieba-blocked-cache-reply', JSON.stringify(replyCache));
 	}
-}
+};
 
 /**
  * 初始化执行
