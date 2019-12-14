@@ -108,7 +108,7 @@ const getReplyUrl = (tid, pid, pn = 0) => `//tieba.baidu.com/p/comment?tid=${tid
  * @param {string} res - 页面内容
  * @returns {boolean} 是否被屏蔽
  */
-const threadIsNotExist = res => res.indexOf('您要浏览的贴子不存在') >= 0;
+const threadIsNotExist = res => res.indexOf('您要浏览的贴子不存在') >= 0 || res.indexOf('(共0贴)') >= 0;
 
 /**
  * 获取主题贴是否被屏蔽
