@@ -179,7 +179,7 @@ const getTriggerStyle = ({ username, portrait }) => {
 		.__tieba_blocked__.core_title {
 			background: #fae2e3;
 		}
-		.__tieba_blocked__::after {
+		.__tieba_blocked__::before {
 			background: #f22737;
 			position: absolute;
 			padding: 5px 10px;
@@ -197,18 +197,18 @@ const getTriggerStyle = ({ username, portrait }) => {
 			padding-bottom: 6px;
 		}
 
-		.__tieba_blocked__.j_thread_list::after,
-		.__tieba_blocked__.core_title::after {
+		.__tieba_blocked__.j_thread_list::before,
+		.__tieba_blocked__.core_title::before {
 			content: '该贴已被屏蔽';
 			right: 0;
 			top: 0;
 		}
-		.__tieba_blocked__.l_post::after {
+		.__tieba_blocked__.l_post::before {
 			content: '该楼层已被屏蔽';
 			right: 0;
 			top: 0;
 		}
-		.__tieba_blocked__.lzl_single_post::after {
+		.__tieba_blocked__.lzl_single_post::before {
 			content: '该楼中楼已被屏蔽';
 			left: 0;
 			bottom: 0;
