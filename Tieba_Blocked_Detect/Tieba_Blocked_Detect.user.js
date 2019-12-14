@@ -52,6 +52,13 @@ const getIsLogin = () => window.PageData.user.is_login;
 const getUsername = () => window.PageData.user.name || window.PageData.user.user_name;
 
 /**
+ * 获取当前用户的 portrait（适用于无用户名）
+ *
+ * @returns {string} portrait
+ */
+const getPortrait = () => window.PageData.user.portrait.split('?').shift();
+
+/**
  * 获取 \u 形式的 unicode 字符串
  *
  * @param {string} str - 需要转码的字符串
@@ -133,7 +140,7 @@ const getLzlBlocked = (tid, pid, spid) => request(getReplyUrl(tid, pid))
  * @param {string} username - 用户名
  * @returns {string} 样式表
  */
-const getTriggerStyle = (username) => {
+const getTriggerStyle = ({ username, portrait }) => {
 	const escapedUsername = getEscapeString(username).replace(/\\/g, '\\\\');
 
 	return `
@@ -144,10 +151,13 @@ const getTriggerStyle = (username) => {
 
 		/* 主题贴 */
 		#thread_list .j_thread_list[data-field*='"author_name":"${escapedUsername}"'],
+		#thread_list .j_thread_list[data-field*='"author_portrait":"${portrait}"'],
 		/* 回复贴 */
 		#j_p_postlist .l_post[data-field*='"user_name":"${escapedUsername}"'],
+		#j_p_postlist .l_post[data-field*='"portrait":"${portrait}"'],
 		/* 楼中楼 */
-		.j_lzl_m_w .lzl_single_post[data-field*="'user_name':'${username}'"] {
+		.j_lzl_m_w .lzl_single_post[data-field*="'user_name':'${username}'"],
+		.j_lzl_m_w .lzl_single_post[data-field*="'portrait':'${portrait}'"] {
 			-webkit-animation: __tieba_blocked_detect__;
 			-moz-animation: __tieba_blocked_detect__;
 			animation: __tieba_blocked_detect__;
@@ -297,11 +307,11 @@ const detectBlocked = (event) => {
 /**
  * 初始化样式
  *
- * @param {string} username - 用户名
+ * @param {object} param - 用户参数
  */
-const initStyle = (username) => {
+const initStyle = (param) => {
 	const style = document.createElement('style');
-	style.textContent = getTriggerStyle(username);
+	style.textContent = getTriggerStyle(param);
 	document.head.appendChild(style);
 };
 
@@ -361,9 +371,10 @@ const saveCache = (key) => {
 const init = () => {
 	if (getIsLogin()) {
 		const username = getUsername();
+		const portrait = getPortrait();
 		loadCache();
 		initListener();
-		initStyle(username);
+		initStyle({ username, portrait });
 	}
 };
 
