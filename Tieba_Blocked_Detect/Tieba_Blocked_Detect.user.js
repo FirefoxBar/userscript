@@ -38,6 +38,13 @@ const request = (url, options = {}) => fetch(url, Object.assign({
 }, options)).then(res => res.text());
 
 /**
+ * 延迟执行
+ *
+ * @param {number} time - 延迟毫秒数
+ */
+const sleep = time => new Promise(resolve => setTimeout(resolve, time));
+
+/**
  * 获取当前用户是否登录
  * 
  * @returns {number|boolean} 是否登录，若已登录，贴吧页为 1，贴子页为 true
@@ -225,7 +232,7 @@ const detectBlocked = (event) => {
 
 	if (classList.contains('j_thread_list')) {
 		const tid = target.dataset.tid;
-		if (threadCache[tid]) {
+		if (threadCache[tid] !== undefined) {
 			checker = threadCache[tid];
 		}
 		else {
@@ -245,11 +252,12 @@ const detectBlocked = (event) => {
 			return;
 		}
 
-		if (replyCache[pid]) {
+		if (replyCache[pid] !== undefined) {
 			checker = replyCache[pid];
 		}
 		else {
-			checker = getReplyBlocked(tid, pid).then(result => {
+			// 回复时直接取值结果不准确，延迟 3 秒后请求
+			checker = sleep(3000).then(() => getReplyBlocked(tid, pid).then(result => {
 				replyCache[pid] = result;
 				saveCache('reply');
 				try {
@@ -262,7 +270,7 @@ const detectBlocked = (event) => {
 				}
 
 				return result;
-			});
+			}));
 		}
 	}
 	else if (classList.contains('lzl_single_post')) {
@@ -282,7 +290,7 @@ const detectBlocked = (event) => {
 			return;
 		}
 
-		if (replyCache[spid]) {
+		if (replyCache[spid] !== undefined) {
 			checker = replyCache[spid];
 		}
 		else {
