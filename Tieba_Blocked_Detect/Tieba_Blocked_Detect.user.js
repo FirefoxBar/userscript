@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        贴吧贴子屏蔽检测
-// @version     1.1
+// @version     1.1.1
 // @description 贴吧都快凉了，过去的痕迹都没了，你为什么还在刷贴吧呢？你们建个群不好吗？
 // @match       *://tieba.baidu.com/*
 // @include     *://tieba.baidu.com/*
@@ -256,8 +256,8 @@ const detectBlocked = (event) => {
 			checker = replyCache[pid];
 		}
 		else {
-			// 回复时直接取值结果不准确，延迟 3 秒后请求
-			checker = sleep(3000).then(() => getReplyBlocked(tid, pid).then(result => {
+			// 回复时直接取值结果不准确，延迟 5 秒后请求
+			checker = sleep(5000).then(() => getReplyBlocked(tid, pid).then(result => {
 				replyCache[pid] = result;
 				saveCache('reply');
 				try {

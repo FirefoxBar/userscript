@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        贴吧贴子屏蔽检测
-// @version     1.1
+// @version     1.1.1
 // @description 贴吧都快凉了，过去的痕迹都没了，你为什么还在刷贴吧呢？你们建个群不好吗？
 // @match       *://tieba.baidu.com/*
 // @include     *://tieba.baidu.com/*

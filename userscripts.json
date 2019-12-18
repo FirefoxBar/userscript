@@ -92,7 +92,7 @@
 	},
 	{
 		"name": "Tieba Blocked Detect",
-		"version": "1.1",
+		"version": "1.1.1",
 		"installURL": "https://github.com/FirefoxBar/userscript/raw/master/Tieba_Blocked_Detect/Tieba_Blocked_Detect.user.js",
 		"homepageURL": "https://github.com/FirefoxBar/userscript/tree/master/Tieba_Blocked_Detect",
 		"description": "贴吧贴子屏蔽检测"
