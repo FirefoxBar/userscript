@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        贴吧贴子屏蔽检测
-// @version     1.1.1
+// @version     1.1.2
 // @description 贴吧都快凉了，过去的痕迹都没了，你为什么还在刷贴吧呢？你们建个群不好吗？
 // @match       *://tieba.baidu.com/*
 // @include     *://tieba.baidu.com/*
@@ -238,7 +238,7 @@ const detectBlocked = (event) => {
 		else {
 			checker = getThreadBlocked(tid).then(result => {
 				threadCache[tid] = result;
-				saveCache('thread');
+				// saveCache('thread');
 
 				return result;
 			});
@@ -259,7 +259,7 @@ const detectBlocked = (event) => {
 			// 回复时直接取值结果不准确，延迟 5 秒后请求
 			checker = sleep(5000).then(() => getReplyBlocked(tid, pid).then(result => {
 				replyCache[pid] = result;
-				saveCache('reply');
+				// saveCache('reply');
 				try {
 					if (result && JSON.parse(target.dataset.field).content.post_no === 1) {
 						document.querySelector('.core_title').classList.add('__tieba_blocked__');
@@ -296,7 +296,7 @@ const detectBlocked = (event) => {
 		else {
 			checker = getLzlBlocked(tid, pid, spid).then(result => {
 				replyCache[spid] = result;
-				saveCache('reply');
+				// saveCache('reply');
 
 				return result;
 			});
@@ -380,7 +380,7 @@ const init = () => {
 	if (getIsLogin()) {
 		const username = getUsername();
 		const portrait = getPortrait();
-		loadCache();
+		// loadCache();
 		initListener();
 		initStyle({ username, portrait });
 	}
