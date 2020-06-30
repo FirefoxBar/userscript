@@ -1,5 +1,7 @@
 # 163 Music MediaMetadata
 
+> 此功能即将由官方支持，此脚本可能将不再需要，继续使用有可能会出现状态冲突等问题
+
 在网易云音乐 Web 版上启用 MediaSession 支持
 
 ![](https://user-images.githubusercontent.com/8115912/72663337-81ddf300-3a2c-11ea-9299-6106bb75d3e0.png)
