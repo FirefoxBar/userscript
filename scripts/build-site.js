@@ -50,7 +50,7 @@ Promise.all(queue)
       name: meta.name,
       version: meta.version,
       installURL: meta.downloadURL,
-      homepageURL: "https://github.com/FirefoxBar/userscript/tree/master/" + it.name,
+      homepageURL: "https://github.com/FirefoxBar/userscript/tree/main/" + it.name,
       description: meta.description
     });
   });
