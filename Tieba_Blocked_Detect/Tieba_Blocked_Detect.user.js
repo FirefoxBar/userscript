@@ -1,7 +1,7 @@
 'use strict';
 
-const threadCache = {};
-const replyCache = {};
+let threadCache = {};
+let replyCache = {};
 
 /**
  * 精简封装 fetch 请求，自带请求 + 通用配置 + 自动 .text()
@@ -22,6 +22,13 @@ const request = (url, options = {}) => fetch(url, Object.assign({
 }, options)).then(res => res.text());
 
 /**
+ * 延迟执行
+ *
+ * @param {number} time - 延迟毫秒数
+ */
+const sleep = time => new Promise(resolve => setTimeout(resolve, time));
+
+/**
  * 获取当前用户是否登录
  * 
  * @returns {number|boolean} 是否登录，若已登录，贴吧页为 1，贴子页为 true
@@ -33,7 +40,14 @@ const getIsLogin = () => window.PageData.user.is_login;
  *
  * @returns {string} 用户名
  */
-const getUsername = () => window.PageData.user.name || PageData.user.user_name;
+const getUsername = () => window.PageData.user.name || window.PageData.user.user_name;
+
+/**
+ * 获取当前用户的 portrait（适用于无用户名）
+ *
+ * @returns {string} portrait
+ */
+const getPortrait = () => window.PageData.user.portrait.split('?').shift();
 
 /**
  * 获取 \u 形式的 unicode 字符串
@@ -78,7 +92,7 @@ const getReplyUrl = (tid, pid, pn = 0) => `//tieba.baidu.com/p/comment?tid=${tid
  * @param {string} res - 页面内容
  * @returns {boolean} 是否被屏蔽
  */
-const threadIsNotExist = res => res.indexOf('您要浏览的贴子不存在') >= 0;
+const threadIsNotExist = res => res.indexOf('您要浏览的贴子不存在') >= 0 || res.indexOf('(共0贴)') >= 0;
 
 /**
  * 获取主题贴是否被屏蔽
@@ -117,7 +131,7 @@ const getLzlBlocked = (tid, pid, spid) => request(getReplyUrl(tid, pid))
  * @param {string} username - 用户名
  * @returns {string} 样式表
  */
-const getTriggerStyle = (username) => {
+const getTriggerStyle = ({ username, portrait }) => {
 	const escapedUsername = getEscapeString(username).replace(/\\/g, '\\\\');
 
 	return `
@@ -128,10 +142,13 @@ const getTriggerStyle = (username) => {
 
 		/* 主题贴 */
 		#thread_list .j_thread_list[data-field*='"author_name":"${escapedUsername}"'],
+		#thread_list .j_thread_list[data-field*='"author_portrait":"${portrait}"'],
 		/* 回复贴 */
 		#j_p_postlist .l_post[data-field*='"user_name":"${escapedUsername}"'],
+		#j_p_postlist .l_post[data-field*='"portrait":"${portrait}"'],
 		/* 楼中楼 */
-		.j_lzl_m_w .lzl_single_post[data-field*="'user_name':'${username}'"] {
+		.j_lzl_m_w .lzl_single_post[data-field*="'user_name':'${username}'"],
+		.j_lzl_m_w .lzl_single_post[data-field*="'portrait':'${portrait}'"] {
 			-webkit-animation: __tieba_blocked_detect__;
 			-moz-animation: __tieba_blocked_detect__;
 			animation: __tieba_blocked_detect__;
@@ -146,7 +163,7 @@ const getTriggerStyle = (username) => {
 		.__tieba_blocked__.core_title {
 			background: #fae2e3;
 		}
-		.__tieba_blocked__::after {
+		.__tieba_blocked__::before {
 			background: #f22737;
 			position: absolute;
 			padding: 5px 10px;
@@ -164,18 +181,18 @@ const getTriggerStyle = (username) => {
 			padding-bottom: 6px;
 		}
 
-		.__tieba_blocked__.j_thread_list::after,
-		.__tieba_blocked__.core_title::after {
+		.__tieba_blocked__.j_thread_list::before,
+		.__tieba_blocked__.core_title::before {
 			content: '该贴已被屏蔽';
 			right: 0;
 			top: 0;
 		}
-		.__tieba_blocked__.l_post::after {
+		.__tieba_blocked__.l_post::before {
 			content: '该楼层已被屏蔽';
 			right: 0;
 			top: 0;
 		}
-		.__tieba_blocked__.lzl_single_post::after {
+		.__tieba_blocked__.lzl_single_post::before {
 			content: '该楼中楼已被屏蔽';
 			left: 0;
 			bottom: 0;
@@ -199,13 +216,13 @@ const detectBlocked = (event) => {
 
 	if (classList.contains('j_thread_list')) {
 		const tid = target.dataset.tid;
-		if (threadCache[tid]) {
+		if (threadCache[tid] !== undefined) {
 			checker = threadCache[tid];
 		}
 		else {
 			checker = getThreadBlocked(tid).then(result => {
 				threadCache[tid] = result;
-				saveCache('thread');
+				// saveCache('thread');
 
 				return result;
 			});
@@ -219,22 +236,25 @@ const detectBlocked = (event) => {
 			return;
 		}
 
-		if (replyCache[pid]) {
+		if (replyCache[pid] !== undefined) {
 			checker = replyCache[pid];
 		}
 		else {
-			checker = getReplyBlocked(tid, pid).then(result => {
+			// 回复时直接取值结果不准确，延迟 5 秒后请求
+			checker = sleep(5000).then(() => getReplyBlocked(tid, pid).then(result => {
 				replyCache[pid] = result;
-				saveCache('reply');
+				// saveCache('reply');
 				try {
 					if (result && JSON.parse(target.dataset.field).content.post_no === 1) {
 						document.querySelector('.core_title').classList.add('__tieba_blocked__');
 					}
 				}
-				catch (err) { }
+				catch (err) {
+					// pass through
+				}
 
 				return result;
-			});
+			}));
 		}
 	}
 	else if (classList.contains('lzl_single_post')) {
@@ -254,13 +274,13 @@ const detectBlocked = (event) => {
 			return;
 		}
 
-		if (replyCache[spid]) {
+		if (replyCache[spid] !== undefined) {
 			checker = replyCache[spid];
 		}
 		else {
 			checker = getLzlBlocked(tid, pid, spid).then(result => {
 				replyCache[spid] = result;
-				saveCache('reply');
+				// saveCache('reply');
 
 				return result;
 			});
@@ -279,11 +299,11 @@ const detectBlocked = (event) => {
 /**
  * 初始化样式
  *
- * @param {string} username - 用户名
+ * @param {object} param - 用户参数
  */
-const initStyle = (username) => {
+const initStyle = (param) => {
 	const style = document.createElement('style');
-	style.textContent = getTriggerStyle(username);
+	style.textContent = getTriggerStyle(param);
 	document.head.appendChild(style);
 };
 
@@ -308,15 +328,19 @@ const loadCache = () => {
 		try {
 			threadCache = JSON.parse(thread);
 		}
-		catch (error) { }
+		catch (error) {
+			// pass through
+		}
 	}
 	if (reply) {
 		try {
 			replyCache = JSON.parse(reply);
 		}
-		catch (error) { }
+		catch (error) {
+			// pass through
+		}
 	}
-}
+};
 
 /**
  * 保存并没有什么卵用的缓存
@@ -330,7 +354,7 @@ const saveCache = (key) => {
 	else if (key === 'reply') {
 		sessionStorage.setItem('tieba-blocked-cache-reply', JSON.stringify(replyCache));
 	}
-}
+};
 
 /**
  * 初始化执行
@@ -339,9 +363,10 @@ const saveCache = (key) => {
 const init = () => {
 	if (getIsLogin()) {
 		const username = getUsername();
-		loadCache();
+		const portrait = getPortrait();
+		// loadCache();
 		initListener();
-		initStyle(username);
+		initStyle({ username, portrait });
 	}
 };
 
