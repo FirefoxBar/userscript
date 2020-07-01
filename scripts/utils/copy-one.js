@@ -11,7 +11,7 @@ module.exports = function(name, output) {
   });
 
   // 生成meta.js
-  writeFileSync(path.resolve(output, name + '.meta.js'), meta.text, {
+  writeFileSync(path.resolve(output, name + '.meta.js'), meta.text.trim(), {
     encoding: 'UTF-8' 
   });
 

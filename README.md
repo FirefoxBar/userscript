@@ -30,3 +30,12 @@
 * [【点击安装】](https://userscript.firefoxcn.net/js/Copy_all_links.user.js) [Copy all links](https://github.com/FirefoxBar/userscript/tree/master/Copy_all_links)
 
 * [【点击安装】](https://userscript.firefoxcn.net/js/Tieba_Blocked_Detect.user.js) [Tieba Blocked Detect](https://github.com/FirefoxBar/userscript/tree/master/Tieba_Blocked_Detect)
+
+
+## 开发说明
+
+* 代码修改请在main分支上进行。
+* GM头信息请写在各个脚本下的meta.yml文件中。Yaml语法可参考[这里](https://www.ruanyifeng.com/blog/2016/07/yaml.html)
+* 可以使用[这个工具](https://userscript.firefoxcn.net/)将原有的GM头信息转为Yaml格式。
+* 提交后CI会自动build并发布。
+ 
