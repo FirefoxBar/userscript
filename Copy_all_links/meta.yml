@@ -1,0 +1,12 @@
+name: Copy all links
+version: 1
+description: 复制所有链接
+include:
+  - http://*/*
+  - https://*/*
+author: ShuangYa
+run-at: document-end
+grant:
+  - GM_setClipboard
+  - GM_registerMenuCommand
+namespace: http://blog.sylingd.com

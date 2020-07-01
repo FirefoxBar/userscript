@@ -1,0 +1,18 @@
+name: Automatically Pause Video
+version: 0.2
+description: 视频自动播放/暂停
+include:
+  - http://www.tudou.com/*
+  - http://www.iqiyi.com/*
+  - http://v.qq.com/*
+  - http://www.letv.com/*
+  - http://v.youku.com/*
+  - http://tv.sohu.com/*
+  - http://vod.xunlei.com/*
+  - http://vod.kankan.com/*
+  - http://pan.baidu.com/play/*
+  - http://www.56.com/*
+  - http://www.bilibili.com/*
+author: 网络中二行客
+grant: none
+namespace: http://tieba.baidu.com/f?kw=firefox

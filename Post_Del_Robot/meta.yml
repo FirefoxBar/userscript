@@ -1,0 +1,16 @@
+name: Post Del Robot
+version: 11
+description: 贴吧删帖机器人
+include:
+  - http://tieba.baidu.com/f?*
+  - https://tieba.baidu.com/f?*
+author: ShuangYa
+run-at: document-end
+grant:
+  - GM_xmlhttpRequest
+  - GM_registerMenuCommand
+  - GM_addStyle
+  - GM_setClipboard
+run-at: document-end
+require: http://libs.baidu.com/jquery/1.11.1/jquery.min.js
+namespace: http://blog.sylingd.com

@@ -1,0 +1,8 @@
+name: 163 Music HTML5 Player
+version: 2
+description: 网易云音乐 HTML5 播放器
+match: "*://music.163.com/*"
+include: "*://music.163.com/*"
+author: Palatoo Simple
+run-at: document-start
+namespace: http://firefoxbar.github.io/#userscripts

@@ -1,0 +1,28 @@
+{
+  "name": "@fxb/userscript",
+  "version": "1.0.0",
+  "description": "FirefoxBar user script",
+  "scripts": {
+    "build": "node scripts/build-s.js",
+    "build-site": "node scripts/build-site.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FirefoxBar/userscript.git"
+  },
+  "author": "FirefoxBar",
+  "bugs": {
+    "url": "https://github.com/FirefoxBar/userscript/issues"
+  },
+  "homepage": "https://github.com/FirefoxBar/userscript#readme",
+  "devDependencies": {
+    "@types/greasemonkey": "^4.0.0",
+    "fs-extra": "^9.0.1",
+    "progress-bar-webpack-plugin": "^2.1.0",
+    "terser-webpack-plugin": "^3.0.6",
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.5",
+    "webpack": "^4.43.0",
+    "yaml": "^1.10.0"
+  }
+}

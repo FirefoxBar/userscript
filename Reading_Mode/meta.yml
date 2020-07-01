@@ -1,0 +1,26 @@
+name: Reading Mode
+namespace: blog.sylingd.com
+description: 阅读模式
+author: ShuangYa
+include:
+  - 'http://blog.csdn.net/*/article/details/*'
+  - 'https://blog.csdn.net/*/article/details/*'
+  - 'http://*.cnblogs.com/*/p/*'
+  - 'http://*.cnblogs.com/*/archive/*'
+  - 'http://*.cnblogs.com/*/articles/*'
+  - 'https://*.cnblogs.com/*/p/*'
+  - 'https://*.cnblogs.com/*/archive/*'
+  - 'https://*.cnblogs.com/*/articles/*'
+  - 'http://blog.sina.com.cn/s/blog_*.html'
+  - 'http://*.blog.163.com/blog/static/*'
+  - 'http://*.blog.sohu.com/*'
+  - 'https://juejin.im/entry/*'
+  - 'https://zhuanlan.zhihu.com/p/*'
+  - 'http://blog.tianya.cn/post-*'
+  - 'https://blog.tianya.cn/post-*'
+  - 'http://blog.sciencenet.cn/blog-*'
+  - 'http://blog.chinaunix.net/uid-*'
+grant:
+  - GM_setValue
+  - GM_getValue
+version: '13'

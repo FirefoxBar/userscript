@@ -1,0 +1,52 @@
+node_modules/
+coverage/
+.idea/
+.vscode/
+~*
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+# Optional npm cache directory
+.npm
+
+# dist
+lib/
+lib/*
+dist/
+dist/*
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# tests and coverages
+.nyc_output/
+coverage/
+coverage/*
+mochawesome-report/
+
+# OS generated files #
+######################
+.DS_Store
+ *.swp
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# NPM
+package-lock.json

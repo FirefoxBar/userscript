@@ -1,0 +1,14 @@
+name: Short URL
+namespace: blog.sylingd.com
+description: 短网址生成器
+author: ShuangYa
+include:
+  - 'http://*'
+  - 'https://*'
+grant:
+  - GM_xmlhttpRequest
+  - GM_addStyle
+  - GM_setClipboard
+  - GM_registerMenuCommand
+connect: '*'
+version: '12'

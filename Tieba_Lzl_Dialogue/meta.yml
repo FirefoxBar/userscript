@@ -1,0 +1,8 @@
+name: Tieba Lzl Dialogue
+namespace: 'http://tieba.baidu.com/'
+include:
+  - 'http://tieba.baidu.com/p/*'
+  - 'http://tieba.baidu.com/f?ct*'
+version: '0.5'
+grant: none
+description: 贴吧楼中楼弹出框查看回复。

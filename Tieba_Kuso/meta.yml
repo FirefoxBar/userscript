@@ -1,0 +1,9 @@
+name: Tieba Kuso
+namespace: 'http://tieba.baidu.com/f?kw=firefox'
+include:
+  - 'http://tieba.baidu.com/p/*'
+  - 'http://tieba.baidu.com/f?*'
+version: '0.1'
+grant: GM_xmlhttpRequest
+author: Paltoo Young
+description: 贴吧头像恶搞。
