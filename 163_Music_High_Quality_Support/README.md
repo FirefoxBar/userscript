@@ -3,7 +3,7 @@
 **WARNING: 此脚本已经不再维护，且本脚本对标记为【128K免费】的曲目可能没有效果**
 
 ## 安装
-- [Install From GitHub](https://github.com/FirefoxBar/userscript/raw/master/163_Music_HTML5_Player/163_Music_HTML5_Player.user.js)
+- [Install From GitHub](https://userscript.firefoxcn.net/js/163_Music_HTML5_Player.user.js)
 - [Install From GreasyFork](https://greasyfork.org/zh-CN/scripts/10582/)
 
 ## 功能

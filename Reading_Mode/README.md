@@ -15,7 +15,7 @@
 * 掘金
 * 知乎专栏
 
-[【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Reading_Mode/Reading_Mode.user.js)
+[【点击安装】](https://userscript.firefoxcn.net/js/Reading_Mode.user.js)
 
 author: 泷涯
 

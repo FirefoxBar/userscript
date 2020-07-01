@@ -4,7 +4,7 @@
 
 ## 安装
 
-* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Post_Del_Robot/PostDelRobot.user.js)
+* [【点击安装】](https://userscript.firefoxcn.net/js/PostDelRobot.user.js)
 
 ## 功能
 

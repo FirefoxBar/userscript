@@ -10,7 +10,7 @@
 
 * Firefox右键单击页面中的链接可以生成此链接的短网址（不支持动态添加的链接）
 
-* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Short_URL/Short_URL.user.js)
+* [【点击安装】](https://userscript.firefoxcn.net/js/Short_URL.user.js)
 
 * author: 泷涯
 

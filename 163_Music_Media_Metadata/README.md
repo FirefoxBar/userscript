@@ -9,7 +9,7 @@
 
 ## 安装
 
-- [Install From GitHub](https://github.com/FirefoxBar/userscript/raw/master/163_Music_Media_Metadata/163_Music_Media_Metadata.user.js)
+- [Install From GitHub](https://userscript.firefoxcn.net/js/163_Music_Media_Metadata.user.js)
 - [Install From GreasyFork](https://greasyfork.org/zh-CN/scripts/395376)
 
 

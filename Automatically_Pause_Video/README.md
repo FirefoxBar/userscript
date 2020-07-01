@@ -1,7 +1,7 @@
 # Automatically Pause Video #
 
 ## 安装 ##
-* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Automatically_Pause_Video/Automatically_Pause_Video.user.js)
+* [【点击安装】](https://userscript.firefoxcn.net/js/Automatically_Pause_Video.user.js)
 
 ## 功能 ##
 * 切换标签页或者最小化浏览器窗口时，自动暂停/播放视频。

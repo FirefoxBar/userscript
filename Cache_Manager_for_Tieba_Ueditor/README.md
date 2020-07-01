@@ -1,7 +1,7 @@
 # Cache Manager for Tieba Ueditor #
 
 ## 安装 ##
-* [【点击安装】](https://github.com/FirefoxBar/userscript/raw/master/Cache_Manager_for_Tieba_Ueditor/Cache_Manager_for_Tieba_Ueditor.user.js)
+* [【点击安装】](https://userscript.firefoxcn.net/js/Cache_Manager_for_Tieba_Ueditor.user.js)
 
 ## 功能 ##
 * 基於百度贴吧内建之文字备份系统的管理器。

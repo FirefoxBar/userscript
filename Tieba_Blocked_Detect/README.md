@@ -5,7 +5,7 @@
 
 ## 安装
 
-- [Install From GitHub](https://github.com/FirefoxBar/userscript/raw/master/Tieba_Blocked_Detect/Tieba_Blocked_Detect.user.js)
+- [Install From GitHub](https://userscript.firefoxcn.net/js/Tieba_Blocked_Detect.user.js)
 - [Install From GreasyFork](https://greasyfork.org/zh-CN/scripts/383981)
 
 ## 使用说明
