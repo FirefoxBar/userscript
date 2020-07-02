@@ -1,6 +1,6 @@
 {
   "name": "@fxb/userscript-putian-warning",
-  "version": "3",
+  "version": "4",
   "main": "index.js",
   "author": "ShuangYa",
   "license": "MIT"
