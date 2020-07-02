@@ -16,6 +16,25 @@ module.exports = function(options) {
   if (!isDev) {
     minimizer.unshift(new TerserPlugin());
   }
+  const cssLoader = [
+    'gm-style-loader',
+    {
+      loader: 'css-loader',
+      options: {
+        modules: true
+      }
+    }
+  ];
+  if (!isDev) {
+    cssLoader.push({
+      loader: 'postcss-loader',
+      options: {
+        plugins: [
+          require('cssnano')
+        ]
+      }
+    });
+  }
   return {
     context: root,
     entry: {
@@ -39,23 +58,7 @@ module.exports = function(options) {
         },
         {
           test: /\.css$/,
-          use: [
-            'gm-style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: isDev ? [] : [
-                  require('cssnano')
-                ]
-              }
-            }
-          ]
+          use: cssLoader
         }
       ],
     },
