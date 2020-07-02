@@ -1,0 +1,41 @@
+.banner {
+  display: block !important;
+  width: 100%;
+  height: 100px;
+  line-height: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  font-size: 50px;
+  text-align: center;
+  color: white;
+  background: red;
+}
+.banner > * {
+  vertical-align: middle;
+}
+.banner > button {
+  font-size: 30px;
+}
+.info {
+  width: 400px;
+  position: fixed;
+  display: none;
+  top: 150px;
+  left: 50%;
+  z-index: 99999;
+  font-size: 15px;
+  margin: 0 -200px;
+  background: #FFF;
+  color: #000;
+  border: 1px solid #000;
+  padding: 20px;
+}
+.info p {
+  margin-bottom: 5px;
+}
+.info a {
+  color: #337ab7;
+  text-decoration: underline;
+}

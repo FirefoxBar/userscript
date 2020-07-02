@@ -1,5 +1,4 @@
 name: Putian Warning
-version: 3
 description: 莆田系医院网站提醒
 include:
   - http://*/*

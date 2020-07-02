@@ -6,8 +6,6 @@
       "dom",
       "es2017"
     ],
-    "rootDir": "./src",
-    "outDir": "./lib",
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": false,
@@ -17,14 +15,10 @@
     "sourceMap": false,
     "strict": true,
     "target": "esnext",
-    "declaration": true,
+    "declaration": false,
     "resolveJsonModule": true
   },
-  "paths": {
-    "src/*":[
-      "./src/*"
-    ]
-  },
-  "exclude": ["./lib", "./image"],
-  "include": ["./src"]
+  "exclude": [
+    "./scripts"
+  ]
 }

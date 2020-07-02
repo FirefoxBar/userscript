@@ -24,17 +24,18 @@ const distJs = resolve(root, 'dist/pages/js');
 if (!existsSync(distJs)) {
   mkdirSync(distJs);
 }
-const queue = dirs.map(it => {
-  if (!statSync(it).isDirectory()) {
+const queue = dirs.map(async it => {
+  const fullPath = resolve(root, it);
+  if (!statSync(fullPath).isDirectory()) {
     return;
   }
   // meta.yml
-  if (existsSync(resolve(root, it, 'package.json'))) {
+  if (existsSync(resolve(fullPath, 'package.json'))) {
     // 需要编译的
-    return buildOne(it, distJs);
+    return await buildOne(it, distJs);
   } else if (existsSync(resolve(root, it, it + '.user.js'))) {
     // 纯复制，但仍然需要解析meta
-    return Promise.resolve(copyOne(it, distJs));
+    return copyOne(it, distJs);
   }
 });
 
