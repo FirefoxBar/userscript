@@ -1,4 +1,4 @@
-import styles from './index.css';
+import { locals } from './index.css';
 
 const list: { [x: string]: [] } = require('./list.json');
 
@@ -8,7 +8,7 @@ const domain = unsafeWindow.location.hostname;
 if (unsafeWindow.location.href !== '' && typeof list[domain] !== 'undefined') {
 	//顶部banner
 	const banner = document.createElement('div');
-	banner.className = styles.banner;
+	banner.className = locals.banner;
 	const banner_btn = document.createElement('button');
 	banner_btn.innerHTML = '查看详情';
 	const banner_text = document.createElement('span');
@@ -23,7 +23,7 @@ if (unsafeWindow.location.href !== '' && typeof list[domain] !== 'undefined') {
 
 	//详情框
 	const info = document.createElement('div');
-	info.className = styles.info;
+	info.className = locals.info;
 	for (const k in list[domain]) {
 		const childEle = document.createElement('p');
 		childEle.innerText = list[domain][k];

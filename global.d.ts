@@ -1,6 +1,8 @@
 declare module '*.css' {
-  const content: any;
-  export default content;
+  const locals: any;
+  export {
+    locals
+  };
 }
 
 declare function GM_addStyle(css: string): void;
