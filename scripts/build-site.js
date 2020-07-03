@@ -3,6 +3,7 @@ const { copySync } = require('fs-extra');
 const { resolve } = require('path');
 const buildOne = require('./utils/build-one');
 const copyOne = require('./utils/copy-one');
+const chalk = require('chalk');
 
 const root = resolve(__dirname, '..');
 const dirs = readdirSync(root);
@@ -47,6 +48,7 @@ Promise
     if (!it) {
       return;
     }
+    console.log(chalk.green('✔') + ' 已' + (it.stats ? '编译' : '已复制') + ' ' + it.name);
     const meta = it.meta.meta;
     list.push({
       name: meta.name,
