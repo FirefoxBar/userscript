@@ -45,7 +45,8 @@
 * 进入你的脚本目录，使用npm初始化。各类参数可自由指定。
 * 如果需要，可以在脚本目录下进一步安装npm依赖。
 * 新建`src/index.ts`，在其中编写脚本代码。
-* 编写完成后，运行`npm run build -- -D 你的目录名称`，例如`npm run build -- -D Putian_Warning`，即可在你的目录下生成脚本代码。
+* 编写过程中，运行`npm run dev 你的目录名称`，例如`npm run dev Putian_Warning`，即可启动自动编译，在你的目录下生成脚本代码，并会随着你的修改自动重新编译。
+* 编写完成后，运行`npm run build-dev 你的目录名称`，例如`npm run build-dev Putian_Warning`，即可在你的目录下生成脚本代码。
 
 ### 使用样式
 编译工具内置了CSS Module支持。因此，你可以直接编写CSS文件。但注意在meta.yml中申请GM_addStyle权限。

@@ -40,7 +40,8 @@ const queue = dirs.map(async it => {
 });
 
 // 生成列表
-Promise.all(queue)
+Promise
+.all(queue)
 .then(result => {
   result.forEach(it => {
     if (!it) {
@@ -70,3 +71,13 @@ Promise.all(queue)
   // 复制站点文件
   copySync(resolve(__dirname, 'www'), resolve(root, 'dist/pages'));
 })
+.catch(err => {
+  if (Array.isArray(err)) {
+    err.forEach(error => {
+      console.error(error.message);
+    });
+  } else {
+    console.error(err);
+  }
+  process.exit(1);
+});

@@ -74,7 +74,9 @@ module.exports = function(options) {
       path: output,
     },
     plugins: [
-      new ProgressBarPlugin(),
+      new ProgressBarPlugin({
+        summary: false
+      }),
       {
         apply: compiler => {
           compiler.hooks.afterEmit.tap('Generate meta.js', () => {

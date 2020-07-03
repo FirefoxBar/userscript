@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const config = require('./webpack.base');
+const config = require('./webpack.config');
 const generateMeta = require('./generate-meta');
 const { readFileSync, existsSync } = require('fs');
 const path = require('path');
@@ -35,6 +35,13 @@ module.exports = function(name, output, isDev = false) {
       if (err) {
         reject(err);
         return;
+      }
+      // 遍历stats，检查有没有错误
+      for (const module of stats.compilation.modules) {
+        if (module.errors && module.errors.length > 0) {
+          reject(module.errors);
+          return;
+        }
       }
       resolve({ name, meta, stats });
     });
