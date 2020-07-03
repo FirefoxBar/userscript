@@ -88,9 +88,9 @@ declare function GM_getResourceURL(resourceName: string): string;
 /**
  * 打开新标签页
  * @param {string} url 在新标签页开启的地址
- * @param {boolean} aLoadInBackground 是否后台开启目标标签页; 默认为 true，即后台开启
+ * @param {boolean} loadInBackground 是否后台开启目标标签页; 默认为 true，即后台开启
  */
-declare function GM_openInTab(url: string, aLoadInBackground: boolean = true): Window;
+declare function GM_openInTab(url: string, loadInBackground?: boolean): Window;
 
 /**
  * 设置剪贴板

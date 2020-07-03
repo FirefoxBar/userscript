@@ -21,6 +21,6 @@ include:
   - 'http://blog.sciencenet.cn/blog-*'
   - 'http://blog.chinaunix.net/uid-*'
 grant:
+  - GM_addStyle
   - GM_setValue
   - GM_getValue
-version: '13'

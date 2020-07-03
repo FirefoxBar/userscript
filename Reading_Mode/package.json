@@ -1,0 +1,7 @@
+{
+  "name": "@fxb/userscript-reading-mode",
+  "version": "14",
+  "main": "index.js",
+  "author": "ShuangYa",
+  "license": "MIT"
+}

@@ -35,25 +35,45 @@ module.exports = function(options) {
       }
     });
   }
+  const babelLoader = {
+    loader: 'babel-loader',
+    options: {
+      presets: [
+        // '@babel/preset-env',
+        ['@babel/preset-react', {
+          pragma: 'h'
+        }]
+      ],
+      babelrc: false,
+      overrides: [
+        {
+          exclude: /(^|\/|\\)node_modules(\/|\/)/,
+          presets: [
+            [require.resolve('@babel/preset-typescript'), { jsxPragma: 'h' }],
+          ],
+        },
+      ],
+    }
+  };
   return {
     context: root,
     entry: {
       [name + '.user']: path.resolve(root, 'src/index')
     },
     mode: 'production',
+    // mode: 'development',
     module: {
       rules: [
+        {
+          test: /\.jsx?$/,
+          include: path.resolve(root, 'src'),
+          use: babelLoader
+        },
         {
           test: /\.tsx?$/,
           include: path.resolve(root, 'src'),
           use: [
-            {
-              loader: 'ts-loader',
-              options: {
-                onlyCompileBundledFiles: true,
-                experimentalFileCaching: true
-              }
-            }
+            babelLoader
           ]
         },
         {
@@ -66,6 +86,7 @@ module.exports = function(options) {
       extensions: [
         '.tsx',
         '.ts',
+        '.jsx',
         '.js'
       ],
     },

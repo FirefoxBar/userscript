@@ -25,12 +25,18 @@ const main = async function() {
     downloadURL: `https://userscript.firefoxcn.net/js/${name}.user.js`
   });
 
-  const complier = webpack(config({
+  const webpackConfig = config({
     name,
     meta: meta.text,
     output: root,
     isDev: true
-  }));
+  });
+
+  if (existsSync(path.resolve(root, 'webpack.overwrite.js'))) {
+    require(path.resolve(root, 'webpack.overwrite.js'))(webpackConfig);
+  }
+
+  const complier = webpack(webpackConfig);
 
   complier.watch({}, (err, stats) => {
     if (err) {
