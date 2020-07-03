@@ -39,12 +39,14 @@
 * 可以使用[这个工具](https://userscript.firefoxcn.net/)将原有的GM头信息转为Yaml格式。
 * 提交后CI会自动build并发布。
 
-## TS开发说明
+## 使用NPM开发
 
 ### 基本说明
 * 进入你的脚本目录，使用npm初始化。各类参数可自由指定。
 * 如果需要，可以在脚本目录下进一步安装npm依赖。
-* 新建`src/index.ts`，在其中编写脚本代码。
+* 新建入口文件，在其中编写脚本代码。
+  * 如果你想要使用TypeScript，则新建`src/index.ts`。
+  * 如果你想要使用普通JS，则新建`src/index.js`。
 * 编写过程中，运行`npm run dev 你的目录名称`，例如`npm run dev Putian_Warning`，即可启动自动编译，在你的目录下生成脚本代码，并会随着你的修改自动重新编译。
 * 编写完成后，运行`npm run build-dev 你的目录名称`，例如`npm run build-dev Putian_Warning`，即可在你的目录下生成脚本代码。
 
