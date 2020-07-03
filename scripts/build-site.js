@@ -48,7 +48,7 @@ Promise
     if (!it) {
       return;
     }
-    console.log(chalk.green('✔') + ' 已' + (it.stats ? '编译' : '已复制') + ' ' + it.name);
+    console.log(chalk.green('✔') + ' 已' + (it.stats ? '编译' : '复制') + ' ' + it.name);
     const meta = it.meta.meta;
     list.push({
       name: meta.name,
