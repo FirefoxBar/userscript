@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>转换metajs至meta</title>
+  <script src="https://g.alicdn.com/code/lib/js-yaml/3.14.0/js-yaml.min.js"></script>
+  <style>
+    #main {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    #from {
+      width: 100%;
+      min-height: 350px;
+      box-sizing: border-box;
+    }
+    #submit {
+      width: 100%;
+      font-size: 18px;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <textarea id="from"></textarea>
+    <button id="submit">转换</button>
+  </div>
+  <script>
+    document.getElementById('submit').addEventListener('click', function() {
+      var text = document.getElementById('from').value;
+      var result = {};
+      text.trim().split("\n").forEach(function(it) {
+        var x = /\/\/ @([a-zA-Z0-9\-]+)([ \t]+)(.*)/.exec(it);
+        if (!x) {
+          return;
+        }
+        var k = x[1];
+        var value = x[3];
+        if (typeof result[k] !== 'undefined') {
+          if (Array.isArray(result[k])) {
+            result[k].push(value);
+          } else {
+            var t = result[k];
+            result[k] = [t, value];
+          }
+        } else {
+          result[k] = value;
+        }
+      });
+      delete result['updateURL'];
+      delete result['downloadURL'];
+      document.getElementById('from').value = jsyaml.dump(result, {
+        lineWidth: 999
+      });
+    })
+  </script>
+</body>
+</html>
