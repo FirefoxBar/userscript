@@ -32,7 +32,7 @@
       var text = document.getElementById('from').value;
       var result = {};
       text.trim().split("\n").forEach(function(it) {
-        var x = /\/\/ @(\w+)([ \t]+)(.*)/.exec(it);
+        var x = /\/\/ @([a-zA-Z0-9\-]+)([ \t]+)(.*)/.exec(it);
         if (!x) {
           return;
         }
