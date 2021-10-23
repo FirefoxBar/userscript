@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Fxxk CSDN
-// @version 3
-// @description CSDN自动展开
+// @version 4
+// @description CSDN辅助工具
 // @include https://blog.csdn.net/*
 // @grant GM_addStyle
 // @author ShuangYa
