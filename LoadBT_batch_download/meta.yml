@@ -1,5 +1,5 @@
-name: LoadBT batch download
-version: 2
+name: LoadBT 批量下载
+version: 3
 description: LoadBT 批量复制下载链接
 include:
   - https://www.loadbt.com/files*
