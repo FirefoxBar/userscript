@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name LoadBT batch download
-// @version 1
+// @version 2
 // @description LoadBT 批量复制下载链接
 // @include https://www.loadbt.com/files*
 // @author ShuangYa
@@ -49,7 +49,7 @@
     });
   };
 
-  async function onItemClick(folderId) {
+  async function onItemClick(rootId) {
     const el = document.createElement("div");
     el.style.position = "fixed";
     el.style.zIndex = "99999";
@@ -68,19 +68,34 @@
 
     el.querySelector(".desc").innerText = "正在获取文件列表";
 
-    const { files } = await fetchQueue("/files/" + folderId);
     const result = [];
-    for (const file of files) {
-      const u = await fetchQueue("/download/" + file.id);
-      result.push(u.url);
-      // 更新进度
-      el.querySelector(".desc").innerText = result.length + " / " + files.length;
-      el.querySelector(".progress-bar").style.width = (100 * result.length) / files.length + "%";
-    }
+    let totalCount = 0;
+
+    // 更新进度
+    const updateProgress = () => {
+      el.querySelector(".desc").innerText = result.length + " / " + totalCount;
+      el.querySelector(".progress-bar").style.width = (100 * result.length) / totalCount + "%";
+    };
+
+    const addFolder = async (folderId) => {
+      const { files } = await fetchQueue("/files/" + folderId);
+      totalCount += files.filter((x) => !x.is_directory).length;
+      for (const file of files) {
+        // 处理多级文件夹
+        if (file.is_directory) {
+          await addFolder(file.id);
+        } else {
+          const u = await fetchQueue("/download/" + file.id);
+          result.push(u.url);
+        }
+        updateProgress();
+      }
+    };
+
+    await addFolder(rootId);
 
     el.remove();
     GM_setClipboard(result.join("\n"));
-
     setTimeout(() => alert("已复制"));
   }
 
