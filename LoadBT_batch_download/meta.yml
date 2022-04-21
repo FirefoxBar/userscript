@@ -1,0 +1,12 @@
+name: LoadBT batch download
+version: 1
+description: LoadBT 批量复制下载链接
+include:
+  - https://www.loadbt.com/files*
+author: ShuangYa
+run-at: document-end
+icon: https://www.loadbt.com/images/icons/favicon.ico
+grant:
+  - unsafeWindow
+  - GM_setClipboard
+namespace: http://blog.sylingd.com
