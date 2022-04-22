@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name LoadBT 批量下载
-// @version 3
+// @version 4
 // @description LoadBT 批量复制下载链接
 // @include https://www.loadbt.com/files*
 // @author ShuangYa
@@ -49,34 +49,44 @@
     });
   };
 
+  let tipContainer = null;
+  function tip(text, progress) {
+    if (!tipContainer) {
+      tipContainer = document.createElement("div");
+      tipContainer.style.position = "fixed";
+      tipContainer.style.zIndex = "99999";
+      tipContainer.style.textAlign = "center";
+      tipContainer.style.bottom = "20px";
+      tipContainer.style.left = "50%";
+      tipContainer.style.width = "400px";
+      tipContainer.style.maxWidth = "100%";
+      tipContainer.style.transform = "translateX(-50%)";
+      tipContainer.style.border = "1px solid #00000026";
+      tipContainer.style.borderRadius = "0.25rem";
+      tipContainer.style.padding = "12px";
+      tipContainer.style.background = "#fff";
+      tipContainer.innerHTML = "<div class='desc'></div><div class='progress'><div class='progress-bar bg-info'></div></div>";
+      document.body.appendChild(tipContainer);
+    }
+    tipContainer.querySelector(".progress").style.display = typeof progress === "undefined" ? "none" : "block";
+    tipContainer.querySelector(".desc").innerText = text;
+    if (typeof progress !== "undefined") {
+      tipContainer.querySelector(".progress-bar").style.width = progress * 100 + "%";
+    }
+  }
+
+  function hideTip() {
+    tipContainer.remove();
+    tipContainer = null;
+  }
+
   async function onItemClick(rootId) {
-    const el = document.createElement("div");
-    el.style.position = "fixed";
-    el.style.zIndex = "99999";
-    el.style.textAlign = "center";
-    el.style.bottom = "20px";
-    el.style.left = "50%";
-    el.style.width = "400px";
-    el.style.maxWidth = "100%";
-    el.style.transform = "translateX(-50%)";
-    el.style.border = "1px solid #00000026";
-    el.style.borderRadius = "0.25rem";
-    el.style.padding = "12px";
-    el.style.background = "#fff";
-    el.innerHTML = "<div class='desc'></div><div class='progress'><div class='progress-bar bg-info'></div></div>";
-    document.body.appendChild(el);
-
-    el.querySelector(".desc").innerText = "正在获取文件列表";
-
+    if (rootId == -1) return;
+    tip("正在获取文件列表");
     const result = [];
     let totalCount = 0;
-
     // 更新进度
-    const updateProgress = () => {
-      el.querySelector(".desc").innerText = result.length + " / " + totalCount;
-      el.querySelector(".progress-bar").style.width = (100 * result.length) / totalCount + "%";
-    };
-
+    const updateProgress = () => tip("获取下载地址 " + result.length + " / " + totalCount, result.length / totalCount);
     const addFolder = async (folderId) => {
       const { files } = await fetchQueue("/files/" + folderId);
       totalCount += files.filter((x) => !x.is_directory).length;
@@ -91,21 +101,27 @@
         updateProgress();
       }
     };
-
     await addFolder(rootId);
 
-    el.remove();
+    hideTip();
     GM_setClipboard(result.join("\n"));
-    setTimeout(() => alert("已复制"));
+    setTimeout(() => alert("下载地址已复制到剪贴板"));
   }
 
   async function run() {
+    tip("正在获取文件夹");
     // 加载文件夹列表
     const folders = (await fetchQueue("/files/0")).files;
+    hideTip();
     if (folders.length === 0) {
       alert("没有可下载的文件夹");
       return;
     }
+
+    folders.push({
+      id: -1,
+      name: "取消"
+    });
 
     const folderList = document.createElement("div");
     folderList.className = "dropdown-menu dropdown-menu-right show";
