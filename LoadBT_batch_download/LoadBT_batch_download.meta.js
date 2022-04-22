@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name LoadBT 批量下载
-// @version 3
+// @version 4
 // @description LoadBT 批量复制下载链接
 // @include https://www.loadbt.com/files*
 // @author ShuangYa
