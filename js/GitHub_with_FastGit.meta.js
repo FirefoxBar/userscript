@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name GitHub with FastGit
-// @version 1
+// @version 2
 // @description 自动替换 GitHub 页面上的相关链接为 FastGit
 // @include https://github.com/*
 // @author ShuangYa

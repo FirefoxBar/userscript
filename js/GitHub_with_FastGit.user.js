@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name GitHub with FastGit
-// @version 1
+// @version 2
 // @description 自动替换 GitHub 页面上的相关链接为 FastGit
 // @include https://github.com/*
 // @author ShuangYa
@@ -12,31 +12,42 @@
 // @downloadURL https://userscript.firefoxcn.net/js/GitHub_with_FastGit.user.js
 // ==/UserScript==
 (function () {
-  const replaceLinks = (links) => {
-    Array.prototype.forEach.call(links, (link) => {
-      const url = link.href;
-      if (url.indexOf(".fastgit.org") !== -1) return;
-      // 下载 Release
-      if (url.indexOf("/releases/download/") !== -1) {
-        console.log("将 " + url + " 替换为 download.fastgit.org");
-        link.href = url.replace("github.com", "download.fastgit.org");
-        return;
-      }
-      // 下载某分支
-      if (url.indexOf("/archive/refs/") !== -1) {
-        console.log("将 " + url + " 替换为 archive.fastgit.org");
-        link.href = url.replace("github.com", "archive.fastgit.org");
-        return;
-      }
-      // RAW
-      const rawRegex = /https?:\/\/(.*?)\/(.*?)\/(.*?)\/raw\//;
-      if (rawRegex.test(url)) {
-        console.log("将 " + url + " 替换为 raw.fastgit.org");
-        link.href = url.replace(rawRegex, "https://raw.fastgit.org/$2/$3/");
-        return;
-      }
-    });
+  const isDotGit = (url) =>
+    url.indexOf("https://github.com/") === 0 && url.substr(-4) === ".git";
+
+  const replaceUrl = (url) => {
+    if (url.indexOf(".fastgit.org") !== -1) return;
+    // 下载 Release
+    if (url.indexOf("/releases/download/") !== -1) {
+      return url.replace("github.com", "download.fastgit.org");
+    }
+    // 下载某分支
+    if (url.indexOf("/archive/refs/") !== -1) {
+      return url.replace("github.com", "archive.fastgit.org");
+    }
+    // .git，只识别 https 协议
+    if (isDotGit(url)) {
+      return url.replace("github.com", "hub.fastgit.xyz");
+    }
+    // RAW
+    const rawRegex = /https?:\/\/(.*?)\/(.*?)\/(.*?)\/raw\//;
+    if (rawRegex.test(url)) {
+      return url.replace(rawRegex, "https://raw.fastgit.org/$2/$3/");
+    }
   };
+
+  const replaceAnchor = (anchor) => {
+    const newUrl = replaceUrl(anchor.href);
+    if (newUrl) {
+      console.log(
+        "[GitHub with FastGit] 将 " + anchor.href + " 替换为 " + newUrl
+      );
+      anchor.href = newUrl;
+    }
+  };
+
+  const replaceAnchors = (anchors) =>
+    Array.prototype.forEach.call(anchors, replaceAnchor);
 
   const checkTasks = [
     () => {
@@ -46,7 +57,21 @@
       );
       if (!modal) return;
       modal.classList.add("x_hacked");
-      replaceLinks(modal.querySelectorAll("a"));
+      replaceAnchors(modal.querySelectorAll("a"));
+      // HTTPS Clone
+      const e = Array.from(modal.querySelectorAll("input")).find((x) =>
+        isDotGit(x.value)
+      );
+      if (e) {
+        const inputGroup = e.parentElement;
+        inputGroup.classList.add("mt-2");
+        const newGroup = inputGroup.cloneNode(true);
+        const newInput = newGroup.querySelector("input");
+        newInput.value = replaceUrl(newInput.value);
+        const newCopy = newGroup.querySelector("clipboard-copy");
+        newCopy.value = replaceUrl(newCopy.value);
+        inputGroup.parentElement.insertBefore(newGroup, inputGroup);
+      }
     },
     () => {
       // Release 下载页面
@@ -56,7 +81,7 @@
       if (cards.length === 0) return;
       Array.prototype.forEach.call(cards, (card) => {
         card.classList.add("x_hacked");
-        replaceLinks(card.querySelectorAll(".Box-footer ul li a"));
+        replaceAnchors(card.querySelectorAll(".Box-footer ul li a"));
       });
     },
     () => {
@@ -67,14 +92,14 @@
       if (cards.length === 0) return;
       Array.prototype.forEach.call(cards, (card) => {
         card.classList.add("x_hacked");
-        replaceLinks(card.querySelectorAll("ul li a"));
+        replaceAnchors(card.querySelectorAll("ul li a"));
       });
     },
     () => {
       // Raw 按钮
       const raw = document.querySelector("#raw-url");
       if (!raw) return;
-      replaceLinks([raw]);
+      replaceAnchor(raw);
     },
   ];
 
