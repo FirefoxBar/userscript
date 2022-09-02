@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name LoadBT 批量下载
-// @version 4
+// @version 5
 // @description LoadBT 批量复制下载链接
 // @include https://www.loadbt.com/files*
 // @author ShuangYa
@@ -50,6 +50,7 @@
   };
 
   let tipContainer = null;
+  let tipProgressDisplay = "";
   function tip(text, progress) {
     if (!tipContainer) {
       tipContainer = document.createElement("div");
@@ -67,8 +68,9 @@
       tipContainer.style.background = "#fff";
       tipContainer.innerHTML = "<div class='desc'></div><div class='progress'><div class='progress-bar bg-info'></div></div>";
       document.body.appendChild(tipContainer);
+      tipProgressDisplay = getComputedStyle(tipContainer.querySelector(".progress")).display;
     }
-    tipContainer.querySelector(".progress").style.display = typeof progress === "undefined" ? "none" : "block";
+    tipContainer.querySelector(".progress").style.display = typeof progress === "undefined" ? "none" : tipProgressDisplay;
     tipContainer.querySelector(".desc").innerText = text;
     if (typeof progress !== "undefined") {
       tipContainer.querySelector(".progress-bar").style.width = progress * 100 + "%";
