@@ -1,10 +1,10 @@
 // 从pages目录，复制文件到master分支
 const { existsSync, readdirSync, mkdirSync } = require('fs');
 const { copySync } = require('fs-extra');
-const { resolve } = require('path');
-const dist = resolve(__dirname, '../dist');
-const pages = resolve(dist, 'pages/js');
-const master = resolve(dist, 'master');
+const { join } = require('path');
+const dist = join(__dirname, '../dist');
+const pages = join(dist, 'pages/js');
+const master = join(dist, 'master');
 
 readdirSync(pages).forEach(it => {
   if (!it.includes('.user.js') && !it.includes('.meta.js')) {
@@ -13,10 +13,10 @@ readdirSync(pages).forEach(it => {
 
   const name = it.substr(0, it.indexOf('.'));
 
-  if (!existsSync(resolve(master, name))) {
-    mkdirSync(resolve(master, name));
+  if (!existsSync(join(master, name))) {
+    mkdirSync(join(master, name));
   }
-  copySync(resolve(pages, it), resolve(master, name, it));
+  copySync(join(pages, it), join(master, name, it));
 });
 
-copySync(resolve(__dirname, 'master'), master);
+copySync(join(__dirname, 'master'), master);

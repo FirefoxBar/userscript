@@ -6,7 +6,7 @@ const { writeFileSync } = require('fs');
 
 module.exports = function(options) {
   const { isDev, name, meta, output } = options;
-  const root = path.resolve(__dirname, '../..', name);
+  const root = path.join(__dirname, '../..', name);
   const minimizer = [
     new webpack.BannerPlugin({
       banner: meta,
@@ -58,7 +58,7 @@ module.exports = function(options) {
   return {
     context: root,
     entry: {
-      [name + '.user']: path.resolve(root, 'src/index')
+      [name + '.user']: path.join(root, 'src/index')
     },
     mode: 'production',
     // mode: 'development',
@@ -66,12 +66,12 @@ module.exports = function(options) {
       rules: [
         {
           test: /\.jsx?$/,
-          include: path.resolve(root, 'src'),
+          include: path.join(root, 'src'),
           use: babelLoader
         },
         {
           test: /\.tsx?$/,
-          include: path.resolve(root, 'src'),
+          include: path.join(root, 'src'),
           use: [
             babelLoader
           ]
@@ -101,7 +101,7 @@ module.exports = function(options) {
       {
         apply: compiler => {
           compiler.hooks.afterEmit.tap('Generate meta.js', () => {
-            writeFileSync(path.resolve(output, name + '.meta.js'), meta.trim(), {
+            writeFileSync(path.join(output, name + '.meta.js'), meta.trim(), {
               encoding: 'UTF-8'
             });
           });
@@ -115,7 +115,7 @@ module.exports = function(options) {
     resolveLoader: {
       modules: [
         'node_modules',
-        path.resolve(__dirname, 'loader')
+        path.join(__dirname, 'loader')
       ]
     },
     stats: "verbose"

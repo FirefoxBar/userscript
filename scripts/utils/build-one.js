@@ -13,7 +13,7 @@ module.exports = function(name, output, isDev = false) {
     // 读取版本号
     const package = JSON.parse(readFileSync(path.join(root, 'package.json')));
     // 读取配置，生成注释
-    const meta = generateMeta(path.resolve(root, 'meta.yml'), {
+    const meta = generateMeta(path.join(root, 'meta.yml'), {
       version: package.version,
       updateURL: `https://userscript.firefoxcn.net/js/${name}.meta.js`,
       downloadURL: `https://userscript.firefoxcn.net/js/${name}.user.js`
