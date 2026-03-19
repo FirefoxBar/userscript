@@ -9,17 +9,12 @@ const terminal = require('./utils/terminal');
 const name = process.argv[process.argv.length - 1];
 
 const main = async function() {
-  const root = path.resolve(__dirname, '..', name);
-
-  // 检查有没有安装依赖
-  if (!existsSync(path.resolve(root, 'node_modules'))) {
-    await exec("cd " + root + " && yarn install --frozen-lockfile");
-  }
+  const root = path.join(__dirname, '..', name);
 
   // 读取版本号
-  const package = JSON.parse(readFileSync(path.resolve(root, 'package.json')));
+  const package = JSON.parse(readFileSync(path.join(root, 'package.json')));
   // 读取配置，生成注释
-  const meta = generateMeta(path.resolve(root, 'meta.yml'), {
+  const meta = generateMeta(path.join(root, 'meta.yml'), {
     version: package.version,
     updateURL: `https://userscript.firefoxcn.net/js/${name}.meta.js`,
     downloadURL: `https://userscript.firefoxcn.net/js/${name}.user.js`
@@ -32,13 +27,13 @@ const main = async function() {
     isDev: true
   });
 
-  if (existsSync(path.resolve(root, 'webpack.overwrite.js'))) {
-    require(path.resolve(root, 'webpack.overwrite.js'))(webpackConfig);
+  if (existsSync(path.join(root, 'webpack.overwrite.js'))) {
+    require(path.join(root, 'webpack.overwrite.js'))(webpackConfig);
   }
 
-  const complier = webpack(webpackConfig);
+  const compiler = webpack(webpackConfig);
 
-  complier.watch({}, (err, stats) => {
+  compiler.watch({}, (err, stats) => {
     if (err) {
       console.error(err);
     } else {
