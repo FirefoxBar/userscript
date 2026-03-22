@@ -1,6 +1,6 @@
-name: GitHub with FastGit
-version: 2
-description: 自动替换 GitHub 页面上的相关链接为 FastGit
+name: GitHub Mirror
+version: 1
+description: 自动替换 GitHub 页面上的相关链接到镜像站
 include:
   - https://github.com/*
 author: ShuangYa
@@ -8,4 +8,7 @@ run-at: document-end
 icon: https://github.githubassets.com/favicons/favicon.png
 grant:
   - unsafeWindow
+  - GM_registerMenuCommand
+  - GM_setValue
+  - GM_getValue
 namespace: blog.sylingd.com
