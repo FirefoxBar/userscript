@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name GitHub Mirror
-// @version 1
+// @version 2
 // @description 自动替换 GitHub 页面上的相关链接到镜像站
 // @include https://github.com/*
 // @author ShuangYa
