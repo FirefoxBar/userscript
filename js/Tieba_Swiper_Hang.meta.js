@@ -1,0 +1,13 @@
+// ==UserScript==
+// @name Tieba Swiper Hang
+// @version 1
+// @description 禁用/限流贴吧轮播(Swiper)的update自激循环，缓解卡死问题
+// @include https://tieba.baidu.com/*
+// @include https://tiebac.baidu.com/*
+// @author ShuangYa
+// @run-at document-start
+// @icon https://tieba.baidu.com/favicon.ico
+// @namespace blog.sylingd.com
+// @updateURL https://userscript.firefoxcn.net/js/Tieba_Swiper_Hang.meta.js
+// @downloadURL https://userscript.firefoxcn.net/js/Tieba_Swiper_Hang.user.js
+// ==/UserScript==
