@@ -18,14 +18,24 @@
         return `https://gh-proxy.org/${url}`;
       }
     },
-    "gh-proxy-hk": (url) => {
+    "gh-proxy-fastly": (url) => {
       if (
         isReleaseDownload(url) ||
         isArchive(url) ||
         isRAW(url) ||
         isDotGit(url)
       ) {
-        return `https://hk.gh-proxy.org/${url}`;
+        return `https://cdn.gh-proxy.org/${url}`;
+      }
+    },
+    "gh-proxy-axisnow": (url) => {
+      if (
+        isReleaseDownload(url) ||
+        isArchive(url) ||
+        isRAW(url) ||
+        isDotGit(url)
+      ) {
+        return `https://axisnow.gh-proxy.org/${url}`;
       }
     },
     ghfast: (url) => {
@@ -48,6 +58,12 @@
         return `${GM_getValue("prefix")}/${url}`;
       }
     },
+  };
+
+  const getHandler = () => {
+    const DEFAULT_HANDLER = "gh-proxy-main";
+    const k = GM_getValue("handler") || DEFAULT_HANDLER;
+    return k in handler ? handler[k] : handler[DEFAULT_HANDLER];
   };
 
   const openSetting = () => {
@@ -88,7 +104,8 @@
 
     const proxyOptions = [
       { value: "gh-proxy-main", label: "gh-proxy-main" },
-      { value: "gh-proxy-hk", label: "gh-proxy-hk" },
+      { value: "gh-proxy-fastly", label: "gh-proxy-fastly" },
+      { value: "gh-proxy-axisnow", label: "gh-proxy-axisnow" },
       { value: "ghfast", label: "ghfast" },
       { value: "custom-hubproxy", label: "Custom Hub Proxy" },
     ];
@@ -243,8 +260,7 @@
       return;
     }
     anchor.classList.add("x_hacked");
-    const replaceUrl = handler[GM_getValue("handler") || "gh-proxy-main"];
-    const newUrl = replaceUrl(anchor.href);
+    const newUrl = getHandler()(anchor.href);
     if (newUrl) {
       console.log("[GitHub Mirror] 将 " + anchor.href + " 替换为 " + newUrl);
       anchor.href = newUrl;
@@ -265,8 +281,7 @@
       const e = document.querySelector('#clone-with-https');
       if (e && !e.classList.contains('x_hacked')) {
         e.classList.add("x_hacked");
-        const replaceUrl = handler[GM_getValue("handler") || "gh-proxy-main"];
-        const newUrl = replaceUrl(e.value);
+        const newUrl = getHandler()(e.value);
         if (newUrl) {
           console.log("[GitHub Mirror] 将 " + e.value + " 替换为 " + newUrl);
           e.value = newUrl;
